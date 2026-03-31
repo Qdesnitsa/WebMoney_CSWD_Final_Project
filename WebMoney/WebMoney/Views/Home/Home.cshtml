@@ -1,0 +1,151 @@
+@{
+    ViewData["Title"] = "WebMoney";
+}
+
+<main class="site-main">
+    <section class="login-section">
+        <h2 id="login-heading">Вход в личный кабинет</h2>
+        <form class="login-form" action="#" method="post">
+            <div class="login-field">
+                <label for="login-username">Логин</label>
+                <input
+                        id="login-username"
+                        name="username"
+                        type="text"
+                        autocomplete="username"
+                        required
+                        minlength="5"
+                        maxlength="40"
+                >
+                <span class="login-hint">Не короче 5 символов</span>
+            </div>
+            <div class="login-field">
+                <label for="login-password">Пароль</label>
+                <input
+                        id="login-password"
+                        name="password"
+                        type="password"
+                        autocomplete="current-password"
+                        required
+                        minlength="8"
+                        maxlength="50"
+                        pattern="(?=.*[a-z])(?=.*[A-Z])(?=.*\d).{8,}"
+                >
+                <span class="login-hint">Не менее 8 символов (латиница), минимум одна заглавная, одна строчная буква и одна цифра</span>
+            </div>
+            <div class="login-actions">
+                <button type="submit" class="login-submit">Войти</button>
+                <button type="submit" class="login-submit">Зарегистрироваться</button>
+            </div>
+        </form>
+    </section>
+
+    <article id="about-company" class="about-company">
+        <h2>О нас</h2>
+        <p>WebMoney — один из крупных коммерческих банков, включен в I группу системно значимых банков на 2025 год. Инициатор внедрения современных разработок в области безналичных расчетов и систем дистанционного обслуживания.</p>
+        <p>По версии аналитиков американского журнала Global Finance WebMoney стал лучшим банком в 2024 году.</p>
+        <p>Также WebMoney в 2024 году получил серию наград на премии «Банк года» по итогам 2023 года:</p>
+        <ul>
+            <li>Вклад в науку — 1 место</li>
+            <li>Крупный банк — 2 место</li>
+            <li>Мобильное приложение для физических лиц — 3 место</li>
+        </ul>
+        <p>Одна из главных отличительных черт WebMoney — стремление быть инновационным и технологичным, задавать тренды в развитии банковских сервисов. Выстраивая бизнес-стратегию, WebMoney стремится действовать социально ответственно, чтобы способствовать долгосрочному благосостоянию людей. В 2024 году независимое рейтинговое агентство BIK-Ratings присвоило WebMoney ESG-рейтинг на уровне AA.esg (прогноз стабильный).</p>
+    </article>
+
+    <section id="currency-rates" class="currency-rates">
+        <h2 id="currency-rates-heading">Курсы валют</h2>
+        <p>Курсы указаны за единицу иностранной валюты в рублях</p>
+        <div class="rates-table">
+            <p class="rates-table-caption">Действуют с 08:30 30.03.2026 и могут быть изменены в течение дня.</p>
+            <div class="rates-grid rates-grid-head">
+                <div class="rates-cell rates-head-cell">Валюта</div>
+                <div class="rates-cell rates-head-cell">Покупка</div>
+                <div class="rates-cell rates-head-cell">Продажа</div>
+            </div>
+            <div class="rates-grid">
+                <div class="rates-cell">
+            <span class="rates-currency-cell">
+              <img class="rates-currency-icon" src="/images/currency_logos/usd.svg">
+              <span class="rates-currency-code">1 USD</span>
+            </span>
+                </div>
+                <div class="rates-cell">2.9400</div>
+                <div class="rates-cell">2.9780</div>
+            </div>
+            <div class="rates-grid">
+                <div class="rates-cell">
+            <span class="rates-currency-cell">
+              <img class="rates-currency-icon" src="/images/currency_logos/euro.svg">
+              <span class="rates-currency-code">1 EUR</span>
+            </span>
+                </div>
+                <div class="rates-cell">3.3830</div>
+                <div class="rates-cell">3.4280</div>
+            </div>
+            <div class="rates-grid">
+                <div class="rates-cell">
+            <span class="rates-currency-cell">
+              <img class="rates-currency-icon" src="/images/currency_logos/rub.svg">
+              <span class="rates-currency-code">100 RUB</span>
+            </span>
+                </div>
+                <div class="rates-cell">3.6250</div>
+                <div class="rates-cell">3.6750</div>
+            </div>
+            <div class="rates-grid">
+                <div class="rates-cell">
+            <span class="rates-currency-cell">
+              <img class="rates-currency-icon" src="/images/currency_logos/cny.svg">
+              <span class="rates-currency-code">10 CNY</span>
+            </span>
+                </div>
+                <div class="rates-cell">4.3000</div>
+                <div class="rates-cell">4.5500</div>
+            </div>
+        </div>
+    </section>
+
+    <section id="news" class="site-news">
+        <h2 id="news-heading">Новости</h2>
+        <ul class="news-list">
+            <li>
+                <article class="news-card">
+                    <time class="news-date" datetime="2026-03-28">28 марта 2026</time>
+                    <h3 class="news-title">WebMoney подтвердил ESG-рейтинг AA с «стабильным» прогнозом</h3>
+                    <p class="news-content">Агентство BIK-Ratings отметило прозрачность экологической и социальной отчётности банка и вовлечённость в программы финансовой грамотности для молодёжи и пенсионеров.</p>
+                </article>
+            </li>
+            <li>
+                <article class="news-card">
+                    <time class="news-date" datetime="2026-03-26">26 марта 2026</time>
+                    <h3 class="news-title">Изменения в величинах процентных ставок</h3>
+                    <p class="news-content">С 1 мая 2026 года вступают в силу новые Величины процентных ставок и прочие условия обслуживания счетов физических лиц.</p>
+                </article>
+            </li>
+            <li>
+                <article class="news-card">
+                    <time class="news-date" datetime="2026-03-22">22 марта 2026</time>
+                    <h3 class="news-title">WebMoney поддержал Единый день открытых дверей в учебных заведениях</h3>
+                    <p class="news-content">Мероприятие традиционно объединяет абитуриентов, их родителей, педагогов и организации-заказчиков кадров, предоставляя площадку для открытого диалога и знакомства с будущими возможностями обучения и трудоустройства.</p>
+                </article>
+            </li>
+            <li>
+                <article class="news-card">
+                    <time class="news-date" datetime="2026-03-18">18 марта 2026</time>
+                    <h3 class="news-title">Открыт образовательный центр «Финансы без страха»</h3>
+                    <p class="news-content">Бесплатные вебинары и очные встречи: как распознать мошенничество, безопасно пользоваться картами и планировать семейный бюджет. Запись доступна всем жителям региона.</p>
+                </article>
+            </li>
+            <li>
+                <article class="news-card">
+                    <time class="news-date" datetime="2026-03-14">14 марта 2026</time>
+                    <h3 class="news-title">Технологические работы 19 марта</h3>
+                    <p class="news-content">Уважаемые клиенты!<br>
+                        Информируем, что 19 марта 2026 года с 02:00 до 06:00 запланированы технологические работы. В это время будут кратковременные перерывы в работе приложения. Просим планировать платежи с учетом данной информации.</p>
+                </article>
+            </li>
+        </ul>
+    </section>
+
+</main>

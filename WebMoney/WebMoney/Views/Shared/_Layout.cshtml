@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>@ViewData["Title"]</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com">
+  <link href="https://fonts.googleapis.com/css2?family=Merriweather:ital,wght@0,300;0,400;0,700;1,400&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/css/styles.css">
+</head>
+<body>
+  <header class="site-header">
+      <ul>
+        <li>
+          <a href="#" class="site-brand">
+            <img class="site-logo" src="/images/layout/logo.svg">
+            WebMoney
+          </a>
+        </li>
+        <li><a href="#about-company">О компании</a></li>
+        <li><a href="#currency-rates">Курсы валют</a></li>
+        <li><a href="#news">Новости</a></li>
+        <li><a href="#footer-contacts">Контакты</a></li>
+      </ul>
+    <select class="lang-select" name="language">
+      <option value="ru" selected>Рус</option>
+      <option value="en">Eng</option>
+    </select>
+  </header>
+
+@RenderBody()
+
+  <footer class="site-footer">
+    <div class="footer-columns">
+      <div id="footer-contacts">
+        <p class="footer-contacts-title">Контакты</p>
+        <p class="footer-contacts-subtitle">Служба поддержки</p>
+          <dl class="footer-contacts-phones">
+            <dt>Городской</dt>
+            <dd>+375 17 111 11 11</dd>
+            <dt>life:)</dt>
+            <dd>+375 25 222 22 22</dd>
+            <dt>MTC</dt>
+            <dd>+375 29 333 33 33</dd>
+            <dt>A1</dt>
+            <dd>+375 44 444 44 44</dd>
+          </dl>
+      </div>
+      <div class="footer-social">
+        <p class="footer-social-title">Мы в соцсетях</p>
+        <ul class="footer-social-list">
+          <li>
+            <a class="footer-social-link" href="#">
+              <img class="footer-social-icon" src="/images/social_network_logos/youtube.svg">
+            </a>
+          </li>
+          <li>
+            <a class="footer-social-link" href="#">
+              <img class="footer-social-icon" src="/images/social_network_logos/instagram.svg">
+            </a>
+          </li>
+          <li>
+            <a class="footer-social-link" href="#">
+              <img class="footer-social-icon" src="/images/social_network_logos/linkedin.svg">
+            </a>
+          </li>
+          <li>
+            <a class="footer-social-link" href="#">
+              <img class="footer-social-icon" src="/images/social_network_logos/telegram.svg">
+            </a>
+          </li>
+        </ul>
+      </div>
+    </div>
+    <p class="footer-copy">&copy; 2000 – 2026 «ВебМани»</p>
+  </footer>
+</body>
