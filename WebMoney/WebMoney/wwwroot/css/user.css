@@ -1,0 +1,102 @@
+.user-cards-section {
+  margin-bottom: 40px;
+}
+
+.user-cards-layout {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 32px 40px;
+  justify-content: start;
+}
+
+.user-card-block {
+  flex: 1 1 280px;
+  max-width: 400px;
+  min-width: 0;
+}
+
+.bank-card {
+  position: relative;
+  width: 100%;
+  max-width: 360px;
+  aspect-ratio: 1.586 / 1;
+  border-radius: 14px;
+  padding: 18px 20px;
+  color: #faf8f2;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  font-family: ui-sans-serif, system-ui, "Segoe UI", sans-serif;
+  letter-spacing: 0.04em;
+  isolation: isolate;
+  overflow: hidden;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
+.bank-card-top {
+  display: flex;
+}
+
+.bank-card-label {
+  font-size: 16px;
+  text-transform: uppercase;
+
+  font-weight: 600;
+  top: 0;
+	bottom: 0;
+	left: 0;
+	right: 0;
+	margin: auto;
+
+}
+
+.bank-card-number {
+  margin: 0;
+  font-size: clamp(15px, 3.5vw, 18px);
+  font-weight: 500;
+  letter-spacing: 0.12em;
+}
+
+.bank-card-holder {
+  font-weight: 600;
+}
+
+.card-operations-title {
+  font-family: inherit;
+  font-size: 16px;
+  font-weight: 700;
+  color: #2c2416;
+  margin: 20px 0 12px 0;
+  padding: 0;
+  border: none;
+}
+
+.card-operations-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  border: 1px solid rgba(180, 140, 40, 0.45);
+  border-radius: 6px;
+  background: rgba(255, 252, 240, 0.75);
+}
+
+.card-operations-list li {
+  border-bottom: 1px solid rgba(180, 140, 40, 0.25);
+}
+
+.card-operations-list a {
+  display: block;
+  padding: 12px 14px;
+  color: #2c2416;
+  text-decoration: none;
+  font-size: 14px;
+  font-weight: 600;
+
+}
+
+.card-operations-list a:hover {
+  background: rgba(255, 248, 220, 0.65);
+}
