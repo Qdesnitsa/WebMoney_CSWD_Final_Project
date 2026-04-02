@@ -8,7 +8,7 @@ namespace WebMoney.Controllers
     {
         public IActionResult Index()
         {
-            return View("Home");
+            return View();
         }
 
         public IActionResult Privacy()

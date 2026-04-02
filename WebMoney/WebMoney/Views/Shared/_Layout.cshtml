@@ -4,29 +4,34 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>@ViewData["Title"]</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com">
-  <link href="https://fonts.googleapis.com/css2?family=Merriweather:ital,wght@0,300;0,400;0,700;1,400&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="/css/styles.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com"/>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Merriweather:ital,wght@0,300;0,400;0,700;1,400&display=swap" />
+  <link rel="stylesheet" href="~/css/home.css"/>
 </head>
 <body>
   <header class="site-header">
-      <ul>
+    <div class="site-header-inner">
+      <ul class="site-header-nav">
         <li>
-          <a href="#" class="site-brand">
+          <a href="/" class="site-brand">
             <img class="site-logo" src="/images/layout/logo.svg">
             WebMoney
           </a>
         </li>
-        <li><a href="#about-company">О компании</a></li>
-        <li><a href="#currency-rates">Курсы валют</a></li>
-        <li><a href="#news">Новости</a></li>
-        <li><a href="#footer-contacts">Контакты</a></li>
+        <li><a href="/#about-company" class="site-header-link">О компании</a></li>
+        <li><a href="/#currency-rates" class="site-header-link">Курсы валют</a></li>
+        <li><a href="/#news" class="site-header-link">Новости</a></li>
+        <li><a href="/#footer-contacts" class="site-header-link">Контакты</a></li>
       </ul>
-    <select class="lang-select" name="language">
-      <option value="ru" selected>Рус</option>
-      <option value="en">Eng</option>
-    </select>
+      <div class="site-header-tools">
+        <select id="header-language" class="lang-select" name="language">
+          <option value="ru" selected>Рус</option>
+          <option value="en">Eng</option>
+        </select>
+        <a href="/User?count" class="header-account-link">Личный кабинет</a>
+      </div>
+    </div>
   </header>
 
 @RenderBody()
