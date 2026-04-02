@@ -1,3 +1,5 @@
+@import url("user.css");
+
 * {
   box-sizing: border-box;
   margin: 0;
@@ -21,14 +23,25 @@ body {
   box-shadow: 0 2px 16px rgba(0, 0, 0, 0.35);
 }
 
+.site-header-inner {
+  max-width: 1100px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+  min-height: 70px;
+  padding: 12px 20px;
+}
+
 .site-header a {
   color: #f5f5f5;
   text-decoration: none;
 }
 
 .site-brand {
-  padding-top: 5px;
-  padding-right: 20px;
+  padding-top: 2px;
+  padding-right: 12px;
   display: inline-flex;
   align-items: center;
   gap: 10px;
@@ -41,27 +54,29 @@ body {
   display: block;
 }
 
-.site-header ul {
+.site-header-nav {
   list-style: none;
   display: flex;
+  flex-wrap: wrap;
   align-items: center;
-  gap: 20px;
-  max-width: 960px;
-  margin: 0 auto;
-  min-height: 70px;
-  padding: 20px 120px 20px 20px;
+  gap: 8px 20px;
+  margin: 0;
+  padding: 0;
+  min-width: 0;
 }
 
-.lang-select {
-  position: absolute;
-  right: 100px;
-  top: 50%;
-  transform: translateY(-50%);
-  font-family: inherit;
-  font-size: 14px;
-  color: #f5f5f5;
-  background-color: #000;
-  padding: 6px 8px;
+.site-header-link {
+  display: inline-block;
+  font-size: 15px;
+  font-weight: 500;
+  padding: 10px 12px;
+  border-radius: 6px;
+  border: 1px solid transparent;
+}
+
+.site-header-link:hover {
+  background: rgba(255, 255, 255, 0.08);
+  border-color: rgba(255, 255, 255, 0.12);
 }
 
 .site-main {
@@ -80,13 +95,43 @@ body {
   border-bottom: 2px solid rgba(180, 140, 40, 0.4);
 }
 
-#about-company,
-#currency-rates,
-#news {
-  scroll-margin-top: 100px;
+.site-header-tools {
+  display: flex;
+  flex-shrink: 0;
+  align-items: center;
+  gap: 12px;
 }
 
-#footer-contacts {
+.lang-select {
+  font-family: inherit;
+  font-size: 15px;
+  font-weight: 500;
+  color: #f5f5f5;
+  background-color: #0a0a0a;
+  padding: 10px 12px;
+  min-height: 42px;
+  border-radius: 6px;
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  cursor: pointer;
+  appearance: none;
+}
+
+.header-account-link {
+  font-family: inherit;
+  font-size: 15px;
+  font-weight: 500;
+  padding: 10px 12px;
+  min-height: 42px;
+  border-radius: 6px;
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  display: inline-flex;
+  align-items: center;
+}
+
+#about-company,
+#currency-rates,
+#footer-contacts,
+#news {
   scroll-margin-top: 100px;
 }
 
@@ -131,7 +176,6 @@ body {
   font-size: 12px;
   color: #6b5c3a;
   margin-top: 6px;
-  line-height: 1.4;
 }
 
 .login-actions {
