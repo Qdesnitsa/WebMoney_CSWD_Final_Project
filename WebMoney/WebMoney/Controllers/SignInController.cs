@@ -11,21 +11,21 @@ namespace WebMoney.Controllers;
 public class SignInController(IPasswordHasher<User> passwordHasher, IUserStore userStore) : Controller
 {
     [HttpGet]
-    public IActionResult SignIn() => View("SignIn", new SignInViewModel());
+    public IActionResult SignIn() => View(new SignInViewModel());
 
     [HttpPost]
     [ValidateAntiForgeryToken]
     public IActionResult SignIn(SignInViewModel model)
     {
         if (!ModelState.IsValid)
-            return View("SignIn", model);
+            return View(model);
 
         var normalizedEmail = model.Email.Trim().ToLowerInvariant();
         var user = userStore.GetAllUsers().FirstOrDefault(u => u.Email == normalizedEmail);
         if (user is null)
         {
             ModelState.AddModelError(string.Empty, "Неверный email или пароль");
-            return View("SignIn", model);
+            return View(model);
         }
 
         var verify = passwordHasher.VerifyHashedPassword(user, user.HashedPassword, model.Password);
@@ -33,7 +33,7 @@ public class SignInController(IPasswordHasher<User> passwordHasher, IUserStore u
             verify != PasswordVerificationResult.SuccessRehashNeeded)
         {
             ModelState.AddModelError(string.Empty, "Неверный email или пароль");
-            return View("SignIn", model);
+            return View(model);
         }
 
         if (verify == PasswordVerificationResult.SuccessRehashNeeded)
@@ -46,6 +46,6 @@ public class SignInController(IPasswordHasher<User> passwordHasher, IUserStore u
 
         if (user.Role != Role.User) return RedirectToAction("Error", "Home");
 
-        return RedirectToAction("Index", "Card");
+        return RedirectToAction(nameof(CardController.Show), "Card");
     }
 }

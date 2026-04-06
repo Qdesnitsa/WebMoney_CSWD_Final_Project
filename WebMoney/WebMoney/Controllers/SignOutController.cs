@@ -9,6 +9,6 @@ public class SignOutController : Controller
     public IActionResult SignOut()
     {
         HttpContext.Session.Clear();
-        return RedirectToAction("SignIn", "SignIn");
+        return RedirectToAction(nameof(SignInController.SignIn), "SignIn");
     }
 }

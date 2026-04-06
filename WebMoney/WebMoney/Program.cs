@@ -14,8 +14,8 @@ namespace WebMoney
             // Add services to the container.
             builder.Services.AddControllersWithViews();
             builder.Services.AddSingleton<IPasswordHasher<User>, PasswordHasher<User>>();
-            builder.Services.AddSingleton<IUserStore, UserStoreInMemory>();
-            builder.Services.AddSingleton<ICardStore, CardStoreInMemory>();
+            builder.Services.AddScoped<IUserStore, UserStoreInMemory>();
+            builder.Services.AddScoped<ICardStore, CardStoreInMemory>();
             builder.Services.AddDistributedMemoryCache();
             builder.Services.AddSession(options =>
             {

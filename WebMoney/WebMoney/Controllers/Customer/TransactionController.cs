@@ -12,11 +12,11 @@ public class TransactionController(ICardStore cardStore) : Controller
     {
         var username = HttpContext.Session.GetString(SessionKeys.USERNAME);
         if (string.IsNullOrWhiteSpace(username))
-            return RedirectToAction("SignIn", "SignIn");
+            return RedirectToAction(nameof(SignInController.SignIn), "SignIn");
 
         if (!cardId.HasValue)
         {
-            return RedirectToAction("Index", "Card");
+            return RedirectToAction(nameof(CardController.Show), "Card");
         }
 
         var card = cardStore.GetAllCards().FirstOrDefault(c => c.Id == cardId.Value);
@@ -35,13 +35,13 @@ public class TransactionController(ICardStore cardStore) : Controller
         {
             if (Request.Query.ContainsKey("periodFrom") || Request.Query.ContainsKey("periodTo"))
                 ModelState.AddModelError(string.Empty, "Укажите обе даты периода.");
-            return View("~/Views/Customer/Transaction.cshtml", model);
+            return View("/Views/Customer/Transaction.cshtml", model);
         }
 
         if (periodFrom > periodTo)
         {
             ModelState.AddModelError(string.Empty, "Дата «с» не может быть позже даты «по».");
-            return View("~/Views/Customer/Transaction.cshtml", model);
+            return View("/Views/Customer/Transaction.cshtml", model);
         }
 
         var rangeStart = periodFrom.Value.ToDateTime(TimeOnly.MinValue);
@@ -59,6 +59,6 @@ public class TransactionController(ICardStore cardStore) : Controller
             Amount = t.Amount
         }).ToList();
 
-        return View("~/Views/Customer/Transaction.cshtml", model);
+        return View("/Views/Customer/Transaction.cshtml", model);
     }
 }
