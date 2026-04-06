@@ -1,3 +1,5 @@
+@import url("colors.css");
+
 .user-cards-section {
   margin-bottom: 40px;
 }
@@ -22,8 +24,8 @@
   aspect-ratio: 1.586 / 1;
   border-radius: 14px;
   padding: 18px 20px;
-  color: #faf8f2;
-  border: 1px solid rgba(255, 255, 255, 0.2);
+  color: var(--color-light);
+  border: 1px solid var(--color-edge-on-dark);
   display: flex;
   flex-direction: column;
   justify-content: space-between;
@@ -68,7 +70,7 @@
   font-family: inherit;
   font-size: 16px;
   font-weight: 700;
-  color: #2c2416;
+  color: var(--color-ink);
   margin: 20px 0 12px 0;
   padding: 0;
   border: none;
@@ -78,19 +80,19 @@
   list-style: none;
   margin: 0;
   padding: 0;
-  border: 1px solid rgba(180, 140, 40, 0.45);
+  border: 1px solid var(--color-gold-soft);
   border-radius: 6px;
-  background: rgba(255, 252, 240, 0.75);
+  background: var(--color-cream);
 }
 
 .card-operations-list li {
-  border-bottom: 1px solid rgba(180, 140, 40, 0.25);
+  border-bottom: 1px solid var(--color-gold-soft);
 }
 
 .card-operations-list a {
   display: block;
   padding: 12px 14px;
-  color: #2c2416;
+  color: var(--color-ink);
   text-decoration: none;
   font-size: 14px;
   font-weight: 600;
@@ -98,5 +100,5 @@
 }
 
 .card-operations-list a:hover {
-  background: rgba(255, 248, 220, 0.65);
+  background: var(--color-cream);
 }

@@ -1,0 +1,98 @@
+@import url("colors.css");
+
+.transaction-section {
+  margin-bottom: 40px;
+  padding: 20px;
+  border: 1px solid var(--color-gold-soft);
+  border-radius: 6px;
+  background: var(--color-cream);
+}
+
+.transaction-form {
+  max-width: 640px;
+}
+
+.transaction-period-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+  margin-bottom: 16px;
+}
+
+.transaction-period-row .transaction-field {
+  min-width: 180px;
+  margin-bottom: 0;
+}
+
+.transaction-field {
+  display: grid;
+  gap: 6px;
+  margin-bottom: 16px;
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--color-ink);
+}
+
+.transaction-field input,
+.transaction-submit {
+  font-family: inherit;
+  font-size: 15px;
+  border: 1px solid var(--color-gold-soft);
+  border-radius: 4px;
+}
+
+.transaction-field input {
+  width: 100%;
+  padding: 10px 12px;
+  background: var(--color-light);
+  color: var(--color-ink);
+}
+
+.transaction-submit {
+  margin-top: 16px;
+  padding: 10px 24px;
+  font-weight: 700;
+  background: var(--color-ink);
+  color: var(--color-light);
+  cursor: pointer;
+}
+
+.validation-summary-errors {
+  margin-bottom: 16px;
+  color: var(--color-error);
+  font-weight: 600;
+}
+
+.validation-summary-errors ul {
+  margin: 0;
+  padding-left: 18px;
+}
+
+.transaction-grid {
+  margin-top: 1.25rem;
+  overflow-x: auto;
+  font-size: 14px;
+  color: var(--color-ink);
+}
+
+.transaction-grid-row {
+  display: grid;
+  grid-template-columns: repeat(7, minmax(0, 1fr));
+  gap: 0.5rem 0.75rem;
+  padding: 0.4rem 0;
+  border-bottom: 1px solid var(--color-gold-soft);
+}
+
+.transaction-grid-row--head {
+  font-weight: 700;
+}
+
+.transaction-grid-num {
+  text-align: right;
+}
+
+.transaction-empty {
+  margin-top: 1rem;
+  font-size: 14px;
+  opacity: 0.8;
+}

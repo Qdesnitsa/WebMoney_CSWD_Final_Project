@@ -1,0 +1,67 @@
+@model TransactionViewModel
+
+@{
+    ViewData["Title"] = "Транзакции";
+}
+
+@section Styles {
+  <link rel="stylesheet" href="~/css/transaction.css" asp-append-version="true"/>
+}
+
+<main class="site-main">
+  <section class="transaction-section">
+    <h2 id="transaction-period-heading">Список транзакций по карте @Model.CardNumber</h2>
+    <form asp-controller="Transaction" asp-action="Show" method="get" class="transaction-form">
+      <input type="hidden" name="cardId" value="@Model.CardId" />
+      <div asp-validation-summary="All" class="validation-summary-errors"></div>
+      <div class="transaction-period-row">
+        <label class="transaction-field">
+          С даты (включительно)
+          <input type="date"
+                 name="periodFrom"
+                 required
+                 value="@(Model.PeriodFrom.HasValue ? Model.PeriodFrom.Value.ToString("yyyy-MM-dd") : "")" />
+        </label>
+        <label class="transaction-field">
+          По дату (включительно)
+          <input type="date"
+                 name="periodTo"
+                 required
+                 value="@(Model.PeriodTo.HasValue ? Model.PeriodTo.Value.ToString("yyyy-MM-dd") : "")" />
+        </label>
+      </div>
+      <button type="submit" class="transaction-submit">Показать транзакции</button>
+    </form>
+
+    @if (Model.Transactions.Count > 0)
+    {
+      <div class="transaction-grid" role="table">
+        <div class="transaction-grid-row transaction-grid-row--head" role="row">
+          <span role="columnheader">Дата</span>
+          <span role="columnheader">Тип</span>
+          <span role="columnheader">Статус</span>
+          <span role="columnheader">Валюта</span>
+          <span role="columnheader" class="transaction-grid-num">Сумма</span>
+          <span role="columnheader">Контрагент</span>
+          <span role="columnheader">RRN</span>
+        </div>
+        @foreach (var txn in Model.Transactions)
+        {
+          <div class="transaction-grid-row" role="row">
+            <span>@txn.DateTime.ToString("dd.MM.yyyy HH:mm")</span>
+            <span>@txn.TxnType</span>
+            <span>@txn.Status</span>
+            <span>@txn.CurrencyCode</span>
+            <span class="transaction-grid-num">@txn.Amount.ToString("N2")</span>
+            <span>@txn.Counterparty</span>
+            <span>@txn.RRN</span>
+          </div>
+        }
+      </div>
+    }
+    else if (Model.PeriodFrom is not null && Model.PeriodTo is not null && ViewData.ModelState.IsValid)
+    {
+      <p class="transaction-empty">За выбранный период операций нет.</p>
+    }
+  </section>
+</main>
