@@ -4,7 +4,7 @@ using WebMoney.Persistence.Entities;
 
 namespace WebMoney.Persistence;
 
-public sealed class UserStoreInMemory(IPasswordHasher<User> passwordHasher) : IUserStore
+public class UserStoreInMemory(IPasswordHasher<User> passwordHasher) : IUserStore
 {
     private List<User> _users = new()
     {

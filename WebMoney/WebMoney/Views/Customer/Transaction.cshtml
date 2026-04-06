@@ -45,16 +45,16 @@
           <span role="columnheader">Контрагент</span>
           <span role="columnheader">RRN</span>
         </div>
-        @foreach (var tx in Model.Transactions)
+        @foreach (var txn in Model.Transactions)
         {
           <div class="transaction-grid-row" role="row">
-            <span>@tx.DateTime.ToString("dd.MM.yyyy HH:mm")</span>
-            <span>@tx.TxnType</span>
-            <span>@tx.Status</span>
-            <span>@tx.CurrencyCode</span>
-            <span class="transaction-grid-num">@tx.Amount.ToString("N2")</span>
-            <span>@tx.Counterparty</span>
-            <span>@tx.RRN</span>
+            <span>@txn.DateTime.ToString("dd.MM.yyyy HH:mm")</span>
+            <span>@txn.TxnType</span>
+            <span>@txn.Status</span>
+            <span>@txn.CurrencyCode</span>
+            <span class="transaction-grid-num">@txn.Amount.ToString("N2")</span>
+            <span>@txn.Counterparty</span>
+            <span>@txn.RRN</span>
           </div>
         }
       </div>
