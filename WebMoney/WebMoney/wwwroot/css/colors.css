@@ -1,0 +1,10 @@
+:root {
+  --color-black: #000;
+  --color-edge-on-dark: rgba(255, 255, 255, 0.15);
+  --color-light: #faf8f2;
+  --color-gold-soft: rgba(180, 140, 40, 0.45);
+  --color-gold-strong: rgba(180, 140, 40, 0.75);
+  --color-cream: rgba(255, 252, 240, 0.65);
+  --color-ink: #2c2416;
+  --color-error: #8b1538;
+}

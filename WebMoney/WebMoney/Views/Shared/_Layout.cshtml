@@ -1,3 +1,13 @@
+@using WebMoney.Enum
+@using WebMoney.Infrastructure.Constants
+@inject IHttpContextAccessor HttpContextAccessor
+@{
+  var username = HttpContextAccessor.HttpContext?.Session.GetString(SessionKeys.USERNAME);
+  var userrole = HttpContextAccessor.HttpContext?.Session.GetString(SessionKeys.USERROLE);
+  var isUser = !string.IsNullOrEmpty(username)
+                       && userrole == Role.User.ToString();
+}
+
 <!DOCTYPE html>
 <html lang="ru">
 <head>
@@ -7,7 +17,8 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com"/>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Merriweather:ital,wght@0,300;0,400;0,700;1,400&display=swap" />
-  <link rel="stylesheet" href="~/css/home.css"/>
+  <link rel="stylesheet" href="~/css/home.css" asp-append-version="true" />
+  @await RenderSectionAsync("Styles", required: false)
 </head>
 <body>
   <header class="site-header">
@@ -29,7 +40,20 @@
           <option value="ru" selected>Рус</option>
           <option value="en">Eng</option>
         </select>
-        <a href="/User?count" class="header-account-link">Личный кабинет</a>
+          @if (!string.IsNullOrEmpty(username) && isUser)
+          {
+            <a href="/Card/Index" class="header-account-link">Привет, @username</a>
+          }
+          else
+          {
+            <a href="/SignIn/SignIn" class="header-account-link">Личный кабинет</a>
+          }
+        @if (!string.IsNullOrEmpty(username))
+        {
+          <form asp-controller="SignOut" asp-action="SignOut" method="post">
+            <button type="submit" class="header-account-link">Выйти</button>
+          </form>
+        }
       </div>
     </div>
   </header>

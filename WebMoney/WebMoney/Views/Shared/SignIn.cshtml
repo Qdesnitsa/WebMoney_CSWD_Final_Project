@@ -1,0 +1,31 @@
+@model SignInViewModel
+@{
+    ViewData["Title"] = "Вход в личный кабинет";
+}
+
+@section Styles {
+    <link rel="stylesheet" href="~/css/signin.css" asp-append-version="true" />
+}
+
+<main class="site-main">
+    <section class="login-section">
+        <h2 id="login-heading">Войти в личный кабинет</h2>
+        <form class="login-form" asp-controller="SignIn" asp-action="SignIn" method="post" novalidate>
+            <div asp-validation-summary="All" class="login-hint"></div>
+            <div class="login-field">
+                <label asp-for="Email">Email</label>
+                <input asp-for="Email" autocomplete="email" />
+                <span asp-validation-for="Email" class="login-hint"></span>
+            </div>
+            <div class="login-field">
+                <label asp-for="Password">Пароль</label>
+                <input asp-for="Password" autocomplete="current-password" />
+                <span asp-validation-for="Password" class="login-hint"></span>
+            </div>
+            <div class="login-actions">
+                <button type="submit" class="login-submit">Войти</button>
+                <a asp-controller="SignUp" asp-action="SignUp" class="login-submit login-submit--outline">Нет аккаунта? Зарегистрироваться</a>
+            </div>
+        </form>
+    </section>
+</main>
