@@ -5,10 +5,11 @@ using WebMoney.Infrastructure.Constants;
 using WebMoney.Models;
 using WebMoney.Persistence;
 using WebMoney.Persistence.Entities;
+using WebMoney.Services;
 
 namespace WebMoney.Controllers;
 
-public class SignUpController(IPasswordHasher<User> passwordHasher, IUserStore userStore) : Controller
+public class SignUpController(IPasswordHasher<User> passwordHasher, IAuthService authService) : Controller
 {
     [HttpGet]
     public IActionResult SignUp() => View(new SignUpViewModel());
@@ -18,20 +19,18 @@ public class SignUpController(IPasswordHasher<User> passwordHasher, IUserStore u
     public IActionResult SignUp(SignUpViewModel model)
     {
         if (!ModelState.IsValid)
-            return View(model);
-
-        var normalizedEmail = model.Email.Trim().ToLowerInvariant();
-
-        if (userStore.GetAllUsers().Any(u => u.Email == normalizedEmail))
         {
-            ModelState.AddModelError(nameof(SignUpViewModel.Email), "Пользователь с таким email уже зарегистрирован");
             return View(model);
         }
 
-        var user = new User { Email = normalizedEmail, Role = Role.User, UserName = model.UserName };
-        user.HashedPassword = passwordHasher.HashPassword(user, model.Password);
-        userStore.Create(user);
+        var result = authService.Register(model.UserName, model.Email, model.Password);
+        if (!result.Succeeded)
+        {
+            ModelState.AddModelError(nameof(SignUpViewModel.Email), result.ErrorMessage!);
+            return View(model);
+        }
 
+        var user = result.User;
         HttpContext.Session.SetString(SessionKeys.USERNAME, user.UserName);
         HttpContext.Session.SetString(SessionKeys.USERROLE, user.Role.ToString());
 

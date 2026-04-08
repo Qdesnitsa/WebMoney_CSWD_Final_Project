@@ -11,7 +11,9 @@ public class CardController(ICardStore cardStore) : Controller
     {
         var username = HttpContext.Session.GetString(SessionKeys.USERNAME);
         if (string.IsNullOrWhiteSpace(username))
+        {
             return RedirectToAction(nameof(SignInController.SignIn), "SignIn");
+        }
 
         var cardViewModel = new CardViewModel
         {

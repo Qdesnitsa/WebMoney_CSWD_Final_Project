@@ -144,4 +144,6 @@ public class CardStoreInMemory : ICardStore
             .Where(t => t.DateTime >= startDate && t.DateTime <= endDate)
             .OrderBy(t => t.DateTime)
             .ToList();
+
+    public Card? GetCardById(int cardId) => GetAllCards().FirstOrDefault(c => c.Id == cardId);
 }
