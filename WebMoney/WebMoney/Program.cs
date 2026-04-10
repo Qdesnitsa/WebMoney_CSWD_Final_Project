@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Identity;
 using WebMoney.Persistence;
 using WebMoney.Persistence.Entities;
 using WebMoney.Persistence.Storage;
+using WebMoney.Services;
 
 namespace WebMoney
 {
@@ -14,6 +15,8 @@ namespace WebMoney
             // Add services to the container.
             builder.Services.AddControllersWithViews();
             builder.Services.AddSingleton<IPasswordHasher<User>, PasswordHasher<User>>();
+            builder.Services.AddScoped<IAuthService, AuthService>();
+            builder.Services.AddScoped<ITransactionService, TransactionService>();
             builder.Services.AddScoped<IUserStore, UserStoreInMemory>();
             builder.Services.AddScoped<ICardStore, CardStoreInMemory>();
             builder.Services.AddDistributedMemoryCache();

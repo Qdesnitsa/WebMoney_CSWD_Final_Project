@@ -11,7 +11,7 @@
 <main class="site-main">
   <section class="transaction-section">
     <h2 id="transaction-period-heading">Список транзакций по карте @Model.CardNumber</h2>
-    <form asp-controller="Transaction" asp-action="Show" method="get" class="transaction-form">
+    <form asp-controller="Transaction" asp-action="Transaction" method="get" class="transaction-form">
       <input type="hidden" name="cardId" value="@Model.CardId" />
       <div asp-validation-summary="All" class="validation-summary-errors"></div>
       <div class="transaction-period-row">
@@ -49,8 +49,8 @@
         {
           <div class="transaction-grid-row" role="row">
             <span>@txn.DateTime.ToString("dd.MM.yyyy HH:mm")</span>
-            <span>@txn.TxnType</span>
-            <span>@txn.Status</span>
+            <span>@txn.TransactionType</span>
+            <span>@txn.TransactionStatus</span>
             <span>@txn.CurrencyCode</span>
             <span class="transaction-grid-num">@txn.Amount.ToString("N2")</span>
             <span>@txn.Counterparty</span>
