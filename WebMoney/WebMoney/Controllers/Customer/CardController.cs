@@ -7,12 +7,12 @@ namespace WebMoney.Controllers;
 
 public class CardController(ICardStore cardStore) : Controller
 {
-    public IActionResult Show()
+    public IActionResult Card()
     {
         var username = HttpContext.Session.GetString(SessionKeys.USERNAME);
         if (string.IsNullOrWhiteSpace(username))
         {
-            return RedirectToAction(nameof(SignInController.SignIn), "SignIn");
+            return RedirectToAction(nameof(SignInController.SignIn), nameof(CardController).Replace("Controller", ""));
         }
 
         var cardViewModel = new CardViewModel
@@ -26,6 +26,6 @@ public class CardController(ICardStore cardStore) : Controller
             }).ToList()
         };
 
-        return View("/Views/Customer/Card.cshtml", cardViewModel);
+        return View(cardViewModel);
     }
 }

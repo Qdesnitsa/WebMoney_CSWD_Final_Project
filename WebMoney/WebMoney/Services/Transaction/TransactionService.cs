@@ -38,6 +38,7 @@ public class TransactionService(ICardStore cardStore) : ITransactionService
         }
 
         if (periodFrom > periodTo)
+        {
             return new TransactionStatementResult
             {
                 CardId = partial.CardId,
@@ -46,6 +47,8 @@ public class TransactionService(ICardStore cardStore) : ITransactionService
                 PeriodTo = partial.PeriodTo,
                 ErrorMessage = "Дата «с» не может быть позже даты «по»."
             };
+        }
+
         var rangeStart = periodFrom.Value.ToDateTime(TimeOnly.MinValue);
         var rangeEnd = periodTo.Value.ToDateTime(TimeOnly.MaxValue);
         var rows = cardStore.GetTransactionsForPeriodByCard(cardId, rangeStart, rangeEnd);

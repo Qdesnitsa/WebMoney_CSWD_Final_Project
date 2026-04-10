@@ -1,15 +1,12 @@
-using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using WebMoney.Enum;
 using WebMoney.Infrastructure.Constants;
 using WebMoney.Models;
-using WebMoney.Persistence;
-using WebMoney.Persistence.Entities;
 using WebMoney.Services;
 
 namespace WebMoney.Controllers;
 
-public class SignInController(IPasswordHasher<User> passwordHasher, IAuthService authService) : Controller
+public class SignInController(IAuthService authService) : Controller
 {
     [HttpGet]
     public IActionResult SignIn() => View(new SignInViewModel());
@@ -35,7 +32,7 @@ public class SignInController(IPasswordHasher<User> passwordHasher, IAuthService
         HttpContext.Session.SetString(SessionKeys.USERROLE, user.Role.ToString());
 
         return user.Role != Role.User
-            ? RedirectToAction("Error", "Home")
-            : RedirectToAction(nameof(CardController.Show), "Card");
+            ? RedirectToAction(nameof(HomeController.Error), nameof(HomeController).Replace("Controller", ""))
+            : RedirectToAction(nameof(CardController.Card), nameof(CardController).Replace("Controller", ""));
     }
 }

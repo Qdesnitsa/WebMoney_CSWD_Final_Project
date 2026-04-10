@@ -1,6 +1,5 @@
 using WebMoney.Enum;
 using WebMoney.Persistence.Entities;
-using Type = WebMoney.Enum.TxnType;
 
 namespace WebMoney.Persistence.Storage;
 
@@ -19,8 +18,8 @@ public class CardStoreInMemory : ICardStore
                 {
                     Id = 1,
                     DateTime = new DateTime(2026, 4, 2, 10, 30, 55, DateTimeKind.Utc),
-                    TxnType = Type.Deposit,
-                    Status = Status.Initialized,
+                    TransactionType = TransactionType.Deposit,
+                    TransactionStatus = TransactionStatus.Initialized,
                     CurrencyCode = CurrencyCode.BYN,
                     RRN = "1234567899",
                     Counterparty = "Test",
@@ -30,8 +29,8 @@ public class CardStoreInMemory : ICardStore
                 {
                     Id = 2,
                     DateTime = new DateTime(2026, 4, 1, 10, 30, 55, DateTimeKind.Utc),
-                    TxnType = Type.Withdrawal,
-                    Status = Status.Completed,
+                    TransactionType = TransactionType.Withdrawal,
+                    TransactionStatus = TransactionStatus.Completed,
                     CurrencyCode = CurrencyCode.BYN,
                     RRN = "1234567898",
                     Counterparty = "Test1",
@@ -41,8 +40,8 @@ public class CardStoreInMemory : ICardStore
                 {
                     Id = 3,
                     DateTime = new DateTime(2026, 3, 31, 10, 30, 55, DateTimeKind.Utc),
-                    TxnType = Type.Withdrawal,
-                    Status = Status.Completed,
+                    TransactionType = TransactionType.Withdrawal,
+                    TransactionStatus = TransactionStatus.Completed,
                     CurrencyCode = CurrencyCode.BYN,
                     RRN = "1234567897",
                     Counterparty = "Test1",
@@ -60,8 +59,8 @@ public class CardStoreInMemory : ICardStore
                 {
                     Id = 4,
                     DateTime = new DateTime(2026, 4, 2, 10, 30, 55, DateTimeKind.Utc),
-                    TxnType = Type.Deposit,
-                    Status = Status.Initialized,
+                    TransactionType = TransactionType.Deposit,
+                    TransactionStatus = TransactionStatus.Initialized,
                     CurrencyCode = CurrencyCode.BYN,
                     RRN = "1234567896",
                     Counterparty = "Test",
@@ -71,8 +70,8 @@ public class CardStoreInMemory : ICardStore
                 {
                     Id = 5,
                     DateTime = new DateTime(2026, 4, 1, 10, 30, 55, DateTimeKind.Utc),
-                    TxnType = Type.Withdrawal,
-                    Status = Status.Completed,
+                    TransactionType = TransactionType.Withdrawal,
+                    TransactionStatus = TransactionStatus.Completed,
                     CurrencyCode = CurrencyCode.BYN,
                     RRN = "1234567895",
                     Counterparty = "Test1",
@@ -82,8 +81,8 @@ public class CardStoreInMemory : ICardStore
                 {
                     Id = 6,
                     DateTime = new DateTime(2026, 3, 31, 10, 30, 55, DateTimeKind.Utc),
-                    TxnType = Type.Withdrawal,
-                    Status = Status.Completed,
+                    TransactionType = TransactionType.Withdrawal,
+                    TransactionStatus = TransactionStatus.Completed,
                     CurrencyCode = CurrencyCode.BYN,
                     RRN = "1234567894",
                     Counterparty = "Test1",
@@ -102,8 +101,8 @@ public class CardStoreInMemory : ICardStore
                 {
                     Id = 7,
                     DateTime = new DateTime(2026, 4, 2, 10, 30, 55, DateTimeKind.Utc),
-                    TxnType = Type.Deposit,
-                    Status = Status.Initialized,
+                    TransactionType = TransactionType.Deposit,
+                    TransactionStatus = TransactionStatus.Initialized,
                     CurrencyCode = CurrencyCode.BYN,
                     RRN = "1234567893",
                     Counterparty = "Test",
@@ -113,8 +112,8 @@ public class CardStoreInMemory : ICardStore
                 {
                     Id = 8,
                     DateTime = new DateTime(2026, 4, 1, 10, 30, 55, DateTimeKind.Utc),
-                    TxnType = Type.Withdrawal,
-                    Status = Status.Completed,
+                    TransactionType = TransactionType.Withdrawal,
+                    TransactionStatus = TransactionStatus.Completed,
                     CurrencyCode = CurrencyCode.BYN,
                     RRN = "1234567892",
                     Counterparty = "Test1",
@@ -124,8 +123,8 @@ public class CardStoreInMemory : ICardStore
                 {
                     Id = 9,
                     DateTime = new DateTime(2026, 3, 31, 10, 30, 55, DateTimeKind.Utc),
-                    TxnType = Type.Withdrawal,
-                    Status = Status.Completed,
+                    TransactionType = TransactionType.Withdrawal,
+                    TransactionStatus = TransactionStatus.Completed,
                     CurrencyCode = CurrencyCode.BYN,
                     RRN = "1234567891",
                     Counterparty = "Test1",

@@ -10,15 +10,15 @@ public class UserStoreInMemory(IPasswordHasher<User> passwordHasher) : IUserStor
     {
         new()
         {
-            Id = 1, 
-            UserName = "test1", 
+            Id = 1,
+            UserName = "test1",
             Email = "test1@example.com",
             Role = Role.User,
             HashedPassword = passwordHasher.HashPassword(new(), "Test12345!")
         },
         new()
         {
-            Id = 2, 
+            Id = 2,
             UserName = "test2",
             Email = "test2@example.com",
             Role = Role.User,
@@ -26,21 +26,19 @@ public class UserStoreInMemory(IPasswordHasher<User> passwordHasher) : IUserStor
         },
         new()
         {
-            Id = 3, 
-            UserName = "test3", 
+            Id = 3,
+            UserName = "test3",
             Email = "test3@example.com",
             Role = Role.Admin,
             HashedPassword = passwordHasher.HashPassword(new(), "Test12347!")
         }
     };
 
-    public bool EmailExists(string normalizedEmail) =>
-        _users.Exists(u => u.Email == normalizedEmail);
+    public bool EmailExists(string normalizedEmail) => _users.Exists(u => u.Email == normalizedEmail);
 
     public void Create(User user) => _users.Add(user);
 
-    public User FindByEmail(string normalizedEmail) =>
-        _users.FirstOrDefault(u => u.Email == normalizedEmail);
+    public User FindByEmail(string normalizedEmail) => _users.FirstOrDefault(u => u.Email == normalizedEmail);
 
     public List<User> GetAllUsers() => _users;
 }

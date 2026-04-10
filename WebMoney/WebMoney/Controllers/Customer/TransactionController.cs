@@ -1,7 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 using WebMoney.Infrastructure.Constants;
 using WebMoney.Models;
-using WebMoney.Persistence.Storage;
 using WebMoney.Services;
 
 namespace WebMoney.Controllers;
@@ -9,7 +8,8 @@ namespace WebMoney.Controllers;
 public class TransactionController(ITransactionService transactionService) : Controller
 {
     [HttpGet]
-    public IActionResult Show([FromQuery] int? cardId, [FromQuery] DateOnly? periodFrom, [FromQuery] DateOnly? periodTo)
+    public IActionResult Transaction([FromQuery] int? cardId, [FromQuery] DateOnly? periodFrom,
+        [FromQuery] DateOnly? periodTo)
     {
         var username = HttpContext.Session.GetString(SessionKeys.USERNAME);
         if (string.IsNullOrWhiteSpace(username))
@@ -19,7 +19,7 @@ public class TransactionController(ITransactionService transactionService) : Con
 
         if (!cardId.HasValue)
         {
-            return RedirectToAction(nameof(CardController.Show), "Card");
+            return RedirectToAction(nameof(CardController.Card), nameof(CardController).Replace("Controller", ""));
         }
 
         var periodKeysPresent = Request.Query.ContainsKey("periodFrom") || Request.Query.ContainsKey("periodTo");
@@ -44,14 +44,14 @@ public class TransactionController(ITransactionService transactionService) : Con
             Transactions = result.Transactions.Select(t => new TransactionViewModel
             {
                 DateTime = t.DateTime,
-                TxnType = t.TxnType,
-                Status = t.Status,
+                TransactionType = t.TransactionType,
+                TransactionStatus = t.TransactionStatus,
                 CurrencyCode = t.CurrencyCode,
                 RRN = t.RRN,
                 Counterparty = t.Counterparty,
                 Amount = t.Amount
             }).ToList()
         };
-        return View("/Views/Customer/Transaction.cshtml", model);
+        return View(model);
     }
 }
