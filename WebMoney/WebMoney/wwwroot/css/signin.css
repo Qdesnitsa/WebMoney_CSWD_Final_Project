@@ -53,13 +53,6 @@
   justify-content: flex-start;
 }
 
-.login-register-link {
-  font-size: 15px;
-  font-weight: 600;
-  color: var(--color-ink);
-  text-decoration: none;
-}
-
 .login-submit {
   font-family: inherit;
   font-size: 15px;

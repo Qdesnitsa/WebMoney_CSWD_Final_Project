@@ -1,31 +1,80 @@
 using Microsoft.AspNetCore.Mvc;
 using WebMoney.Infrastructure.Constants;
 using WebMoney.Models;
-using WebMoney.Persistence.Storage;
+using WebMoney.Services;
 
 namespace WebMoney.Controllers;
 
-public class CardController(ICardStore cardStore) : Controller
+public class CardController(ICardService cardService) : Controller
 {
     public IActionResult Card()
     {
         var username = HttpContext.Session.GetString(SessionKeys.USERNAME);
+        var useremail = HttpContext.Session.GetString(SessionKeys.USEREMAIL);
         if (string.IsNullOrWhiteSpace(username))
         {
-            return RedirectToAction(nameof(SignInController.SignIn), nameof(CardController).Replace("Controller", ""));
+            return RedirectToAction(nameof(SignInController.SignIn),
+                nameof(SignInController).Replace("Controller", ""));
         }
 
         var cardViewModel = new CardViewModel
         {
-            Cards = cardStore.GetAllCards().Select(c => new CardViewModel
+            Cards = cardService.GetCardsByUserEmail(useremail).Select(c => new CardViewModel
             {
                 Id = c.Id,
-                Url = c.Url,
                 Number = c.Number,
-                UserName = username
+                UserName = username,
+                ValidThru = c.PeriodOfValidity.ToString(),
+                UserEmail = c.CreatedBy
             }).ToList()
         };
 
         return View(cardViewModel);
+    }
+
+    [HttpGet]
+    public IActionResult NewCard()
+    {
+        if (string.IsNullOrWhiteSpace(HttpContext.Session.GetString(SessionKeys.USERNAME)))
+        {
+            return RedirectToAction(nameof(SignInController.SignIn),
+                nameof(SignInController).Replace("Controller", ""));
+        }
+
+        var model = new NewCardViewModel
+        {
+            CardNumber = cardService.GenerateCardNumber(),
+            PeriodOfValidity = cardService.DefaultPeriodOfValidity()
+        };
+        return View(model);
+    }
+
+    [HttpPost]
+    [ValidateAntiForgeryToken]
+    public IActionResult NewCard(NewCardViewModel model)
+    {
+        var userEmail = HttpContext.Session.GetString(SessionKeys.USEREMAIL);
+        if (string.IsNullOrWhiteSpace(HttpContext.Session.GetString(SessionKeys.USERNAME)) ||
+            userEmail == null)
+        {
+            return RedirectToAction(nameof(SignInController.SignIn),
+                nameof(SignInController).Replace("Controller", ""));
+        }
+
+        if (!ModelState.IsValid)
+        {
+            return View(model);
+        }
+
+        var normalizedEmail = userEmail.Trim().ToLowerInvariant();
+        var result = cardService.PrepareNewCard(normalizedEmail, model);
+        foreach (var (field, message) in result.Errors)
+            ModelState.AddModelError(string.IsNullOrEmpty(field) ? string.Empty : field, message);
+        if (!result.Success)
+        {
+            return View(model);
+        }
+
+        return RedirectToAction(nameof(Card));
     }
 }

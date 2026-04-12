@@ -29,6 +29,7 @@ public class SignInController(IAuthService authService) : Controller
 
         var user = result.User!;
         HttpContext.Session.SetString(SessionKeys.USERNAME, user.UserName);
+        HttpContext.Session.SetString(SessionKeys.USEREMAIL, user.Email);
         HttpContext.Session.SetString(SessionKeys.USERROLE, user.Role.ToString());
 
         return user.Role != Role.User

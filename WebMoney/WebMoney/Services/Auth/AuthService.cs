@@ -5,12 +5,12 @@ using WebMoney.Persistence.Entities;
 
 namespace WebMoney.Services;
 
-public class AuthService(IPasswordHasher<User> passwordHasher, IUserStore userStore) : IAuthService
+public class AuthService(IPasswordHasher<User> passwordHasher, IUserRepository userRepository) : IAuthService
 {
     public AuthResult TrySignIn(string email, string password)
     {
         var normalizedEmail = email.Trim().ToLowerInvariant();
-        var user = userStore.FindByEmail(normalizedEmail);
+        var user = userRepository.FindByEmail(normalizedEmail);
         if (user is null)
         {
             return AuthResult.Fail("Неверный email или пароль");
@@ -35,20 +35,23 @@ public class AuthService(IPasswordHasher<User> passwordHasher, IUserStore userSt
     {
         var normalizedEmail = email.Trim().ToLowerInvariant();
 
-        if (userStore.EmailExists(normalizedEmail))
+        if (userRepository.EmailExists(normalizedEmail))
         {
             return AuthResult.Fail("Пользователь с таким email уже зарегистрирован");
         }
 
-        var user = new User
+        var user = new UserProfile()
         {
             Email = normalizedEmail,
             UserName = username,
-            Role = Role.User
+            Role = Role.User,
+            Cards = new List<Card>(),
+            CreatedAt =  DateTime.UtcNow,
         };
+        user.CreatedBy = user.Email;
 
         user.HashedPassword = passwordHasher.HashPassword(user, password);
-        userStore.Create(user);
+        userRepository.Create(user);
 
         return AuthResult.Ok(user);
     }
