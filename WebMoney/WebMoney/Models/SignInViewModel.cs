@@ -1,5 +1,4 @@
 using System.ComponentModel.DataAnnotations;
-using WebMoney.Enum;
 
 namespace WebMoney.Models;
 

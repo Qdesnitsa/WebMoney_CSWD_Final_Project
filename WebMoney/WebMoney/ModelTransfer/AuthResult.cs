@@ -2,22 +2,22 @@ using WebMoney.Persistence.Entities;
 
 namespace WebMoney.Services;
 
-public class AuthResult
+public sealed class AuthResult
 {
     public bool Succeeded { get; private init; }
-    public User? User { get; private init; }
+    public UserProfile? UserProfile { get; private init; }
     public string? ErrorMessage { get; private init; }
 
-    private AuthResult(bool succeeded, User? user, string? errorMessage)
+    private AuthResult(bool succeeded, UserProfile? userProfile, string? errorMessage)
     {
         Succeeded = succeeded;
-        User = user;
+        UserProfile = userProfile;
         ErrorMessage = errorMessage;
     }
 
     public static AuthResult Fail(string message) =>
         new(false, null, message);
 
-    public static AuthResult Ok(User user) =>
-        new(true, user, null);
+    public static AuthResult Ok(UserProfile userProfile) =>
+        new(true, userProfile, null);
 }

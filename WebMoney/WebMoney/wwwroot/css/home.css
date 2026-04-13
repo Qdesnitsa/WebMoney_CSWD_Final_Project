@@ -7,6 +7,9 @@
 }
 
 body {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
   font-family: "Merriweather", Georgia, "Times New Roman", serif;
   background-image: url("../images/layout/bg.svg");
   background-size: cover;
@@ -73,15 +76,12 @@ body {
   border: 1px solid transparent;
 }
 
-.site-header-link:hover {
-  background: var(--color-edge-on-dark);
-  border-color: var(--color-edge-on-dark);
-}
-
 .site-main {
-  padding-top: 150px;
+  flex: 1 0 auto;
+  width: 100%;
   max-width: 960px;
   margin: 0 auto;
+  padding-top: 150px;
   padding-left: 20px;
   padding-right: 20px;
   padding-bottom: 200px;
@@ -248,6 +248,7 @@ body {
 }
 
 .site-footer {
+  flex-shrink: 0;
   padding: 40px 20px;
   text-align: center;
   color: var(--color-light);

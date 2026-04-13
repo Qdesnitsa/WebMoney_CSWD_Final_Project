@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Mvc;
+using WebMoney.Enum;
 using WebMoney.Infrastructure.Constants;
 using WebMoney.Models;
 using WebMoney.Services;
@@ -25,10 +26,10 @@ public class SignUpController(IAuthService authService) : Controller
             ModelState.AddModelError(nameof(SignUpViewModel.Email), result.ErrorMessage!);
             return View(model);
         }
-
-        var user = result.User;
-        HttpContext.Session.SetString(SessionKeys.USERNAME, user.UserName);
-        HttpContext.Session.SetString(SessionKeys.USERROLE, user.Role.ToString());
+        
+        HttpContext.Session.SetString(SessionKeys.USERNAME, model.UserName);
+        HttpContext.Session.SetString(SessionKeys.USEREMAIL, model.Email);
+        HttpContext.Session.SetString(SessionKeys.USERROLE, Role.User.ToString());
 
         return RedirectToAction(nameof(CardController.Card), nameof(CardController).Replace("Controller", ""));
     }

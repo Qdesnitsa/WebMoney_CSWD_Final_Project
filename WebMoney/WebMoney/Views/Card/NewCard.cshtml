@@ -1,0 +1,67 @@
+@model NewCardViewModel
+@using WebMoney.Enum
+@{
+  ViewData["Title"] = "Новая карта";
+}
+
+@section Styles {
+  <link rel="stylesheet" href="~/css/newcard.css" asp-append-version="true" />
+}
+
+<main class="site-main">
+  <section class="new-card-section">
+    <h2>Новая карта</h2>
+    <form class="new-card-form" asp-controller="Card" asp-action="NewCard" method="post" novalidate>
+      <div asp-validation-summary="All" class="new-card-hint"></div>
+
+      <div class="new-card-field">
+        <span class="new-card-caption">Номер карты</span>
+        <input type="hidden" asp-for="CardNumber" />
+        <input type="text" readonly value="@Model.CardNumber" />
+      </div>
+
+      <div class="new-card-field">
+        <span class="new-card-caption">Действует до</span>
+        <input type="hidden" asp-for="PeriodOfValidity" />
+        <input type="text" readonly value="@Model.PeriodOfValidity.ToString("MM/yy")" />
+      </div>
+
+      <div class="new-card-field">
+        <span class="new-card-caption">Код валюты</span>
+        <select asp-for="CurrencyCode" asp-items="Html.GetEnumSelectList<CurrencyCode>()"></select>
+        <span asp-validation-for="CurrencyCode" class="new-card-hint"></span>
+      </div>
+
+      <fieldset>
+        <legend>Лимиты карты (необязательно)</legend>
+        <p class="new-card-field-hint">Оставьте поля пустыми, если лимиты не нужны.</p>
+        <div class="new-card-field">
+          <span class="new-card-caption">Дневной лимит</span>
+          <input asp-for="DailyLimit" type="number" class="new-card-limit" min="0" step="0.01" inputmode="decimal" />
+          <span asp-validation-for="DailyLimit" class="new-card-hint"></span>
+        </div>
+        <div class="new-card-field">
+          <span class="new-card-caption">Месячный лимит</span>
+          <input asp-for="MonthlyLimit" type="number" class="new-card-limit" min="0" step="0.01" inputmode="decimal" />
+          <span asp-validation-for="MonthlyLimit" class="new-card-hint"></span>
+        </div>
+        <div class="new-card-field">
+          <span class="new-card-caption">Лимит на одну операцию</span>
+          <input asp-for="PerOperationLimit" type="number" class="new-card-limit" min="0" step="0.01" inputmode="decimal" />
+          <span asp-validation-for="PerOperationLimit" class="new-card-hint"></span>
+        </div>
+      </fieldset>
+
+      <div class="new-card-field">
+        <span class="new-card-caption">PIN-код (4 цифры)</span>
+        <input asp-for="PinCode" type="text" inputmode="numeric" maxlength="4" pattern="\d{4}" autocomplete="off" />
+        <span asp-validation-for="PinCode" class="new-card-hint"></span>
+      </div>
+
+      <div class="new-card-actions">
+        <button type="submit" class="new-card-submit">Создать карту</button>
+        <a asp-controller="Card" asp-action="Card" class="new-card-back">К списку карт</a>
+      </div>
+    </form>
+  </section>
+</main>

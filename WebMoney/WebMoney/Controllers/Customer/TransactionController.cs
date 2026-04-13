@@ -43,11 +43,10 @@ public class TransactionController(ITransactionService transactionService) : Con
             PeriodTo = result.PeriodTo,
             Transactions = result.Transactions.Select(t => new TransactionViewModel
             {
-                DateTime = t.DateTime,
+                DateTime = t.CreatedAt,
                 TransactionType = t.TransactionType,
                 TransactionStatus = t.TransactionStatus,
                 CurrencyCode = t.CurrencyCode,
-                RRN = t.RRN,
                 Counterparty = t.Counterparty,
                 Amount = t.Amount
             }).ToList()

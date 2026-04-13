@@ -6,4 +6,5 @@ public class SessionKeys
 {
     public const string USERNAME = "UserName";
     public const string USERROLE = "UserRole";
+    public const string USEREMAIL = "UserEmail";
 }

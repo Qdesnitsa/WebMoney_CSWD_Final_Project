@@ -1,4 +1,7 @@
 using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
+using WebMoney.Data;
+using WebMoney.Data.Persistence;
 using WebMoney.Persistence;
 using WebMoney.Persistence.Entities;
 using WebMoney.Persistence.Storage;
@@ -10,15 +13,22 @@ namespace WebMoney
     {
         public static void Main(string[] args)
         {
+            AppContext.SetSwitch("Npgsql.DisableDateTimeInfinityConversions", true);
+
             var builder = WebApplication.CreateBuilder(args);
 
             // Add services to the container.
             builder.Services.AddControllersWithViews();
+            builder.Services.AddDbContext<WebContext>(options =>
+                options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));
             builder.Services.AddSingleton<IPasswordHasher<User>, PasswordHasher<User>>();
+            builder.Services.AddSingleton<IPasswordHasher<Card>, PasswordHasher<Card>>();
             builder.Services.AddScoped<IAuthService, AuthService>();
             builder.Services.AddScoped<ITransactionService, TransactionService>();
-            builder.Services.AddScoped<IUserStore, UserStoreInMemory>();
-            builder.Services.AddScoped<ICardStore, CardStoreInMemory>();
+            builder.Services.AddScoped<ICardService, CardService>();
+            builder.Services.AddScoped<IUserProfileRepository, UserProfileProfileRepository>();
+            builder.Services.AddScoped<ICardRepository, CardRepository>();
+            builder.Services.AddScoped<ITransactionRepository, TransactionRepository>();
             builder.Services.AddDistributedMemoryCache();
             builder.Services.AddSession(options =>
             {
