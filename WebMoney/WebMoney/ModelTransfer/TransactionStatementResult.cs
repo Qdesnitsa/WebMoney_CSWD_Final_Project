@@ -2,7 +2,7 @@ using WebMoney.Persistence.Entities;
 
 namespace WebMoney.Services;
 
-public class TransactionStatementResult
+public sealed class TransactionStatementResult
 {
     public int CardId { get; init; }
     public bool IsCardMissing { get; init; }

@@ -26,13 +26,13 @@ public class SignInController(IAuthService authService) : Controller
             ModelState.AddModelError(string.Empty, result.ErrorMessage!);
             return View(model);
         }
+        
+        var userProfile = result.UserProfile!;
+        HttpContext.Session.SetString(SessionKeys.USERNAME, userProfile.User.UserName);
+        HttpContext.Session.SetString(SessionKeys.USEREMAIL, userProfile.User.Email);
+        HttpContext.Session.SetString(SessionKeys.USERROLE, userProfile.User.Role.ToString());
 
-        var user = result.User!;
-        HttpContext.Session.SetString(SessionKeys.USERNAME, user.UserName);
-        HttpContext.Session.SetString(SessionKeys.USEREMAIL, user.Email);
-        HttpContext.Session.SetString(SessionKeys.USERROLE, user.Role.ToString());
-
-        return user.Role != Role.User
+        return userProfile.User.Role != Role.User
             ? RedirectToAction(nameof(HomeController.Error), nameof(HomeController).Replace("Controller", ""))
             : RedirectToAction(nameof(CardController.Card), nameof(CardController).Replace("Controller", ""));
     }

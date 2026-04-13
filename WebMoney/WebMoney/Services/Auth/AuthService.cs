@@ -5,18 +5,20 @@ using WebMoney.Persistence.Entities;
 
 namespace WebMoney.Services;
 
-public class AuthService(IPasswordHasher<User> passwordHasher, IUserRepository userRepository) : IAuthService
+public class AuthService(IPasswordHasher<User> passwordHasher, IUserProfileRepository userProfileRepository)
+    : IAuthService
 {
     public AuthResult TrySignIn(string email, string password)
     {
         var normalizedEmail = email.Trim().ToLowerInvariant();
-        var user = userRepository.FindByEmail(normalizedEmail);
-        if (user is null)
+        var userProfile = userProfileRepository.FindByEmail(normalizedEmail);
+        if (userProfile is null)
         {
             return AuthResult.Fail("Неверный email или пароль");
         }
 
-        var verifyPassword = passwordHasher.VerifyHashedPassword(user, user.HashedPassword, password);
+        var verifyPassword =
+            passwordHasher.VerifyHashedPassword(userProfile.User, userProfile.User.HashedPassword, password);
         if (verifyPassword != PasswordVerificationResult.Success &&
             verifyPassword != PasswordVerificationResult.SuccessRehashNeeded)
         {
@@ -25,34 +27,40 @@ public class AuthService(IPasswordHasher<User> passwordHasher, IUserRepository u
 
         if (verifyPassword == PasswordVerificationResult.SuccessRehashNeeded)
         {
-            user.HashedPassword = passwordHasher.HashPassword(user, password);
+            userProfile.User.HashedPassword = passwordHasher.HashPassword(userProfile.User, password);
         }
 
-        return AuthResult.Ok(user);
+        return AuthResult.Ok(userProfile);
     }
 
     public AuthResult Register(string username, string email, string password)
     {
         var normalizedEmail = email.Trim().ToLowerInvariant();
 
-        if (userRepository.EmailExists(normalizedEmail))
+        if (userProfileRepository.EmailExists(normalizedEmail))
         {
             return AuthResult.Fail("Пользователь с таким email уже зарегистрирован");
         }
 
-        var user = new UserProfile()
+        var userProfile = new UserProfile()
         {
-            Email = normalizedEmail,
-            UserName = username,
-            Role = Role.User,
+            User = new User
+            {
+                Email = normalizedEmail,
+                UserName = username,
+                Role = Role.User,
+                CreatedAt = DateTime.UtcNow,
+                CreatedBy = email
+            },
             Cards = new List<Card>(),
-            CreatedAt =  DateTime.UtcNow,
+            CreatedAt = DateTime.UtcNow,
+            CreatedBy = email
         };
-        user.CreatedBy = user.Email;
+        userProfile.CreatedBy = userProfile.User.Email;
 
-        user.HashedPassword = passwordHasher.HashPassword(user, password);
-        userRepository.Create(user);
+        userProfile.User.HashedPassword = passwordHasher.HashPassword(userProfile.User, password);
+        userProfileRepository.Create(userProfile);
 
-        return AuthResult.Ok(user);
+        return AuthResult.Ok(userProfile);
     }
 }

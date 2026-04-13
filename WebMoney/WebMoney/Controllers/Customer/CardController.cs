@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
 using WebMoney.Infrastructure.Constants;
 using WebMoney.Models;
+using WebMoney.ModelTransfer;
 using WebMoney.Services;
 
 namespace WebMoney.Controllers;
@@ -65,11 +66,24 @@ public class CardController(ICardService cardService) : Controller
         {
             return View(model);
         }
+        
+        var input = new NewCardInput
+        {
+            CardNumber = model.CardNumber,
+            CurrencyCode = model.CurrencyCode,
+            DailyLimit = model.DailyLimit,
+            MonthlyLimit = model.MonthlyLimit,
+            PerOperationLimit = model.PerOperationLimit,
+            PinCode = model.PinCode
+        };
 
         var normalizedEmail = userEmail.Trim().ToLowerInvariant();
-        var result = cardService.PrepareNewCard(normalizedEmail, model);
+        var result = cardService.PrepareNewCard(normalizedEmail, input);
         foreach (var (field, message) in result.Errors)
+        {
             ModelState.AddModelError(string.IsNullOrEmpty(field) ? string.Empty : field, message);
+        }
+
         if (!result.Success)
         {
             return View(model);

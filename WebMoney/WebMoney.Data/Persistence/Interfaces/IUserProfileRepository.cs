@@ -3,12 +3,12 @@ using WebMoney.Persistence.Entities;
 
 namespace WebMoney.Persistence;
 
-public interface IUserRepository : IBaseRepository<UserProfile>
+public interface IUserProfileRepository : IBaseRepository<UserProfile>
 {
     bool EmailExists(string normalizedEmail);
 
     void Create(UserProfile user);
 
-    UserProfile FindByEmail(string normalizedEmail);
-    IQueryable<UserProfile> GetAllUsers();
+    UserProfile? FindByEmail(string normalizedEmail);
+    List<UserProfile> GetAllUsers();
 }

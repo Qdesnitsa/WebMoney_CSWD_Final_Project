@@ -54,8 +54,7 @@ public class TransactionService(ITransactionRepository transactionRepository, IC
 
         var rangeStart = periodFrom.Value.ToDateTime(TimeOnly.MinValue).ToUniversalTime();
         var rangeEnd = periodTo.Value.ToDateTime(TimeOnly.MaxValue).ToUniversalTime();
-        var rows = transactionRepository.GetTransactionsForPeriodByCard(cardId, rangeStart, rangeEnd).ToList()
-            .AsReadOnly();
+        var rows = transactionRepository.GetTransactionsForPeriodByCard(cardId, rangeStart, rangeEnd);
         return new TransactionStatementResult
         {
             CardId = partial.CardId,
@@ -66,6 +65,6 @@ public class TransactionService(ITransactionRepository transactionRepository, IC
         };
     }
 
-    public IQueryable<Transaction> GetTransactionsByCardId(int cardId) =>
+    public List<Transaction> GetTransactionsByCardId(int cardId) =>
         transactionRepository.GetTransactionsByCardId(cardId);
 }

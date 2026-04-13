@@ -6,5 +6,5 @@ public interface ITransactionService
 {
     TransactionStatementResult GetStatement(int cardId, DateOnly? periodFrom, DateOnly? periodTo,
         bool periodKeysPresentInQuery);
-    IQueryable<Transaction> GetTransactionsByCardId(int cardId);
+    List<Transaction> GetTransactionsByCardId(int cardId);
 }
