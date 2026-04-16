@@ -13,9 +13,12 @@ public abstract class BaseRepository<T> : IBaseRepository<T> where T : BaseEntit
         this.webContext = webContext;
         dbSet = webContext.Set<T>();
     }
+
     public void Create(T entity)
     {
         dbSet.Add(entity);
         webContext.SaveChanges();
     }
+
+    public T? GetById(int id) => dbSet.Find(id);
 }

@@ -9,5 +9,5 @@ public interface ICardService
     List<Card> GetCardsByUserEmail(string email);
     NewCardPrepareResult PrepareNewCard(string normalizedEmail, NewCardInput input);
     string GenerateCardNumber();
-    public DateOnly DefaultPeriodOfValidity();
+    DateOnly DefaultPeriodOfValidity();
 }

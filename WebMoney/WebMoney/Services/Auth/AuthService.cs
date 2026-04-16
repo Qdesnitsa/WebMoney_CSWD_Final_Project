@@ -42,7 +42,7 @@ public class AuthService(IPasswordHasher<User> passwordHasher, IUserProfileRepos
             return AuthResult.Fail("Пользователь с таким email уже зарегистрирован");
         }
 
-        var userProfile = new UserProfile()
+        var userProfile = new UserProfile
         {
             User = new User
             {
@@ -52,11 +52,10 @@ public class AuthService(IPasswordHasher<User> passwordHasher, IUserProfileRepos
                 CreatedAt = DateTime.UtcNow,
                 CreatedBy = email
             },
-            Cards = new List<Card>(),
+            CardUserProfiles = new HashSet<CardUserProfile>(),
             CreatedAt = DateTime.UtcNow,
-            CreatedBy = email
+            CreatedBy = normalizedEmail
         };
-        userProfile.CreatedBy = userProfile.User.Email;
 
         userProfile.User.HashedPassword = passwordHasher.HashPassword(userProfile.User, password);
         userProfileRepository.Create(userProfile);

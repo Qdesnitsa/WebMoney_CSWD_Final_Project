@@ -46,8 +46,8 @@ public class TransactionController(ITransactionService transactionService) : Con
                 DateTime = t.CreatedAt,
                 TransactionType = t.TransactionType,
                 TransactionStatus = t.TransactionStatus,
-                CurrencyCode = t.CurrencyCode,
-                Counterparty = t.Counterparty,
+                CurrencyCode = t.Card.CurrencyCode,
+                Counterparty = t.Counterparty.ToString(),
                 Amount = t.Amount
             }).ToList()
         };

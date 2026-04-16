@@ -11,16 +11,8 @@ public class UserProfileProfileRepository(WebContext webContext)
     public bool EmailExists(string normalizedEmail) =>
         webContext.UsersProfiles.Any(u => u.User.Email == normalizedEmail);
 
-    public void Create(UserProfile userProfile)
-    {
-        webContext.UsersProfiles.Add(userProfile);
-        webContext.SaveChanges();
-    }
-
     public UserProfile FindByEmail(string normalizedEmail) =>
         webContext.UsersProfiles
             .Include(u => u.User)
             .FirstOrDefault(u => u.User.Email == normalizedEmail);
-
-    public List<UserProfile> GetAllUsers() => webContext.UsersProfiles.ToList();
 }

@@ -10,7 +10,7 @@ public class TransactionService(ITransactionRepository transactionRepository, IC
     public TransactionStatementResult GetStatement(int cardId, DateOnly? periodFrom, DateOnly? periodTo,
         bool periodKeysPresentInQuery)
     {
-        var card = cardRepository.GetCardById(cardId);
+        var card = cardRepository.GetById(cardId);
         if (card is null)
         {
             return new TransactionStatementResult { IsCardMissing = true, CardId = cardId };

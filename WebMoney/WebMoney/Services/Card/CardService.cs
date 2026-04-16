@@ -45,21 +45,28 @@ public class CardService(
         {
             Number = input.CardNumber,
             CurrencyCode = input.CurrencyCode,
-            CardLimit = new CardLimit
-            {
-                DailyLimit = input.DailyLimit,
-                MonthlyLimit = input.MonthlyLimit,
-                PerOperationLimit = input.PerOperationLimit,
-                CreatedAt = DateTime.UtcNow,
-                CreatedBy = userProfile.User.Email
-            },
             PeriodOfValidity = DefaultPeriodOfValidity(),
             CardStatus = CardStatus.Initialized,
             CreatedAt = DateTime.UtcNow,
-            CreatedBy = userProfile.User.Email
+            CreatedBy = userProfile.User.Email,
+            CardUserProfiles = new HashSet<CardUserProfile>
+            {
+                new CardUserProfile
+                {
+                    UserProfileId = userProfile.Id,
+                    CardLimit = new CardLimit
+                    {
+                        DailyLimit = input.DailyLimit,
+                        MonthlyLimit = input.MonthlyLimit,
+                        PerOperationLimit = input.PerOperationLimit,
+                        CreatedAt = DateTime.UtcNow,
+                        CreatedBy = userProfile.User.Email,
+                    }
+                }
+            },
+            
         };
         card.HashedPinCode = passwordHasher.HashPassword(card, input.PinCode);
-        card.UserProfiles.Add(userProfile);
         cardRepository.Create(card);
 
         return result;

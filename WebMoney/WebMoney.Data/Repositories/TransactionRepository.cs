@@ -13,9 +13,4 @@ public class TransactionRepository(WebContext webContext)
             .Where(c => c.Id == cardId)
             .Where(t => t.CreatedAt >= startDate && t.CreatedAt <= endDate)
             .OrderBy(t => t.CreatedAt).ToList();
-
-    public void Create(Transaction transaction)
-    {
-        throw new NotImplementedException();
-    }
 }

@@ -9,7 +9,7 @@ public class Transaction : BaseEntity
     public Card Card { get; set; }
     public TransactionType TransactionType { get; set; }
     public TransactionStatus TransactionStatus { get; set; }
-    public CurrencyCode CurrencyCode { get; set; }
-    public string Counterparty { get; set; }
+    public int CounterpartyId { get; set; }
+    public Counterparty Counterparty { get; set; }
     public decimal Amount { get; set; }
 }
