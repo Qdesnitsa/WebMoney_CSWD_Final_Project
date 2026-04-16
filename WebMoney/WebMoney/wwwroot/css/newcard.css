@@ -9,7 +9,7 @@
 }
 
 .new-card-form {
-  max-width: 480px;
+  max-width: 600px;
 }
 
 .new-card-form fieldset {
@@ -44,7 +44,7 @@
 .new-card-field select {
   box-sizing: border-box;
   width: 100%;
-  max-width: 400px;
+  max-width: 600px;
   padding: 10px 12px;
   font: inherit;
   font-size: 15px;

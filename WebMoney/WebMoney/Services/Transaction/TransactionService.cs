@@ -1,13 +1,12 @@
-using WebMoney.Data.Persistence;
+using WebMoney.Data.Repositories.Interfaces;
 using WebMoney.Persistence.Entities;
-using WebMoney.Persistence.Storage;
 
 namespace WebMoney.Services;
 
 public class TransactionService(ITransactionRepository transactionRepository, ICardRepository cardRepository)
     : ITransactionService
 {
-    public TransactionStatementResult GetStatement(int cardId, DateOnly? periodFrom, DateOnly? periodTo,
+    public TransactionStatementResult GetTransactionsByCardIdForPeriod(int cardId, DateOnly? periodFrom, DateOnly? periodTo,
         bool periodKeysPresentInQuery)
     {
         var card = cardRepository.GetById(cardId);

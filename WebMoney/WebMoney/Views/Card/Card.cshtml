@@ -12,7 +12,9 @@
   <section class="user-cards-section">
     <div class="user-cards-heading-row">
       <h2 id="user-cards-heading">Мои карты</h2>
-      <a asp-controller="Card" asp-action="NewCard" class="user-cards-add-btn">Добавить карту</a>
+      <div class="user-cards-heading-actions">
+        <a asp-controller="Card" asp-action="NewCard" class="user-cards-add-btn">Добавить карту</a>
+      </div>
     </div>
     <div class="user-cards-layout">
       @foreach (var card in Model.Cards)
@@ -29,11 +31,13 @@
             <div class="bank-card-footer">
               <span class="bank-card-holder-label">Владелец</span>
               <span class="bank-card-holder">@card.UserEmail</span>
+              <span class="bank-card-holder-label">Баланс</span>
+              <span class="bank-card-holder">@card.Balance.ToString("N2") @card.CurrencyCode</span>
             </div>
           </div>
           <h3 class="card-operations-title">Операции с картой</h3>
           <ul class="card-operations-list">
-            <li><a href="#">Пополнить карту</a></li>
+            <li><a asp-controller="Deposit" asp-action="NewDeposit" asp-route-cardId="@card.Id">Пополнить карту</a></li>
             <li><a href="#">Перевести на другую карту</a></li>
             <li><a href="#">Создать платёж</a></li>
             <li><a asp-controller="Transaction" asp-action="Transaction" asp-route-cardId="@card.Id">Посмотреть историю операций</a></li>

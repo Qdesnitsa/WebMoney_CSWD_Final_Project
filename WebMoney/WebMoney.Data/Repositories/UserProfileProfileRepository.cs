@@ -1,9 +1,8 @@
 using Microsoft.EntityFrameworkCore;
-using WebMoney.Data;
-using WebMoney.Data.Persistence;
+using WebMoney.Data.Repositories.Interfaces;
 using WebMoney.Persistence.Entities;
 
-namespace WebMoney.Persistence;
+namespace WebMoney.Data.Repositories;
 
 public class UserProfileProfileRepository(WebContext webContext)
     : BaseRepository<UserProfile>(webContext), IUserProfileRepository

@@ -10,4 +10,5 @@ public interface ICardService
     NewCardPrepareResult PrepareNewCard(string normalizedEmail, NewCardInput input);
     string GenerateCardNumber();
     DateOnly DefaultPeriodOfValidity();
+    Card GetById(int id);
 }

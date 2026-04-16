@@ -9,6 +9,12 @@
   margin-bottom: 24px;
 }
 
+.user-cards-heading-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
 .user-cards-heading-row h2 {
   margin: 0;
 }

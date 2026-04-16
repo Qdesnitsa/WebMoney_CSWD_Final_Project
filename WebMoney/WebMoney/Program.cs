@@ -1,10 +1,9 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using WebMoney.Data;
-using WebMoney.Data.Persistence;
-using WebMoney.Persistence;
+using WebMoney.Data.Repositories;
+using WebMoney.Data.Repositories.Interfaces;
 using WebMoney.Persistence.Entities;
-using WebMoney.Persistence.Storage;
 using WebMoney.Services;
 
 namespace WebMoney
@@ -29,6 +28,7 @@ namespace WebMoney
             builder.Services.AddScoped<IUserProfileRepository, UserProfileProfileRepository>();
             builder.Services.AddScoped<ICardRepository, CardRepository>();
             builder.Services.AddScoped<ITransactionRepository, TransactionRepository>();
+            builder.Services.AddScoped<IDepositTransactionService, DepositTransactionService>();
             builder.Services.AddDistributedMemoryCache();
             builder.Services.AddSession(options =>
             {

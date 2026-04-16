@@ -7,5 +7,7 @@ public class CardViewModel
     public string ValidThru { get; set; } = string.Empty;
     public string UserName { get; set; } = string.Empty;
     public string UserEmail { get; set; } = string.Empty;
+    public decimal Balance { get; set; }
+    public string CurrencyCode { get; set; } = string.Empty;
     public List<CardViewModel> Cards { get; set; } = [];
 }

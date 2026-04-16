@@ -26,7 +26,9 @@ public class CardController(ICardService cardService) : Controller
                 Number = c.Number,
                 UserName = username,
                 ValidThru = c.PeriodOfValidity.ToString(),
-                UserEmail = c.CreatedBy
+                UserEmail = c.CreatedBy,
+                Balance = c.Balance,
+                CurrencyCode = c.CurrencyCode.ToString()
             }).ToList()
         };
 

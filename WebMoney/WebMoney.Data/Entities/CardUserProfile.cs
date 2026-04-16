@@ -6,5 +6,6 @@ public class CardUserProfile
     public Card Card { get; set; } = null!;
     public int UserProfileId { get; set; }
     public UserProfile UserProfile { get; set; } = null!;
+    public int? CardLimitId { get; set; }
     public CardLimit? CardLimit { get; set; }
 }

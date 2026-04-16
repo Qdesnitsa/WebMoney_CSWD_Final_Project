@@ -1,10 +1,9 @@
 using Microsoft.AspNetCore.Identity;
 using WebMoney.Data.Enum.Card;
+using WebMoney.Data.Repositories.Interfaces;
 using WebMoney.Models;
 using WebMoney.ModelTransfer;
-using WebMoney.Persistence;
 using WebMoney.Persistence.Entities;
-using WebMoney.Persistence.Storage;
 
 namespace WebMoney.Services;
 
@@ -16,6 +15,7 @@ public class CardService(
     private const int NumberOfYearsNewCardIsValid = 5;
     private const int NumberOfDigitsCardNumber = 16;
     public List<Card> GetCardsByUserEmail(string email) => cardRepository.GetCardsByUserEmail(email);
+    public Card GetById(int id) => cardRepository.GetById(id);
 
     public NewCardPrepareResult PrepareNewCard(string normalizedEmail, NewCardInput input)
     {
@@ -23,7 +23,7 @@ public class CardService(
         var userProfile = userProfileRepository.FindByEmail(normalizedEmail);
         if (userProfile is null)
         {
-            result.Errors.Add(("", "Пользователь не найден"));
+            result.Errors.Add((String.Empty, "Пользователь не найден"));
             return result;
         }
 
@@ -46,7 +46,7 @@ public class CardService(
             Number = input.CardNumber,
             CurrencyCode = input.CurrencyCode,
             PeriodOfValidity = DefaultPeriodOfValidity(),
-            CardStatus = CardStatus.Initialized,
+            CardStatus = CardStatus.Active,
             CreatedAt = DateTime.UtcNow,
             CreatedBy = userProfile.User.Email,
             CardUserProfiles = new HashSet<CardUserProfile>

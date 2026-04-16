@@ -1,7 +1,6 @@
-using WebMoney.Data.Persistence;
 using WebMoney.Persistence.Entities;
 
-namespace WebMoney.Persistence;
+namespace WebMoney.Data.Repositories.Interfaces;
 
 public interface IUserProfileRepository : IBaseRepository<UserProfile>
 {

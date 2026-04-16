@@ -1,7 +1,8 @@
 using Microsoft.EntityFrameworkCore;
+using WebMoney.Data.Repositories.Interfaces;
 using WebMoney.Persistence.Entities;
 
-namespace WebMoney.Data.Persistence;
+namespace WebMoney.Data.Repositories;
 
 public abstract class BaseRepository<T> : IBaseRepository<T> where T : BaseEntity
 {
@@ -14,11 +15,11 @@ public abstract class BaseRepository<T> : IBaseRepository<T> where T : BaseEntit
         dbSet = webContext.Set<T>();
     }
 
-    public void Create(T entity)
+    public virtual void Create(T entity)
     {
         dbSet.Add(entity);
         webContext.SaveChanges();
     }
 
-    public T? GetById(int id) => dbSet.Find(id);
+    public virtual T? GetById(int id) => dbSet.Find(id);
 }

@@ -1,6 +1,7 @@
+using WebMoney.Data.Repositories.Interfaces;
 using WebMoney.Persistence.Entities;
 
-namespace WebMoney.Data.Persistence;
+namespace WebMoney.Data.Repositories;
 
 public class TransactionRepository(WebContext webContext)
     : BaseRepository<Transaction>(webContext), ITransactionRepository
@@ -13,4 +14,5 @@ public class TransactionRepository(WebContext webContext)
             .Where(c => c.Id == cardId)
             .Where(t => t.CreatedAt >= startDate && t.CreatedAt <= endDate)
             .OrderBy(t => t.CreatedAt).ToList();
+    
 }

@@ -23,7 +23,7 @@ public class TransactionController(ITransactionService transactionService) : Con
         }
 
         var periodKeysPresent = Request.Query.ContainsKey("periodFrom") || Request.Query.ContainsKey("periodTo");
-        var result = transactionService.GetStatement(cardId.Value, periodFrom, periodTo, periodKeysPresent);
+        var result = transactionService.GetTransactionsByCardIdForPeriod(cardId.Value, periodFrom, periodTo, periodKeysPresent);
 
         if (result.IsCardMissing)
         {
