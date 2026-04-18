@@ -68,7 +68,7 @@ public class CardController(ICardService cardService) : Controller
         {
             return View(model);
         }
-        
+
         var input = new NewCardInput
         {
             CardNumber = model.CardNumber,
@@ -81,13 +81,15 @@ public class CardController(ICardService cardService) : Controller
 
         var normalizedEmail = userEmail.Trim().ToLowerInvariant();
         var result = cardService.PrepareNewCard(normalizedEmail, input);
-        foreach (var (field, message) in result.Errors)
-        {
-            ModelState.AddModelError(string.IsNullOrEmpty(field) ? string.Empty : field, message);
-        }
 
         if (!result.Success)
         {
+            foreach (var (_, message) in result.Errors)
+            {
+                if (!string.IsNullOrWhiteSpace(message) && !model.Alerts.Contains(message))
+                    model.Alerts.Add(message);
+            }
+
             return View(model);
         }
 

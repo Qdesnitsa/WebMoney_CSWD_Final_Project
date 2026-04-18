@@ -1,9 +1,10 @@
 using System.ComponentModel.DataAnnotations;
 using WebMoney.Enum;
+using WebMoney.Views;
 
 namespace WebMoney.Models;
 
-public class NewCardViewModel
+public class NewCardViewModel : BasePageViewModel
 {
     [RegularExpression(@"^[1-9]\d{15}$", ErrorMessage = "Номер карты — 16 цифр, не начинается с 0")]
     public string CardNumber { get; set; } = string.Empty;

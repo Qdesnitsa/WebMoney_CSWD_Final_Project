@@ -1,3 +1,4 @@
+using WebMoney.ModelTransfer;
 using WebMoney.Persistence.Entities;
 
 namespace WebMoney.Services;

@@ -21,44 +21,47 @@
   @await RenderSectionAsync("Styles", required: false)
 </head>
 <body>
-  <header class="site-header">
-    <div class="site-header-inner">
-      <ul class="site-header-nav">
-        <li>
-          <a href="/" class="site-brand">
-            <img class="site-logo" src="/images/layout/logo.svg">
-            WebMoney
-          </a>
-        </li>
-        <li><a href="/#about-company" class="site-header-link">О компании</a></li>
-        <li><a href="/#currency-rates" class="site-header-link">Курсы валют</a></li>
-        <li><a href="/#news" class="site-header-link">Новости</a></li>
-        <li><a href="/#footer-contacts" class="site-header-link">Контакты</a></li>
-      </ul>
-      <div class="site-header-tools">
-        <select id="header-language" class="lang-select" name="language">
-          <option value="ru" selected>Рус</option>
-          <option value="en">Eng</option>
-        </select>
-          @if (!string.IsNullOrEmpty(username) && isUser)
-          {
-            <a href="/Card/Card" class="header-account-link">Привет, @username</a>
-          }
-          else
-          {
-            <a href="/SignIn/SignIn" class="header-account-link">Личный кабинет</a>
-          }
-        @if (!string.IsNullOrEmpty(username))
-        {
-          <form asp-controller="SignOut" asp-action="SignOut" method="post">
-            <button type="submit" class="header-account-link">Выйти</button>
-          </form>
-        }
-      </div>
+<header class="site-header">
+  <div class="site-header-inner">
+    <ul class="site-header-nav">
+      <li>
+        <a href="/" class="site-brand">
+          <img class="site-logo" src="/images/layout/logo.svg">
+          WebMoney
+        </a>
+      </li>
+      <li><a href="/#about-company" class="site-header-link">О компании</a></li>
+      <li><a href="/#currency-rates" class="site-header-link">Курсы валют</a></li>
+      <li><a href="/#news" class="site-header-link">Новости</a></li>
+      <li><a href="/#footer-contacts" class="site-header-link">Контакты</a></li>
+    </ul>
+    <div class="site-header-tools">
+      <select id="header-language" class="lang-select" name="language">
+        <option value="ru" selected>Рус</option>
+        <option value="en">Eng</option>
+      </select>
+      @if (!string.IsNullOrEmpty(username) && isUser)
+      {
+        <a href="/Card/Card" class="header-account-link">Привет, @username</a>
+      }
+      else
+      {
+        <a href="/SignIn/SignIn" class="header-account-link">Личный кабинет</a>
+      }
+      @if (!string.IsNullOrEmpty(username))
+      {
+        <form asp-controller="SignOut" asp-action="SignOut" method="post">
+          <button type="submit" class="header-account-link">Выйти</button>
+        </form>
+      }
     </div>
-  </header>
+  </div>
+</header>
 
-@RenderBody()
+@await Html.PartialAsync("_Alerts")
+<main role="main">
+  @RenderBody()
+</main>
 
   <footer class="site-footer">
     <div class="footer-columns">
@@ -104,4 +107,5 @@
     </div>
     <p class="footer-copy">&copy; 2000 – 2026 «ВебМани»</p>
   </footer>
+  <script src="~/js/site.js" asp-append-version="true"></script>
 </body>

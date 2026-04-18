@@ -1,9 +1,10 @@
-namespace WebMoney.Models
-{
-    public class ErrorViewModel
-    {
-        public string? RequestId { get; set; }
+using WebMoney.Views;
 
-        public bool ShowRequestId => !string.IsNullOrEmpty(RequestId);
-    }
+namespace WebMoney.Models;
+
+public class ErrorViewModel : BasePageViewModel
+{
+    public string? RequestId { get; set; }
+
+    public bool ShowRequestId => !string.IsNullOrEmpty(RequestId);
 }

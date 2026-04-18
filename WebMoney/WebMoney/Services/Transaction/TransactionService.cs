@@ -1,4 +1,5 @@
 using WebMoney.Data.Repositories.Interfaces;
+using WebMoney.ModelTransfer;
 using WebMoney.Persistence.Entities;
 
 namespace WebMoney.Services;
@@ -9,59 +10,39 @@ public class TransactionService(ITransactionRepository transactionRepository, IC
     public TransactionStatementResult GetTransactionsByCardIdForPeriod(int cardId, DateOnly? periodFrom, DateOnly? periodTo,
         bool periodKeysPresentInQuery)
     {
+        var result = new TransactionStatementResult();
+
         var card = cardRepository.GetById(cardId);
         if (card is null)
         {
-            return new TransactionStatementResult { IsCardMissing = true, CardId = cardId };
+            result.CardId = cardId;
+            result.Errors.Add((string.Empty, $"Карта с id {cardId} не найдена"));
+            return result;
         }
 
-        var partial = new TransactionStatementResult
-        {
-            CardId = cardId,
-            CardNumber = card.Number,
-            PeriodFrom = periodFrom,
-            PeriodTo = periodTo
-        };
+        result.CardId = cardId;
+        result.CardNumber = card.Number;
+        result.PeriodFrom = periodFrom;
+        result.PeriodTo = periodTo;
+
         if (!periodFrom.HasValue || !periodTo.HasValue)
         {
             if (periodKeysPresentInQuery)
-            {
-                return new TransactionStatementResult
-                {
-                    CardId = partial.CardId,
-                    CardNumber = partial.CardNumber,
-                    PeriodFrom = partial.PeriodFrom,
-                    PeriodTo = partial.PeriodTo,
-                    ErrorMessage = "Укажите обе даты периода."
-                };
-            }
-
-            return partial;
+                result.Errors.Add((string.Empty, "Укажите обе даты периода."));
+            return result;
         }
 
         if (periodFrom > periodTo)
         {
-            return new TransactionStatementResult
-            {
-                CardId = partial.CardId,
-                CardNumber = partial.CardNumber,
-                PeriodFrom = partial.PeriodFrom,
-                PeriodTo = partial.PeriodTo,
-                ErrorMessage = "Дата «с» не может быть позже даты «по»."
-            };
+            result.Errors.Add((string.Empty, "Дата «с» не может быть позже даты «по»."));
+            return result;
         }
 
         var rangeStart = periodFrom.Value.ToDateTime(TimeOnly.MinValue).ToUniversalTime();
         var rangeEnd = periodTo.Value.ToDateTime(TimeOnly.MaxValue).ToUniversalTime();
-        var rows = transactionRepository.GetTransactionsForPeriodByCard(cardId, rangeStart, rangeEnd);
-        return new TransactionStatementResult
-        {
-            CardId = partial.CardId,
-            CardNumber = partial.CardNumber,
-            PeriodFrom = partial.PeriodFrom,
-            PeriodTo = partial.PeriodTo,
-            Transactions = rows
-        };
+        result.Transactions = transactionRepository.GetTransactionsForPeriodByCard(cardId, rangeStart, rangeEnd);
+        result.ShowEmptyPeriodMessage = result.Transactions.Count == 0;
+        return result;
     }
 
     public List<Transaction> GetTransactionsByCardId(int cardId) =>

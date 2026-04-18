@@ -16,14 +16,12 @@ public class SignUpController(IAuthService authService) : Controller
     public IActionResult SignUp(SignUpViewModel model)
     {
         if (!ModelState.IsValid)
-        {
             return View(model);
-        }
 
         var result = authService.Register(model.UserName, model.Email, model.Password);
         if (!result.Succeeded)
         {
-            ModelState.AddModelError(nameof(SignUpViewModel.Email), result.ErrorMessage!);
+            model.Alerts.Add(result.ErrorMessage!);
             return View(model);
         }
         

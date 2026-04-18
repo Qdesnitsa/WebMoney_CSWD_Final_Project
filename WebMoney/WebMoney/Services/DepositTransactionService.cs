@@ -1,28 +1,35 @@
 using Microsoft.EntityFrameworkCore;
 using WebMoney.Data;
+using WebMoney.Data.Enum.Card;
 using WebMoney.Data.Repositories.Interfaces;
 using WebMoney.Enum;
+using WebMoney.Exceptions;
 using WebMoney.ModelTransfer;
 using WebMoney.Persistence.Entities;
 
 namespace WebMoney.Services;
 
-public class DepositTransactionService(ICardRepository cardRepository, WebContext webContext)
+public class DepositTransactionService(ICardRepository cardRepository, ILogger<DepositTransactionService> logger)
     : IDepositTransactionService
 {
     public NewDepositPrepareResult SubmitNewDeposit(int cardId, string normalizedEmail, decimal amount)
     {
         var result = new NewDepositPrepareResult();
-        if (amount is < 0.01m or > 1_000_000_000m)
-        {
-            result.Errors.Add((nameof(amount), "Сумма вне допустимого диапазона"));
-        }
-
         var card = cardRepository.GetCardWithUsersById(cardId);
         if (card is null)
         {
             result.Errors.Add((string.Empty, "Карта не найдена"));
             return result;
+        }
+
+        if (card.CardStatus != CardStatus.Active)
+        {
+            result.Errors.Add((string.Empty, "Карта не активна"));
+        }
+
+        if (amount is < 0.01m or > 1_000_000_000m)
+        {
+            result.Errors.Add((nameof(amount), "Сумма вне допустимого диапазона"));
         }
 
         result.CardNumber = card.Number;
@@ -36,43 +43,30 @@ public class DepositTransactionService(ICardRepository cardRepository, WebContex
         {
             return result;
         }
-        
-        Deposit(cardId, normalizedEmail, amount);
-        
-        return result;
-    }
 
-    private void Deposit(int cardId, string normalizedUserEmail, decimal amount)
-    {
-        using var txn = webContext.Database.BeginTransaction();
         try
         {
-            var affected = webContext.Cards
-                .Where(c => c.Id == cardId)
-                .ExecuteUpdate(s => s
-                    .SetProperty(c => c.Balance, c => c.Balance + amount)
-                    .SetProperty(c => c.UpdatedAt, _ => DateTime.UtcNow)
-                    .SetProperty(c => c.UpdatedBy, _ => normalizedUserEmail));
-            if (affected == 0)
-                throw new InvalidOperationException("Карта не найдена");
-
-            webContext.Transactions.Add(new Transaction
-            {
-                CardId = cardId,
-                TransactionType = TransactionType.Deposit,
-                TransactionStatus = TransactionStatus.Completed,
-                CounterpartyId = 1,
-                Amount = amount,
-                CreatedAt = DateTime.UtcNow,
-                CreatedBy = normalizedUserEmail,
-            });
-            webContext.SaveChanges();
-            txn.Commit();
+            cardRepository.CreateDepositTransaction(cardId, normalizedEmail, amount);
         }
-        catch
+        catch (CardNotFoundException ex)
         {
-            txn.Rollback();
-            throw;
+            logger.LogWarning(ex, "Карта не найдена. CardId={CardId}", ex.CardId);
+            result.Errors.Add((string.Empty, "Карта не найдена. Проверьте выбранную карту."));
+            return result;
         }
+        catch (DepositPersistenceException ex)
+        {
+            logger.LogError(ex, "Ошибка записи пополнения карты в БД. CardId={CardId}, Amount={Amount}", ex.CardId, ex.Amount);
+            result.Errors.Add((string.Empty, "Не удалось сохранить операцию. Попробуйте позже."));
+            return result;
+        }
+        catch (Exception ex)
+        {
+            logger.LogError(ex, "Пополнение карты не выполнено. CardId={CardId}", cardId);
+            result.Errors.Add((string.Empty, "Не удалось выполнить операцию. Попробуйте позже."));
+            return result;
+        }
+
+        return result;
     }
 }

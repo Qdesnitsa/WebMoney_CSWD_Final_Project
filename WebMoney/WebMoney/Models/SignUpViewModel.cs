@@ -1,8 +1,9 @@
 using System.ComponentModel.DataAnnotations;
+using WebMoney.Views;
 
 namespace WebMoney.Models;
 
-public class SignUpViewModel
+public class SignUpViewModel : BasePageViewModel
 {
     [Required(ErrorMessage = "Укажите username")]
     [StringLength(256, MinimumLength = 3, ErrorMessage = "Username: 3–256 символов")]

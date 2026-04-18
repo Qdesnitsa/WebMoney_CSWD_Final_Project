@@ -1,0 +1,17 @@
+@using WebMoney.Views
+@{
+    var page = ViewData.Model as BasePageViewModel;
+    var messages = page?.Alerts ?? new List<string>();
+}
+@if (messages.Count > 0)
+{
+    <div class="page-alerts">
+        @foreach (var msg in messages)
+        {
+            <div class="page-alert" role="alert">
+                <span class="page-alert-text">@msg</span>
+                <button type="button" class="page-alert-close">&times;</button>
+            </div>
+        }
+    </div>
+}

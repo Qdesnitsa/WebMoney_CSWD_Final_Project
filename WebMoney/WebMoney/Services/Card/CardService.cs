@@ -15,15 +15,28 @@ public class CardService(
     private const int NumberOfYearsNewCardIsValid = 5;
     private const int NumberOfDigitsCardNumber = 16;
     public List<Card> GetCardsByUserEmail(string email) => cardRepository.GetCardsByUserEmail(email);
-    public Card GetById(int id) => cardRepository.GetById(id);
 
-    public NewCardPrepareResult PrepareNewCard(string normalizedEmail, NewCardInput input)
+    public CardPrepareResult GetById(int id)
     {
-        var result = new NewCardPrepareResult();
+        var result = new CardPrepareResult();
+        var card = cardRepository.GetById(id);
+        if (card is null)
+        {
+            result.Errors.Add((string.Empty, "Карта не найдена"));
+            return result;
+        }
+        
+        result.Card = card;
+        return result;
+    }
+
+    public CardPrepareResult PrepareNewCard(string normalizedEmail, NewCardInput input)
+    {
+        var result = new CardPrepareResult();
         var userProfile = userProfileRepository.FindByEmail(normalizedEmail);
         if (userProfile is null)
         {
-            result.Errors.Add((String.Empty, "Пользователь не найден"));
+            result.Errors.Add((string.Empty, "Пользователь не найден"));
             return result;
         }
 
@@ -64,7 +77,6 @@ public class CardService(
                     }
                 }
             },
-            
         };
         card.HashedPinCode = passwordHasher.HashPassword(card, input.PinCode);
         cardRepository.Create(card);
@@ -72,7 +84,7 @@ public class CardService(
         return result;
     }
 
-    private void RejectNegative(NewCardPrepareResult result, string field, decimal? value)
+    private void RejectNegative(CardPrepareResult result, string field, decimal? value)
     {
         if (value is < 0)
         {
@@ -87,6 +99,7 @@ public class CardService(
         {
             cardNumbers[i] = (char)('0' + Random.Shared.Next(i == 0 ? 1 : 0, 10));
         }
+
         return new string(cardNumbers);
     }
 

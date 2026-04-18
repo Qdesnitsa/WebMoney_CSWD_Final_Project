@@ -1,8 +1,9 @@
 using System.ComponentModel.DataAnnotations;
+using WebMoney.Views;
 
 namespace WebMoney.Models;
 
-public class SignInViewModel
+public class SignInViewModel : BasePageViewModel
 {
     [Required(ErrorMessage = "Укажите email")]
     [EmailAddress(ErrorMessage = "Введите корректный адрес email")]

@@ -7,8 +7,8 @@ namespace WebMoney.Services;
 public interface ICardService
 {
     List<Card> GetCardsByUserEmail(string email);
-    NewCardPrepareResult PrepareNewCard(string normalizedEmail, NewCardInput input);
+    CardPrepareResult PrepareNewCard(string normalizedEmail, NewCardInput input);
     string GenerateCardNumber();
     DateOnly DefaultPeriodOfValidity();
-    Card GetById(int id);
+    CardPrepareResult GetById(int id);
 }

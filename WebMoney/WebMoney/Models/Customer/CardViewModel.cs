@@ -1,6 +1,8 @@
+using WebMoney.Views;
+
 namespace WebMoney.Models;
 
-public class CardViewModel
+public class CardViewModel : BasePageViewModel
 {
     public int Id { get; set; }
     public string Number { get; set; } = string.Empty;
