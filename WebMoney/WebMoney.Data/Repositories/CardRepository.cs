@@ -1,13 +1,13 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using WebMoney.Data.Repositories.Interfaces;
-using WebMoney.Enum;
+using WebMoney.Data.Enum;
 using WebMoney.Exceptions;
 using WebMoney.Persistence.Entities;
 
 namespace WebMoney.Data.Repositories;
 
-public class CardRepository(WebContext webContext, ILogger<CardRepository> logger)
+public class CardRepository(WebContext webContext)
     : BaseRepository<Card>(webContext), ICardRepository
 {
     public List<Card> GetCardsByUserEmail(string normalizedEmail) =>
@@ -44,7 +44,7 @@ public class CardRepository(WebContext webContext, ILogger<CardRepository> logge
                 CardId = cardId,
                 TransactionType = TransactionType.Deposit,
                 TransactionStatus = TransactionStatus.Completed,
-                CounterpartyId = 1,
+                CounterpartyId = 3,
                 Amount = amount,
                 CreatedAt = DateTime.UtcNow,
                 CreatedBy = normalizedUserEmail,

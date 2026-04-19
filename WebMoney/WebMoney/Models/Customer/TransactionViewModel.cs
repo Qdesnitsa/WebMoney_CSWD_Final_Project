@@ -1,4 +1,4 @@
-using WebMoney.Enum;
+using WebMoney.Data.Enum;
 using WebMoney.Views;
 
 namespace WebMoney.Models;

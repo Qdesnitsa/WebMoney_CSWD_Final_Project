@@ -1,5 +1,5 @@
 using Microsoft.AspNetCore.Identity;
-using WebMoney.Data.Enum.Card;
+using WebMoney.Data.Enum;
 using WebMoney.Data.Repositories.Interfaces;
 using WebMoney.Models;
 using WebMoney.ModelTransfer;

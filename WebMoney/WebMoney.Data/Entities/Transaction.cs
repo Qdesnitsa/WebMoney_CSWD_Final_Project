@@ -1,5 +1,4 @@
-using WebMoney.Enum;
-using TransactionStatus = WebMoney.Enum.TransactionStatus;
+using WebMoney.Data.Enum;
 
 namespace WebMoney.Persistence.Entities;
 

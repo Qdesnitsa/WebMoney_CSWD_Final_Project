@@ -1,7 +1,7 @@
-namespace WebMoney.Enum;
+namespace WebMoney.Data.Enum;
 
 public enum TransactionType
 {
-    Withdrawal = 0,
-    Deposit = 1
+    Withdrawal = 1,
+    Deposit = 2
 }

@@ -1,8 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using WebMoney.Data;
-using WebMoney.Data.Enum.Card;
+using WebMoney.Data.Enum;
 using WebMoney.Data.Repositories.Interfaces;
-using WebMoney.Enum;
 using WebMoney.Exceptions;
 using WebMoney.ModelTransfer;
 using WebMoney.Persistence.Entities;

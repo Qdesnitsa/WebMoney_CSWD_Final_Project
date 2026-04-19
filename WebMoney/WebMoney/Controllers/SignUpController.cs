@@ -1,5 +1,5 @@
 using Microsoft.AspNetCore.Mvc;
-using WebMoney.Enum;
+using WebMoney.Data.Enum;
 using WebMoney.Infrastructure.Constants;
 using WebMoney.Models;
 using WebMoney.Services;

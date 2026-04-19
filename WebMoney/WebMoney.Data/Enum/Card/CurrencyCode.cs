@@ -1,8 +1,8 @@
-namespace WebMoney.Enum;
+namespace WebMoney.Data.Enum;
 
 public enum CurrencyCode
 {
-    BYN = 0,
-    USD = 1,
-    EURO = 2
+    BYN = 1,
+    USD = 2,
+    EURO = 3
 }

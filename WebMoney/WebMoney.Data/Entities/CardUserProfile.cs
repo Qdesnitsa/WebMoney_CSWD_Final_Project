@@ -1,6 +1,6 @@
 namespace WebMoney.Persistence.Entities;
 
-public class CardUserProfile
+public class CardUserProfile : BaseEntity
 {
     public int CardId { get; set; }
     public virtual Card Card { get; set; } = null!;

@@ -2,8 +2,8 @@ using WebMoney.Persistence.Entities;
 
 namespace WebMoney.Data.Repositories.Interfaces;
 
-public interface IBaseRepository<T> where T : BaseEntity
+public interface IBaseRepository<TEntity> where TEntity : BaseEntity
 {
-    void Create(T entity);
-    T GetById(int id);
+    void Create(TEntity entity);
+    TEntity GetById(int id);
 }

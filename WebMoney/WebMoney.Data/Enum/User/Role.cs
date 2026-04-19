@@ -1,7 +1,7 @@
-namespace WebMoney.Enum;
+namespace WebMoney.Data.Enum;
 
 public enum Role
 {
-    User = 0,
-    Admin = 1
+    User = 1,
+    Admin = 2
 }

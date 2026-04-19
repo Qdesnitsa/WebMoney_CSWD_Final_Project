@@ -1,5 +1,4 @@
-using WebMoney.Data.Enum.Card;
-using WebMoney.Enum;
+using WebMoney.Data.Enum;
 
 namespace WebMoney.Persistence.Entities;
 

@@ -1,9 +1,9 @@
-namespace WebMoney.Data.Enum.Card;
+namespace WebMoney.Data.Enum;
 
 public enum CardStatus
 {
-    Initialized = 0,
-    Active = 1,
-    Expired = 2,
-    Blocked = 3
+    Initialized = 1,
+    Active = 2,
+    Expired = 3,
+    Blocked = 4
 }
