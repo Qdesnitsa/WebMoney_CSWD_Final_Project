@@ -15,6 +15,18 @@ public class CardService(
     private const int NumberOfYearsNewCardIsValid = 5;
     private const int NumberOfDigitsCardNumber = 16;
     public List<Card> GetCardsByUserEmail(string email) => cardRepository.GetCardsByUserEmail(email);
+    public string GenerateNotExistingCardNumber()
+    {
+        var cardNumber = GenerateCardNumber();
+        while (CheckCardNumberAlreadyExists(cardNumber))
+        {
+            cardNumber = GenerateCardNumber();
+        }
+        return cardNumber;
+    }
+    
+    public bool CheckCardNumberAlreadyExists(string cardNumber) =>
+        cardRepository.CheckCardNumberAlreadyExists(cardNumber);
 
     public CardPrepareResult GetById(int id)
     {
@@ -25,7 +37,7 @@ public class CardService(
             result.Errors.Add((string.Empty, "Карта не найдена"));
             return result;
         }
-        
+
         result.Card = card;
         return result;
     }
@@ -67,6 +79,8 @@ public class CardService(
                 new CardUserProfile
                 {
                     UserProfileId = userProfile.Id,
+                    CreatedAt = DateTime.UtcNow,
+                    CreatedBy = userProfile.User.Email,
                     CardLimit = new CardLimit
                     {
                         DailyLimit = input.DailyLimit,
@@ -92,7 +106,7 @@ public class CardService(
         }
     }
 
-    public string GenerateCardNumber()
+    private string GenerateCardNumber()
     {
         var cardNumbers = new char[NumberOfDigitsCardNumber];
         for (var i = 0; i < NumberOfDigitsCardNumber; i++)

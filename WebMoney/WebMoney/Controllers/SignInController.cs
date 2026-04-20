@@ -16,7 +16,9 @@ public class SignInController(IAuthService authService) : Controller
     public IActionResult SignIn(SignInViewModel model)
     {
         if (!ModelState.IsValid)
+        {
             return View(model);
+        }
 
         var result = authService.TrySignIn(model.Email, model.Password);
         if (!result.Succeeded)

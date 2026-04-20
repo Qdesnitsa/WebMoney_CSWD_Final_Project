@@ -16,7 +16,9 @@ public class SignUpController(IAuthService authService) : Controller
     public IActionResult SignUp(SignUpViewModel model)
     {
         if (!ModelState.IsValid)
+        {
             return View(model);
+        }
 
         var result = authService.Register(model.UserName, model.Email, model.Password);
         if (!result.Succeeded)

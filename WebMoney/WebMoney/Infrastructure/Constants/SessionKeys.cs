@@ -1,5 +1,3 @@
-using WebMoney.Data.Enum;
-
 namespace WebMoney.Infrastructure.Constants;
 
 public class SessionKeys

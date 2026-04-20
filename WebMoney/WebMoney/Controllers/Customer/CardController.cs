@@ -46,7 +46,7 @@ public class CardController(ICardService cardService) : Controller
 
         var model = new NewCardViewModel
         {
-            CardNumber = cardService.GenerateCardNumber(),
+            CardNumber = cardService.GenerateNotExistingCardNumber(),
             PeriodOfValidity = cardService.DefaultPeriodOfValidity()
         };
         return View(model);
@@ -87,7 +87,9 @@ public class CardController(ICardService cardService) : Controller
             foreach (var (_, message) in result.Errors)
             {
                 if (!string.IsNullOrWhiteSpace(message) && !model.Alerts.Contains(message))
+                {
                     model.Alerts.Add(message);
+                }
             }
 
             return View(model);

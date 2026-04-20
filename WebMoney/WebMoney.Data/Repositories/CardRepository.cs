@@ -23,6 +23,8 @@ public class CardRepository(WebContext webContext)
             .ThenInclude(up => up.User)
             .FirstOrDefault(c => c.Id == cardId);
 
+    public bool CheckCardNumberAlreadyExists(string cardNumber) => webContext.Cards.Any(c => c.Number == cardNumber);
+    
     public void CreateDepositTransaction(int cardId, string normalizedUserEmail, decimal amount)
     {
         using var txn = webContext.Database.BeginTransaction();
@@ -44,7 +46,7 @@ public class CardRepository(WebContext webContext)
                 CardId = cardId,
                 TransactionType = TransactionType.Deposit,
                 TransactionStatus = TransactionStatus.Completed,
-                CounterpartyId = 3,
+                CounterpartyId = 1,
                 Amount = amount,
                 CreatedAt = DateTime.UtcNow,
                 CreatedBy = normalizedUserEmail,

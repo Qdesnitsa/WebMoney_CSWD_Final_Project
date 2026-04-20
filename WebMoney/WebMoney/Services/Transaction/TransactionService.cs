@@ -7,7 +7,8 @@ namespace WebMoney.Services;
 public class TransactionService(ITransactionRepository transactionRepository, ICardRepository cardRepository)
     : ITransactionService
 {
-    public TransactionStatementResult GetTransactionsByCardIdForPeriod(int cardId, DateOnly? periodFrom, DateOnly? periodTo,
+    public TransactionStatementResult GetTransactionsByCardIdForPeriod(int cardId, DateOnly? periodFrom,
+        DateOnly? periodTo,
         bool periodKeysPresentInQuery)
     {
         var result = new TransactionStatementResult();
@@ -28,7 +29,10 @@ public class TransactionService(ITransactionRepository transactionRepository, IC
         if (!periodFrom.HasValue || !periodTo.HasValue)
         {
             if (periodKeysPresentInQuery)
+            {
                 result.Errors.Add((string.Empty, "Укажите обе даты периода."));
+            }
+
             return result;
         }
 
