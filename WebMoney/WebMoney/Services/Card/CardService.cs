@@ -10,7 +10,7 @@ namespace WebMoney.Services;
 public class CardService(
     IPasswordHasher<Card> passwordHasher,
     ICardRepository cardRepository,
-    IUserProfileRepository userProfileRepository) : ICardService
+    IUserRepository userRepository) : ICardService
 {
     private const int NumberOfYearsNewCardIsValid = 5;
     private const int NumberOfDigitsCardNumber = 16;
@@ -45,8 +45,8 @@ public class CardService(
     public CardPrepareResult PrepareNewCard(string normalizedEmail, NewCardInput input)
     {
         var result = new CardPrepareResult();
-        var userProfile = userProfileRepository.FindByEmail(normalizedEmail);
-        if (userProfile is null)
+        var user = userRepository.FindByEmail(normalizedEmail);
+        if (user is null)
         {
             result.Errors.Add((string.Empty, "Пользователь не найден"));
             return result;
@@ -73,21 +73,21 @@ public class CardService(
             PeriodOfValidity = DefaultPeriodOfValidity(),
             CardStatus = CardStatus.Active,
             CreatedAt = DateTime.UtcNow,
-            CreatedBy = userProfile.User.Email,
+            CreatedBy = user.Email,
             CardUserProfiles = new HashSet<CardUserProfile>
             {
                 new CardUserProfile
                 {
-                    UserProfileId = userProfile.Id,
+                    UserId = user.Id,
                     CreatedAt = DateTime.UtcNow,
-                    CreatedBy = userProfile.User.Email,
+                    CreatedBy = user.Email,
                     CardLimit = new CardLimit
                     {
                         DailyLimit = input.DailyLimit,
                         MonthlyLimit = input.MonthlyLimit,
                         PerOperationLimit = input.PerOperationLimit,
                         CreatedAt = DateTime.UtcNow,
-                        CreatedBy = userProfile.User.Email,
+                        CreatedBy = user.Email,
                     }
                 }
             },

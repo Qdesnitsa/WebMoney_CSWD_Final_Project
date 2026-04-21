@@ -35,8 +35,10 @@ namespace WebMoney.Data.Migrations
                         .HasColumnType("numeric")
                         .HasColumnName("balance");
 
-                    b.Property<int>("CardStatus")
-                        .HasColumnType("integer")
+                    b.Property<string>("CardStatus")
+                        .IsRequired()
+                        .HasMaxLength(32)
+                        .HasColumnType("character varying(32)")
                         .HasColumnName("card_status");
 
                     b.Property<DateTime>("CreatedAt")
@@ -48,8 +50,10 @@ namespace WebMoney.Data.Migrations
                         .HasColumnType("text")
                         .HasColumnName("created_by");
 
-                    b.Property<int>("CurrencyCode")
-                        .HasColumnType("integer")
+                    b.Property<string>("CurrencyCode")
+                        .IsRequired()
+                        .HasMaxLength(16)
+                        .HasColumnType("character varying(16)")
                         .HasColumnName("currency_code");
 
                     b.Property<string>("HashedPinCode")
@@ -124,46 +128,6 @@ namespace WebMoney.Data.Migrations
                     b.ToTable("card_limits", (string)null);
                 });
 
-            modelBuilder.Entity("WebMoney.Persistence.Entities.CardStatusLookup", b =>
-                {
-                    b.Property<int>("Id")
-                        .HasColumnType("integer")
-                        .HasColumnName("id");
-
-                    b.Property<string>("Code")
-                        .IsRequired()
-                        .HasMaxLength(64)
-                        .HasColumnType("character varying(64)")
-                        .HasColumnName("code");
-
-                    b.HasKey("Id")
-                        .HasName("pk_card_statuses");
-
-                    b.ToTable("card_statuses", (string)null);
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            Code = "Initialized"
-                        },
-                        new
-                        {
-                            Id = 2,
-                            Code = "Active"
-                        },
-                        new
-                        {
-                            Id = 3,
-                            Code = "Expired"
-                        },
-                        new
-                        {
-                            Id = 4,
-                            Code = "Blocked"
-                        });
-                });
-
             modelBuilder.Entity("WebMoney.Persistence.Entities.CardUserProfile", b =>
                 {
                     b.Property<int>("Id")
@@ -198,9 +162,9 @@ namespace WebMoney.Data.Migrations
                         .HasColumnType("text")
                         .HasColumnName("updated_by");
 
-                    b.Property<int>("UserProfileId")
+                    b.Property<int>("UserId")
                         .HasColumnType("integer")
-                        .HasColumnName("user_profile_id");
+                        .HasColumnName("user_id");
 
                     b.HasKey("Id")
                         .HasName("pk_card_user_profiles");
@@ -208,12 +172,12 @@ namespace WebMoney.Data.Migrations
                     b.HasIndex("CardLimitId")
                         .HasDatabaseName("ix_card_user_profiles_card_limit_id");
 
-                    b.HasIndex("UserProfileId")
-                        .HasDatabaseName("ix_card_user_profiles_user_profile_id");
+                    b.HasIndex("UserId")
+                        .HasDatabaseName("ix_card_user_profiles_user_id");
 
-                    b.HasIndex("CardId", "UserProfileId")
+                    b.HasIndex("CardId", "UserId")
                         .IsUnique()
-                        .HasDatabaseName("ix_card_user_profiles_card_id_user_profile_id");
+                        .HasDatabaseName("ix_card_user_profiles_card_id_user_id");
 
                     b.ToTable("card_user_profiles", (string)null);
                 });
@@ -253,41 +217,6 @@ namespace WebMoney.Data.Migrations
                         .HasName("pk_counterparties");
 
                     b.ToTable("counterparties", (string)null);
-                });
-
-            modelBuilder.Entity("WebMoney.Persistence.Entities.CurrencyCodeLookup", b =>
-                {
-                    b.Property<int>("Id")
-                        .HasColumnType("integer")
-                        .HasColumnName("id");
-
-                    b.Property<string>("Code")
-                        .IsRequired()
-                        .HasMaxLength(16)
-                        .HasColumnType("character varying(16)")
-                        .HasColumnName("code");
-
-                    b.HasKey("Id")
-                        .HasName("pk_currency_codes");
-
-                    b.ToTable("currency_codes", (string)null);
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            Code = "BYN"
-                        },
-                        new
-                        {
-                            Id = 2,
-                            Code = "USD"
-                        },
-                        new
-                        {
-                            Id = 3,
-                            Code = "EURO"
-                        });
                 });
 
             modelBuilder.Entity("WebMoney.Persistence.Entities.IdentityDocument", b =>
@@ -342,36 +271,6 @@ namespace WebMoney.Data.Migrations
                     b.ToTable("identity_documents", (string)null);
                 });
 
-            modelBuilder.Entity("WebMoney.Persistence.Entities.RoleLookup", b =>
-                {
-                    b.Property<int>("Id")
-                        .HasColumnType("integer")
-                        .HasColumnName("id");
-
-                    b.Property<string>("Code")
-                        .IsRequired()
-                        .HasMaxLength(64)
-                        .HasColumnType("character varying(64)")
-                        .HasColumnName("code");
-
-                    b.HasKey("Id")
-                        .HasName("pk_roles");
-
-                    b.ToTable("roles", (string)null);
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            Code = "User"
-                        },
-                        new
-                        {
-                            Id = 2,
-                            Code = "Admin"
-                        });
-                });
-
             modelBuilder.Entity("WebMoney.Persistence.Entities.Transaction", b =>
                 {
                     b.Property<int>("Id")
@@ -402,12 +301,16 @@ namespace WebMoney.Data.Migrations
                         .HasColumnType("text")
                         .HasColumnName("created_by");
 
-                    b.Property<int>("TransactionStatus")
-                        .HasColumnType("integer")
+                    b.Property<string>("TransactionStatus")
+                        .IsRequired()
+                        .HasMaxLength(32)
+                        .HasColumnType("character varying(32)")
                         .HasColumnName("transaction_status");
 
-                    b.Property<int>("TransactionType")
-                        .HasColumnType("integer")
+                    b.Property<string>("TransactionType")
+                        .IsRequired()
+                        .HasMaxLength(32)
+                        .HasColumnType("character varying(32)")
                         .HasColumnName("transaction_type");
 
                     b.Property<DateTime?>("UpdatedAt")
@@ -428,81 +331,6 @@ namespace WebMoney.Data.Migrations
                         .HasDatabaseName("ix_transactions_counterparty_id");
 
                     b.ToTable("transactions", (string)null);
-                });
-
-            modelBuilder.Entity("WebMoney.Persistence.Entities.TransactionStatusLookup", b =>
-                {
-                    b.Property<int>("Id")
-                        .HasColumnType("integer")
-                        .HasColumnName("id");
-
-                    b.Property<string>("Code")
-                        .IsRequired()
-                        .HasMaxLength(64)
-                        .HasColumnType("character varying(64)")
-                        .HasColumnName("code");
-
-                    b.HasKey("Id")
-                        .HasName("pk_transaction_statuses");
-
-                    b.ToTable("transaction_statuses", (string)null);
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            Code = "Initialized"
-                        },
-                        new
-                        {
-                            Id = 2,
-                            Code = "Pending"
-                        },
-                        new
-                        {
-                            Id = 3,
-                            Code = "Completed"
-                        },
-                        new
-                        {
-                            Id = 4,
-                            Code = "Canceled"
-                        },
-                        new
-                        {
-                            Id = 5,
-                            Code = "Failed"
-                        });
-                });
-
-            modelBuilder.Entity("WebMoney.Persistence.Entities.TransactionTypeLookup", b =>
-                {
-                    b.Property<int>("Id")
-                        .HasColumnType("integer")
-                        .HasColumnName("id");
-
-                    b.Property<string>("Code")
-                        .IsRequired()
-                        .HasMaxLength(64)
-                        .HasColumnType("character varying(64)")
-                        .HasColumnName("code");
-
-                    b.HasKey("Id")
-                        .HasName("pk_transaction_types");
-
-                    b.ToTable("transaction_types", (string)null);
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            Code = "Withdrawal"
-                        },
-                        new
-                        {
-                            Id = 2,
-                            Code = "Deposit"
-                        });
                 });
 
             modelBuilder.Entity("WebMoney.Persistence.Entities.User", b =>
@@ -533,8 +361,10 @@ namespace WebMoney.Data.Migrations
                         .HasColumnType("text")
                         .HasColumnName("hashed_password");
 
-                    b.Property<int>("Role")
-                        .HasColumnType("integer")
+                    b.Property<string>("Role")
+                        .IsRequired()
+                        .HasMaxLength(32)
+                        .HasColumnType("character varying(32)")
                         .HasColumnName("role");
 
                     b.Property<DateTime?>("UpdatedAt")
@@ -623,18 +453,18 @@ namespace WebMoney.Data.Migrations
                         .OnDelete(DeleteBehavior.SetNull)
                         .HasConstraintName("fk_card_user_profiles_card_limits_card_limit_id");
 
-                    b.HasOne("WebMoney.Persistence.Entities.UserProfile", "UserProfile")
+                    b.HasOne("WebMoney.Persistence.Entities.User", "User")
                         .WithMany("CardUserProfiles")
-                        .HasForeignKey("UserProfileId")
+                        .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired()
-                        .HasConstraintName("fk_card_user_profiles_users_profiles_user_profile_id");
+                        .HasConstraintName("fk_card_user_profiles_users_user_id");
 
                     b.Navigation("Card");
 
                     b.Navigation("CardLimit");
 
-                    b.Navigation("UserProfile");
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("WebMoney.Persistence.Entities.Transaction", b =>
@@ -698,12 +528,9 @@ namespace WebMoney.Data.Migrations
 
             modelBuilder.Entity("WebMoney.Persistence.Entities.User", b =>
                 {
-                    b.Navigation("UserProfile");
-                });
-
-            modelBuilder.Entity("WebMoney.Persistence.Entities.UserProfile", b =>
-                {
                     b.Navigation("CardUserProfiles");
+
+                    b.Navigation("UserProfile");
                 });
 #pragma warning restore 612, 618
         }

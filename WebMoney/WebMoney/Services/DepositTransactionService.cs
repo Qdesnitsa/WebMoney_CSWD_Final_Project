@@ -1,10 +1,6 @@
-using Microsoft.EntityFrameworkCore;
-using WebMoney.Data;
 using WebMoney.Data.Enum;
 using WebMoney.Data.Repositories.Interfaces;
-using WebMoney.Exceptions;
 using WebMoney.ModelTransfer;
-using WebMoney.Persistence.Entities;
 
 namespace WebMoney.Services;
 
@@ -33,7 +29,7 @@ public class DepositTransactionService(ICardRepository cardRepository, ILogger<D
 
         result.CardNumber = card.Number;
 
-        if (!card.CardUserProfiles.Any(cup => cup.UserProfile.User.Email == normalizedEmail))
+        if (!card.CardUserProfiles.Any(cup => cup.User.Email == normalizedEmail))
         {
             result.Errors.Add((string.Empty, "Нет доступа к этой карте"));
         }
@@ -42,30 +38,9 @@ public class DepositTransactionService(ICardRepository cardRepository, ILogger<D
         {
             return result;
         }
-
-        try
-        {
-            cardRepository.CreateDepositTransaction(cardId, normalizedEmail, amount);
-        }
-        catch (CardNotFoundException ex)
-        {
-            logger.LogWarning(ex, "Карта не найдена. CardId={CardId}", ex.CardId);
-            result.Errors.Add((string.Empty, "Карта не найдена. Проверьте выбранную карту."));
-            return result;
-        }
-        catch (DepositPersistenceException ex)
-        {
-            logger.LogError(ex, "Ошибка записи пополнения карты в БД. CardId={CardId}, Amount={Amount}", ex.CardId, ex.Amount);
-            result.Errors.Add((string.Empty, "Не удалось сохранить операцию. Попробуйте позже."));
-            return result;
-        }
-        catch (Exception ex)
-        {
-            logger.LogError(ex, "Пополнение карты не выполнено. CardId={CardId}", cardId);
-            result.Errors.Add((string.Empty, "Не удалось выполнить операцию. Попробуйте позже."));
-            return result;
-        }
-
+        
+        cardRepository.CreateDepositTransaction(cardId, normalizedEmail, amount);
+            
         return result;
     }
 }

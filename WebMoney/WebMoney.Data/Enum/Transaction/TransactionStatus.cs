@@ -2,9 +2,9 @@ namespace WebMoney.Data.Enum;
 
 public enum TransactionStatus
 {
-    Initialized = 1,
-    Pending = 2,
-    Completed = 3,
-    Canceled = 4,
-    Failed = 5
+    Initialized = 0,
+    Pending = 1,
+    Completed = 2,
+    Canceled = 3,
+    Failed = 4
 }

@@ -9,6 +9,6 @@ public class Transaction : BaseEntity
     public TransactionType TransactionType { get; set; }
     public TransactionStatus TransactionStatus { get; set; }
     public int CounterpartyId { get; set; }
-    public virtual Counterparty Counterparty { get; set; }
     public decimal Amount { get; set; }
+    public virtual Counterparty Counterparty { get; set; }
 }

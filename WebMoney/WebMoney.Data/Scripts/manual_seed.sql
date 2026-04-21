@@ -1,4 +1,4 @@
--- 1) Migration. Enums values will be populated
+-- 1) После миграций: role / currency_code / card_status / transaction_* — строки как имена C# enum (User, BYN, Active, …).
 -- 2) dotnet run --project WebMoney.Tools.HashPasswords 
 
 BEGIN;
@@ -13,7 +13,7 @@ VALUES (
   'test',
   'test@test.com',
   'AQAAAAIAAYagAAAAED4JovDDvgc1UNyHKPZj6b2gKaEwj3zZuQQ9SQUP9h1zOH0bDQwXYU73amWoooEPYg==',
-  1,
+  'User',
   now(),
   'seed'
 );
@@ -35,8 +35,8 @@ INSERT INTO cards (
 )
 VALUES (
   '4111111111111111',
-  1,
-  2,
+  'BYN',
+  'Active',
   'AQAAAAIAAYagAAAAEOgawh9YzeiJ+D6+KKCTdUvqEPYfh+1+ieGNB2rA4gVaUikI/9i7P3+u+vvlVFxgqA==',
   (current_date + interval '5 years')::date,
   10000,
@@ -44,10 +44,10 @@ VALUES (
   'seed'
 );
 
-INSERT INTO card_user_profiles (card_id, user_profile_id, card_limit_id, created_at, created_by)
+INSERT INTO card_user_profiles (card_id, user_id, card_limit_id, created_at, created_by)
 VALUES (
   (SELECT id FROM cards WHERE number = '4111111111111111' ORDER BY id DESC LIMIT 1),
-  (SELECT id FROM users_profiles WHERE user_id = (SELECT id FROM users WHERE email = 'test@test.com')),
+  (SELECT id FROM users WHERE email = 'test@test.com'),
   (SELECT id FROM card_limits ORDER BY id DESC LIMIT 1),
   now(),
   'seed'
@@ -60,8 +60,8 @@ INSERT INTO transactions (
 VALUES
   (
     (SELECT id FROM cards WHERE number = '4111111111111111' ORDER BY id DESC LIMIT 1),
-    2,
-    3,
+    'Deposit',
+    'Completed',
     (SELECT id FROM counterparties ORDER BY id LIMIT 1),
     500,
     now() - interval '30 days',
@@ -69,8 +69,8 @@ VALUES
   ),
   (
     (SELECT id FROM cards WHERE number = '4111111111111111' ORDER BY id DESC LIMIT 1),
-    1,
-    3,
+    'Withdrawal',
+    'Completed',
     (SELECT id FROM counterparties ORDER BY id LIMIT 1 OFFSET 1),
     100,
     now() - interval '10 days',
