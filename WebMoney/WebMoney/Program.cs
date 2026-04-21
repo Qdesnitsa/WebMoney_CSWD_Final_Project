@@ -1,10 +1,11 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using Serilog;
+using Serilog.Events;
 using WebMoney.Data;
-using WebMoney.Data.Persistence;
-using WebMoney.Persistence;
+using WebMoney.Data.Repositories;
+using WebMoney.Data.Repositories.Interfaces;
 using WebMoney.Persistence.Entities;
-using WebMoney.Persistence.Storage;
 using WebMoney.Services;
 
 namespace WebMoney
@@ -14,6 +15,22 @@ namespace WebMoney
         public static void Main(string[] args)
         {
             AppContext.SetSwitch("Npgsql.DisableDateTimeInfinityConversions", true);
+
+            const long maxLogFileSizeBytes = 5 * 1024 * 1024;
+            Log.Logger = new LoggerConfiguration()
+                .MinimumLevel.Information()
+                .MinimumLevel.Override("Microsoft", LogEventLevel.Warning)
+                .MinimumLevel.Override("Microsoft.EntityFrameworkCore.Database.Command", LogEventLevel.Information)
+                .WriteTo.Console(restrictedToMinimumLevel: LogEventLevel.Information)
+                .WriteTo.File(
+                    path: "logs/webmoney-.log",
+                    restrictedToMinimumLevel: LogEventLevel.Warning,
+                    fileSizeLimitBytes: maxLogFileSizeBytes,
+                    rollOnFileSizeLimit: true,
+                    rollingInterval: RollingInterval.Day,
+                    retainedFileCountLimit: 10,
+                    shared: true)
+                .CreateLogger();
 
             var builder = WebApplication.CreateBuilder(args);
 
@@ -26,9 +43,10 @@ namespace WebMoney
             builder.Services.AddScoped<IAuthService, AuthService>();
             builder.Services.AddScoped<ITransactionService, TransactionService>();
             builder.Services.AddScoped<ICardService, CardService>();
-            builder.Services.AddScoped<IUserProfileRepository, UserProfileProfileRepository>();
+            builder.Services.AddScoped<IUserRepository, UserRepository>();
             builder.Services.AddScoped<ICardRepository, CardRepository>();
             builder.Services.AddScoped<ITransactionRepository, TransactionRepository>();
+            builder.Services.AddScoped<IDepositTransactionService, DepositTransactionService>();
             builder.Services.AddDistributedMemoryCache();
             builder.Services.AddSession(options =>
             {
@@ -37,6 +55,7 @@ namespace WebMoney
                 options.Cookie.IsEssential = true;
             });
             builder.Services.AddHttpContextAccessor();
+            builder.Logging.AddSerilog(Log.Logger);
 
             var app = builder.Build();
 

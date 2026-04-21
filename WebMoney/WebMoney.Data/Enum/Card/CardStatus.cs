@@ -1,4 +1,4 @@
-namespace WebMoney.Data.Enum.Card;
+namespace WebMoney.Data.Enum;
 
 public enum CardStatus
 {

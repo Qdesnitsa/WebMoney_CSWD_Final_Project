@@ -58,7 +58,7 @@
         }
       </div>
     }
-    else if (Model.PeriodFrom is not null && Model.PeriodTo is not null && ViewData.ModelState.IsValid)
+    else if (Model.ShowEmptyPeriodMessage)
     {
       <p class="transaction-empty">За выбранный период операций нет.</p>
     }

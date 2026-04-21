@@ -9,6 +9,12 @@
   margin-bottom: 24px;
 }
 
+.user-cards-heading-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
 .user-cards-heading-row h2 {
   margin: 0;
 }
@@ -64,43 +70,29 @@ a.user-cards-add-btn {
   gap: 12px;
 }
 
-.bank-card-number {
-  margin: 0;
-  font-size: 16px;
-  font-weight: 600;
-}
-
-.bank-card-valid {
-  display: flex;
-  flex-direction: column;
-  gap: 4px;
-}
-
-.bank-card-valid-label {
-  font-size: 12px;
-  color: var(--color-ink);
-  opacity: 0.7;
-}
-
-.bank-card-valid-value {
-  font-size: 14px;
-  font-weight: 600;
-}
-
+.bank-card-valid,
 .bank-card-footer {
   display: flex;
   flex-direction: column;
   gap: 4px;
 }
 
+.bank-card-number-label,
+.bank-card-valid-label,
 .bank-card-holder-label {
   font-size: 12px;
   opacity: 0.7;
 }
 
+.bank-card-number-value,
+.bank-card-valid-value,
 .bank-card-holder {
   font-size: 14px;
   font-weight: 600;
+}
+
+.bank-card-number-value,
+.bank-card-holder {
   max-width: 100%;
   overflow: hidden;
   white-space: nowrap;

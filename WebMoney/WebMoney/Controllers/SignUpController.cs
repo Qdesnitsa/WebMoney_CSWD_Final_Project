@@ -1,5 +1,5 @@
 using Microsoft.AspNetCore.Mvc;
-using WebMoney.Enum;
+using WebMoney.Data.Enum;
 using WebMoney.Infrastructure.Constants;
 using WebMoney.Models;
 using WebMoney.Services;
@@ -23,7 +23,7 @@ public class SignUpController(IAuthService authService) : Controller
         var result = authService.Register(model.UserName, model.Email, model.Password);
         if (!result.Succeeded)
         {
-            ModelState.AddModelError(nameof(SignUpViewModel.Email), result.ErrorMessage!);
+            model.Alerts.Add(result.ErrorMessage!);
             return View(model);
         }
         

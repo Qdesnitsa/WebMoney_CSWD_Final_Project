@@ -1,14 +1,15 @@
 using WebMoney.Persistence.Entities;
 
-namespace WebMoney.Services;
+namespace WebMoney.ModelTransfer;
 
-public sealed class TransactionStatementResult
+public class TransactionStatementResult
 {
-    public int CardId { get; init; }
-    public bool IsCardMissing { get; init; }
-    public string CardNumber { get; init; } = "";
-    public DateOnly? PeriodFrom { get; init; }
-    public DateOnly? PeriodTo { get; init; }
-    public string? ErrorMessage { get; init; }
-    public IReadOnlyList<Transaction> Transactions { get; init; } = Array.Empty<Transaction>();
+    public int CardId { get; set; }
+    public string CardNumber { get; set; } = string.Empty;
+    public DateOnly? PeriodFrom { get; set; }
+    public DateOnly? PeriodTo { get; set; }
+    public List<(string Field, string Message)> Errors { get; } = new();
+    public bool Success => Errors.Count == 0;
+    public List<Transaction> Transactions { get; set; } = new();
+    public bool ShowEmptyPeriodMessage { get; set; }
 }

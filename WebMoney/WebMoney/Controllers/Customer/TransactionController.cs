@@ -23,17 +23,7 @@ public class TransactionController(ITransactionService transactionService) : Con
         }
 
         var periodKeysPresent = Request.Query.ContainsKey("periodFrom") || Request.Query.ContainsKey("periodTo");
-        var result = transactionService.GetStatement(cardId.Value, periodFrom, periodTo, periodKeysPresent);
-
-        if (result.IsCardMissing)
-        {
-            return NotFound();
-        }
-
-        if (result.ErrorMessage is not null)
-        {
-            ModelState.AddModelError(string.Empty, result.ErrorMessage);
-        }
+        var result = transactionService.GetTransactionsByCardIdForPeriod(cardId.Value, periodFrom, periodTo, periodKeysPresent);
 
         var model = new TransactionViewModel
         {
@@ -41,16 +31,23 @@ public class TransactionController(ITransactionService transactionService) : Con
             CardNumber = result.CardNumber,
             PeriodFrom = result.PeriodFrom,
             PeriodTo = result.PeriodTo,
+            ShowEmptyPeriodMessage = result.ShowEmptyPeriodMessage,
             Transactions = result.Transactions.Select(t => new TransactionViewModel
             {
                 DateTime = t.CreatedAt,
                 TransactionType = t.TransactionType,
                 TransactionStatus = t.TransactionStatus,
                 CurrencyCode = t.Card.CurrencyCode,
-                Counterparty = t.Counterparty.ToString(),
+                Counterparty = t.Counterparty.Name,
                 Amount = t.Amount
             }).ToList()
         };
+
+        if (!result.Success)
+        {
+            model.Alerts.AddRange(result.Errors.Select(e => e.Message));
+        }
+
         return View(model);
     }
 }

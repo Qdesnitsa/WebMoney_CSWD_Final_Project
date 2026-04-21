@@ -1,24 +1,25 @@
 using Microsoft.EntityFrameworkCore;
+using WebMoney.Data.Repositories.Interfaces;
 using WebMoney.Persistence.Entities;
 
-namespace WebMoney.Data.Persistence;
+namespace WebMoney.Data.Repositories;
 
-public abstract class BaseRepository<T> : IBaseRepository<T> where T : BaseEntity
+public abstract class BaseRepository<TEntity> : IBaseRepository<TEntity> where TEntity : BaseEntity
 {
     protected WebContext webContext;
-    protected DbSet<T> dbSet;
+    protected DbSet<TEntity> dbSet;
 
     public BaseRepository(WebContext webContext)
     {
         this.webContext = webContext;
-        dbSet = webContext.Set<T>();
+        dbSet = webContext.Set<TEntity>();
     }
 
-    public void Create(T entity)
+    public virtual void Create(TEntity entity)
     {
         dbSet.Add(entity);
         webContext.SaveChanges();
     }
 
-    public T? GetById(int id) => dbSet.Find(id);
+    public virtual TEntity? GetById(int id) => dbSet.Find(id);
 }

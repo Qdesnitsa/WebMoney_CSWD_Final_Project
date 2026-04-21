@@ -1,0 +1,37 @@
+@model NewDepositViewModel
+@{
+  ViewData["Title"] = "Поступление на карту";
+}
+
+@section Styles {
+  <link rel="stylesheet" href="~/css/newcard.css" asp-append-version="true" />
+}
+
+<main class="site-main">
+  <section class="new-card-section">
+    <h2>Поступление денежных средств на карту @Model.CardNumber</h2>
+    <p class="new-card-field-hint">Укажите сумму net для зачисления.</p>
+
+    <div class="new-card-field">
+      <span class="new-card-caption">Отправитель</span>
+      <input type="text" readonly value="ООО «Самый лучший отправитель»"/>
+    </div>
+
+    <form class="new-card-form" asp-controller="Deposit" asp-action="NewDeposit" method="post" novalidate>
+      <div asp-validation-summary="All" class="new-card-hint"></div>
+      <input type="hidden" asp-for="CardId"/>
+      <input type="hidden" asp-for="CardNumber"/>
+
+      <div class="new-card-field">
+        <label class="new-card-caption" asp-for="Amount"></label>
+        <input asp-for="Amount" type="number" min="0.01" step="0.01" inputmode="decimal"/>
+        <span asp-validation-for="Amount" class="new-card-hint"></span>
+      </div>
+
+      <div class="new-card-actions">
+        <button type="submit" class="new-card-submit">Перечислить на карту</button>
+        <a asp-controller="Card" asp-action="Card" class="new-card-back">Назад к картам</a>
+      </div>
+    </form>
+  </section>
+</main>

@@ -1,6 +1,6 @@
 using WebMoney.Persistence.Entities;
 
-namespace WebMoney.Data.Persistence;
+namespace WebMoney.Data.Repositories.Interfaces;
 
 public interface ITransactionRepository : IBaseRepository<Transaction>
 {

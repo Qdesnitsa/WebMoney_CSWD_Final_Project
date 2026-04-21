@@ -1,4 +1,4 @@
-namespace WebMoney.Enum;
+namespace WebMoney.Data.Enum;
 
 public enum CurrencyCode
 {

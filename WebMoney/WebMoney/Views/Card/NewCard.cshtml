@@ -1,5 +1,4 @@
 @model NewCardViewModel
-@using WebMoney.Enum
 @{
   ViewData["Title"] = "Новая карта";
 }
@@ -13,7 +12,6 @@
     <h2>Новая карта</h2>
     <form class="new-card-form" asp-controller="Card" asp-action="NewCard" method="post" novalidate>
       <div asp-validation-summary="All" class="new-card-hint"></div>
-
       <div class="new-card-field">
         <span class="new-card-caption">Номер карты</span>
         <input type="hidden" asp-for="CardNumber" />

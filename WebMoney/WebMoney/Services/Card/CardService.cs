@@ -1,29 +1,54 @@
 using Microsoft.AspNetCore.Identity;
-using WebMoney.Data.Enum.Card;
+using WebMoney.Data.Enum;
+using WebMoney.Data.Repositories.Interfaces;
 using WebMoney.Models;
 using WebMoney.ModelTransfer;
-using WebMoney.Persistence;
 using WebMoney.Persistence.Entities;
-using WebMoney.Persistence.Storage;
 
 namespace WebMoney.Services;
 
 public class CardService(
     IPasswordHasher<Card> passwordHasher,
     ICardRepository cardRepository,
-    IUserProfileRepository userProfileRepository) : ICardService
+    IUserRepository userRepository) : ICardService
 {
     private const int NumberOfYearsNewCardIsValid = 5;
     private const int NumberOfDigitsCardNumber = 16;
     public List<Card> GetCardsByUserEmail(string email) => cardRepository.GetCardsByUserEmail(email);
-
-    public NewCardPrepareResult PrepareNewCard(string normalizedEmail, NewCardInput input)
+    public string GenerateNotExistingCardNumber()
     {
-        var result = new NewCardPrepareResult();
-        var userProfile = userProfileRepository.FindByEmail(normalizedEmail);
-        if (userProfile is null)
+        var cardNumber = GenerateCardNumber();
+        while (CheckCardNumberAlreadyExists(cardNumber))
         {
-            result.Errors.Add(("", "Пользователь не найден"));
+            cardNumber = GenerateCardNumber();
+        }
+        return cardNumber;
+    }
+    
+    public bool CheckCardNumberAlreadyExists(string cardNumber) =>
+        cardRepository.CheckCardNumberAlreadyExists(cardNumber);
+
+    public CardPrepareResult GetById(int id)
+    {
+        var result = new CardPrepareResult();
+        var card = cardRepository.GetById(id);
+        if (card is null)
+        {
+            result.Errors.Add((string.Empty, "Карта не найдена"));
+            return result;
+        }
+
+        result.Card = card;
+        return result;
+    }
+
+    public CardPrepareResult PrepareNewCard(string normalizedEmail, NewCardInput input)
+    {
+        var result = new CardPrepareResult();
+        var user = userRepository.FindByEmail(normalizedEmail);
+        if (user is null)
+        {
+            result.Errors.Add((string.Empty, "Пользователь не найден"));
             return result;
         }
 
@@ -46,25 +71,26 @@ public class CardService(
             Number = input.CardNumber,
             CurrencyCode = input.CurrencyCode,
             PeriodOfValidity = DefaultPeriodOfValidity(),
-            CardStatus = CardStatus.Initialized,
+            CardStatus = CardStatus.Active,
             CreatedAt = DateTime.UtcNow,
-            CreatedBy = userProfile.User.Email,
+            CreatedBy = user.Email,
             CardUserProfiles = new HashSet<CardUserProfile>
             {
                 new CardUserProfile
                 {
-                    UserProfileId = userProfile.Id,
+                    UserId = user.Id,
+                    CreatedAt = DateTime.UtcNow,
+                    CreatedBy = user.Email,
                     CardLimit = new CardLimit
                     {
                         DailyLimit = input.DailyLimit,
                         MonthlyLimit = input.MonthlyLimit,
                         PerOperationLimit = input.PerOperationLimit,
                         CreatedAt = DateTime.UtcNow,
-                        CreatedBy = userProfile.User.Email,
+                        CreatedBy = user.Email,
                     }
                 }
             },
-            
         };
         card.HashedPinCode = passwordHasher.HashPassword(card, input.PinCode);
         cardRepository.Create(card);
@@ -72,7 +98,7 @@ public class CardService(
         return result;
     }
 
-    private void RejectNegative(NewCardPrepareResult result, string field, decimal? value)
+    private void RejectNegative(CardPrepareResult result, string field, decimal? value)
     {
         if (value is < 0)
         {
@@ -80,13 +106,14 @@ public class CardService(
         }
     }
 
-    public string GenerateCardNumber()
+    private string GenerateCardNumber()
     {
         var cardNumbers = new char[NumberOfDigitsCardNumber];
         for (var i = 0; i < NumberOfDigitsCardNumber; i++)
         {
             cardNumbers[i] = (char)('0' + Random.Shared.Next(i == 0 ? 1 : 0, 10));
         }
+
         return new string(cardNumbers);
     }
 
