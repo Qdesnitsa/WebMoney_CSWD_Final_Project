@@ -1,4 +1,4 @@
--- 1) После миграций: role / currency_code / card_status / transaction_* — строки как имена C# enum (User, BYN, Active, …).
+-- 1) Migration. Enums are populated and kept in DB as string
 -- 2) dotnet run --project WebMoney.Tools.HashPasswords 
 
 BEGIN;
