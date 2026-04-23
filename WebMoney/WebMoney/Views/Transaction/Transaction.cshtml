@@ -13,7 +13,6 @@
     <h2 id="transaction-period-heading">Список транзакций по карте @Model.CardNumber</h2>
     <form asp-controller="Transaction" asp-action="Transaction" method="get" class="transaction-form">
       <input type="hidden" name="cardId" value="@Model.CardId" />
-      <div asp-validation-summary="All" class="login-hint validation-summary-errors"></div>
       <div class="transaction-period-row">
         <label class="transaction-field">
           С даты (включительно)
