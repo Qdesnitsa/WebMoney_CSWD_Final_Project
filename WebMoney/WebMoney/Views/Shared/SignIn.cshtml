@@ -11,7 +11,6 @@
     <section class="login-section">
         <h2 id="login-heading">Войти в личный кабинет</h2>
         <form class="login-form" asp-controller="SignIn" asp-action="SignIn" method="post" novalidate>
-            <div asp-validation-summary="All" class="login-hint"></div>
             <div class="login-field">
                 <label asp-for="Email">Email</label>
                 <input asp-for="Email" autocomplete="email" />

@@ -1,3 +1,4 @@
+using FluentValidation;
 using Microsoft.AspNetCore.Mvc;
 using WebMoney.Data.Enum;
 using WebMoney.Infrastructure.Constants;
@@ -6,7 +7,7 @@ using WebMoney.Services;
 
 namespace WebMoney.Controllers;
 
-public class SignUpController(IAuthService authService) : Controller
+public class SignUpController(IAuthService authService, IValidator<SignUpViewModel> signUpValidator) : Controller
 {
     [HttpGet]
     public IActionResult SignUp() => View(new SignUpViewModel());
@@ -17,6 +18,17 @@ public class SignUpController(IAuthService authService) : Controller
     {
         if (!ModelState.IsValid)
         {
+            return View(model);
+        }
+
+        var validationResult = signUpValidator.Validate(model);
+        if (!validationResult.IsValid)
+        {
+            foreach (var err in validationResult.Errors)
+            {
+                ModelState.AddModelError(err.PropertyName, err.ErrorMessage);
+            }
+
             return View(model);
         }
 

@@ -1,7 +1,9 @@
+using FluentValidation;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Serilog;
 using Serilog.Events;
+using WebMoney.Application.Cards;
 using WebMoney.Data;
 using WebMoney.Data.Repositories;
 using WebMoney.Data.Repositories.Interfaces;
@@ -35,7 +37,11 @@ namespace WebMoney
             var builder = WebApplication.CreateBuilder(args);
 
             // Add services to the container.
-            builder.Services.AddControllersWithViews();
+            builder.Services.AddControllersWithViews(options =>
+            {
+                options.SuppressImplicitRequiredAttributeForNonNullableReferenceTypes = true;
+            });
+            builder.Services.AddValidatorsFromAssembly(typeof(PrepareNewCardCommand).Assembly);
             builder.Services.AddDbContext<WebContext>(options =>
                 options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));
             builder.Services.AddSingleton<IPasswordHasher<User>, PasswordHasher<User>>();

@@ -1,12 +1,17 @@
+using FluentValidation;
 using Microsoft.AspNetCore.Mvc;
+using WebMoney.Application.Deposits;
 using WebMoney.Infrastructure.Constants;
+using WebMoney.ModelTransfer;
 using WebMoney.Models;
 using WebMoney.Services;
 
 namespace WebMoney.Controllers;
 
-public class DepositController(ICardService cardService, IDepositTransactionService depositTransactionService)
-    : Controller
+public class DepositController(
+    ICardService cardService,
+    IDepositTransactionService depositTransactionService,
+    IValidator<PrepareNewDepositCommand> submitNewDepositValidator) : Controller
 {
     [HttpGet]
     public IActionResult NewDeposit([FromQuery] int? cardId)
@@ -26,7 +31,8 @@ public class DepositController(ICardService cardService, IDepositTransactionServ
 
         var model = new NewDepositViewModel
         {
-            CardNumber = result.Card.Number
+            CardId = cardId.Value,
+            CardNumber = result.Card?.Number ?? string.Empty
         };
 
         if (!result.Success)
@@ -43,15 +49,10 @@ public class DepositController(ICardService cardService, IDepositTransactionServ
     {
         var useremail = HttpContext.Session.GetString(SessionKeys.USEREMAIL);
         if (string.IsNullOrWhiteSpace(HttpContext.Session.GetString(SessionKeys.USERNAME))
-            || string.IsNullOrWhiteSpace(HttpContext.Session.GetString(SessionKeys.USEREMAIL)))
+            || string.IsNullOrWhiteSpace(useremail))
         {
             return RedirectToAction(nameof(SignInController.SignIn),
                 nameof(SignInController).Replace("Controller", ""));
-        }
-
-        if (model.Amount <= 0)
-        {
-            ModelState.AddModelError(nameof(model.Amount), "Сумма должна быть больше нуля");
         }
 
         if (!ModelState.IsValid)
@@ -59,7 +60,24 @@ public class DepositController(ICardService cardService, IDepositTransactionServ
             return View(model);
         }
 
-        var result = depositTransactionService.SubmitNewDeposit(model.CardId, useremail!, model.Amount);
+        var normalizedEmail = useremail.Trim().ToLowerInvariant();
+        var command = new PrepareNewDepositCommand(model.CardId, normalizedEmail, model.Amount);
+
+        var validationResult = submitNewDepositValidator.Validate(command);
+        if (!validationResult.IsValid)
+        {
+            foreach (var err in validationResult.Errors)
+            {
+                ModelState.AddModelError(err.PropertyName, err.ErrorMessage);
+            }
+
+            return View(model);
+        }
+
+        var result = depositTransactionService.SubmitNewDeposit(
+            command.CardId,
+            command.NormalizedEmail,
+            command.Amount);
 
         if (!result.Success)
         {

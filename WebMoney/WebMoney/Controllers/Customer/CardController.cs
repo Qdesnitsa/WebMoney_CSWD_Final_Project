@@ -1,12 +1,15 @@
+using FluentValidation;
 using Microsoft.AspNetCore.Mvc;
+using WebMoney.Application.Cards;
 using WebMoney.Infrastructure.Constants;
-using WebMoney.Models;
 using WebMoney.ModelTransfer;
+using WebMoney.Models;
 using WebMoney.Services;
 
 namespace WebMoney.Controllers;
 
-public class CardController(ICardService cardService) : Controller
+public class CardController(ICardService cardService, IValidator<PrepareNewCardCommand> prepareNewCardValidator)
+    : Controller
 {
     public IActionResult Card()
     {
@@ -69,18 +72,38 @@ public class CardController(ICardService cardService) : Controller
             return View(model);
         }
 
+        var normalizedEmail = userEmail.Trim().ToLowerInvariant();
+        var command = new PrepareNewCardCommand(
+            normalizedEmail,
+            model.CardNumber,
+            model.CurrencyCode,
+            model.DailyLimit,
+            model.MonthlyLimit,
+            model.PerOperationLimit,
+            model.PinCode);
+
+        var validationResult = prepareNewCardValidator.Validate(command);
+        if (!validationResult.IsValid)
+        {
+            foreach (var err in validationResult.Errors)
+            {
+                ModelState.AddModelError(err.PropertyName, err.ErrorMessage);
+            }
+
+            return View(model);
+        }
+
         var input = new NewCardInput
         {
-            CardNumber = model.CardNumber,
-            CurrencyCode = model.CurrencyCode,
-            DailyLimit = model.DailyLimit,
-            MonthlyLimit = model.MonthlyLimit,
-            PerOperationLimit = model.PerOperationLimit,
-            PinCode = model.PinCode
+            CardNumber = command.CardNumber,
+            CurrencyCode = command.CurrencyCode,
+            DailyLimit = command.DailyLimit,
+            MonthlyLimit = command.MonthlyLimit,
+            PerOperationLimit = command.PerOperationLimit,
+            PinCode = command.PinCode
         };
 
-        var normalizedEmail = userEmail.Trim().ToLowerInvariant();
-        var result = cardService.PrepareNewCard(normalizedEmail, input);
+        var result = cardService.PrepareNewCard(command.NormalizedEmail, input);
 
         if (!result.Success)
         {

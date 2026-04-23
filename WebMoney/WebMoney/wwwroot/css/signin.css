@@ -80,8 +80,3 @@ a.login-submit--outline {
   color: var(--color-error);
   font-weight: 600;
 }
-
-.validation-summary-errors ul {
-  margin: 0;
-  padding-left: 18px;
-}
