@@ -28,9 +28,9 @@ public class CardService(
     public bool CheckCardNumberAlreadyExists(string cardNumber) =>
         cardRepository.CheckCardNumberAlreadyExists(cardNumber);
 
-    public CardPrepareResult GetById(int id)
+    public PrepareNewCardResult GetById(int id)
     {
-        var result = new CardPrepareResult();
+        var result = new PrepareNewCardResult();
         var card = cardRepository.GetById(id);
         if (card is null)
         {
@@ -42,9 +42,9 @@ public class CardService(
         return result;
     }
 
-    public CardPrepareResult PrepareNewCard(string normalizedEmail, NewCardInput input)
+    public PrepareNewCardResult PrepareNewCard(string normalizedEmail, NewCardInput input)
     {
-        var result = new CardPrepareResult();
+        var result = new PrepareNewCardResult();
         var user = userRepository.FindByEmail(normalizedEmail);
         if (user is null)
         {
@@ -98,7 +98,7 @@ public class CardService(
         return result;
     }
 
-    private void RejectNegative(CardPrepareResult result, string field, decimal? value)
+    private void RejectNegative(PrepareNewCardResult result, string field, decimal? value)
     {
         if (value is < 0)
         {

@@ -7,9 +7,9 @@ namespace WebMoney.Services;
 public class DepositTransactionService(ICardRepository cardRepository, ILogger<DepositTransactionService> logger)
     : IDepositTransactionService
 {
-    public NewDepositPrepareResult SubmitNewDeposit(int cardId, string normalizedEmail, decimal amount)
+    public PrepareNewDepositResult SubmitNewDeposit(int cardId, string normalizedEmail, decimal amount)
     {
-        var result = new NewDepositPrepareResult();
+        var result = new PrepareNewDepositResult();
         var card = cardRepository.GetCardWithUsersById(cardId);
         if (card is null)
         {

@@ -7,9 +7,9 @@ namespace WebMoney.Services;
 public interface ICardService
 {
     List<Card> GetCardsByUserEmail(string email);
-    CardPrepareResult PrepareNewCard(string normalizedEmail, NewCardInput input);
+    PrepareNewCardResult PrepareNewCard(string normalizedEmail, NewCardInput input);
     DateOnly DefaultPeriodOfValidity();
-    CardPrepareResult GetById(int id);
+    PrepareNewCardResult GetById(int id);
     public string GenerateNotExistingCardNumber();
     bool CheckCardNumberAlreadyExists(string cardNumber);
 }
