@@ -15,8 +15,15 @@ VALUES (
   'AQAAAAIAAYagAAAAED4JovDDvgc1UNyHKPZj6b2gKaEwj3zZuQQ9SQUP9h1zOH0bDQwXYU73amWoooEPYg==',
   'User',
   now(),
-  'seed'
-);
+  'seed'),
+       (
+    'admin',
+    'test1@test.com',
+    'AQAAAAIAAYagAAAAED4JovDDvgc1UNyHKPZj6b2gKaEwj3zZuQQ9SQUP9h1zOH0bDQwXYU73amWoooEPYg==',
+    'Admin',
+    now(),
+    'seed'
+       ) ;
 
 INSERT INTO users_profiles (user_id, identity_document_id, created_at, created_by)
 VALUES (

@@ -48,8 +48,11 @@ public class SignInController(IMediator mediator) : Controller
         HttpContext.Session.SetString(SessionKeys.USEREMAIL, user.Email);
         HttpContext.Session.SetString(SessionKeys.USERROLE, user.Role.ToString());
 
-        return user.Role != Role.User
-            ? RedirectToAction(nameof(HomeController.Error), nameof(HomeController).Replace("Controller", ""))
-            : RedirectToAction(nameof(CardController.Card), nameof(CardController).Replace("Controller", ""));
+        return user.Role switch
+        {
+            Role.User => RedirectToAction(nameof(CardController.Card), nameof(CardController).Replace("Controller", "")),
+            Role.Admin => RedirectToAction(nameof(AdminController.Admin), nameof(AdminController).Replace("Controller", "")),
+            _ => RedirectToAction(nameof(HomeController.Error), nameof(HomeController).Replace("Controller", ""))
+        };
     }
 }

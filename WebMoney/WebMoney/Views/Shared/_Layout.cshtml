@@ -5,6 +5,8 @@
   var userrole = HttpContextAccessor.HttpContext?.Session.GetString(SessionKeys.USERROLE);
   var isUser = !string.IsNullOrEmpty(username)
                        && userrole == Role.User.ToString();
+  var isAdmin = !string.IsNullOrEmpty(username)
+                && userrole == Role.Admin.ToString();
 }
 
 <!DOCTYPE html>
@@ -42,6 +44,10 @@
       @if (!string.IsNullOrEmpty(username) && isUser)
       {
         <a href="/Card/Card" class="header-account-link">Привет, @username</a>
+      }
+      else if (isAdmin)
+      {
+        <a asp-controller="Admin" asp-action="Admin" class="header-account-link">Привет, Админ: @username</a>
       }
       else
       {

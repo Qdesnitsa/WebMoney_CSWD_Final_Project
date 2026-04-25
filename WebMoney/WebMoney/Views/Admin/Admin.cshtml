@@ -1,0 +1,21 @@
+@{
+    ViewData["Title"] = "Панель администратора";
+}
+
+@section Styles {
+    <link rel="stylesheet" href="~/css/card.css" asp-append-version="true" />
+}
+
+<main class="site-main">
+    <section class="admin-section">
+        <h1>Панель администратора</h1>
+        <h3 class="card-operations-title">Действия</h3>
+        <ul class="card-operations-list">
+            <li><a href="#">Показать заявки</a></li>
+            <li><a href="#">Показать статистику</a></li>
+            <li><a href="#">Списать комиссию за обслуживание</a></li>
+            <li><a href="#">Заблокировать/Разблокировать пользователя</a></li>
+            <li><a href="#">Добавить новость</a></li>
+        </ul>
+    </section>
+</main>
