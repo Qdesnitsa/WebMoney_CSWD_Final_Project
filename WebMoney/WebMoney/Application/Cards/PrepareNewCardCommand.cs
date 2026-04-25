@@ -1,3 +1,4 @@
+using MediatR;
 using WebMoney.Data.Enum;
 
 namespace WebMoney.Application.Cards;
@@ -9,4 +10,4 @@ public sealed record PrepareNewCardCommand(
     decimal? DailyLimit,
     decimal? MonthlyLimit,
     decimal? PerOperationLimit,
-    string PinCode);
+    string PinCode) : IRequest<PrepareNewCardResult>;

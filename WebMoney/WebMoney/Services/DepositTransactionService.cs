@@ -1,6 +1,6 @@
 using WebMoney.Data.Enum;
 using WebMoney.Data.Repositories.Interfaces;
-using WebMoney.ModelTransfer;
+using WebMoney.Application.Deposits;
 
 namespace WebMoney.Services;
 

@@ -1,6 +1,6 @@
 using WebMoney.Data.Enum;
 
-namespace WebMoney.ModelTransfer;
+namespace WebMoney.Application.Cards;
 
 public class NewCardInput
 {

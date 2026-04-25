@@ -1,4 +1,4 @@
-namespace WebMoney.ModelTransfer;
+namespace WebMoney.Application.Deposits;
 
 public class PrepareNewDepositResult
 {

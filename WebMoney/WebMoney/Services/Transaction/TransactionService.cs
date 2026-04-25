@@ -1,5 +1,5 @@
 using WebMoney.Data.Repositories.Interfaces;
-using WebMoney.ModelTransfer;
+using WebMoney.Application.Transactions;
 using WebMoney.Persistence.Entities;
 
 namespace WebMoney.Services;

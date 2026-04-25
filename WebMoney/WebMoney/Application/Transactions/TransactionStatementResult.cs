@@ -1,6 +1,6 @@
 using WebMoney.Persistence.Entities;
 
-namespace WebMoney.ModelTransfer;
+namespace WebMoney.Application.Transactions;
 
 public class TransactionStatementResult
 {

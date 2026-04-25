@@ -12,22 +12,18 @@
   <section class="transaction-section">
     <h2 id="transaction-period-heading">Список транзакций по карте @Model.CardNumber</h2>
     <form asp-controller="Transaction" asp-action="Transaction" method="get" class="transaction-form">
-      <input type="hidden" name="cardId" value="@Model.CardId" />
+      <input type="hidden" asp-for="CardId" />
       <div class="transaction-period-row">
-        <label class="transaction-field">
-          С даты (включительно)
-          <input type="date"
-                 name="periodFrom"
-                 required
-                 value="@(Model.PeriodFrom.HasValue ? Model.PeriodFrom.Value.ToString("yyyy-MM-dd") : "")" />
-        </label>
-        <label class="transaction-field">
-          По дату (включительно)
-          <input type="date"
-                 name="periodTo"
-                 required
-                 value="@(Model.PeriodTo.HasValue ? Model.PeriodTo.Value.ToString("yyyy-MM-dd") : "")" />
-        </label>
+        <div class="transaction-field">
+          <label asp-for="PeriodFrom">С даты (включительно)</label>
+          <input asp-for="PeriodFrom" type="date" required />
+          <span asp-validation-for="PeriodFrom" class="login-hint"></span>
+        </div>
+        <div class="transaction-field">
+          <label asp-for="PeriodTo">По дату (включительно)</label>
+          <input asp-for="PeriodTo" type="date" required />
+          <span asp-validation-for="PeriodTo" class="login-hint"></span>
+        </div>
       </div>
       <button type="submit" class="transaction-submit">Показать транзакции</button>
       <a asp-controller="Card" asp-action="Card" class="cards-back">Назад к картам</a>

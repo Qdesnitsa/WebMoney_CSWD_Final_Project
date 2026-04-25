@@ -1,13 +1,15 @@
 using FluentValidation;
+using MediatR;
 using Microsoft.AspNetCore.Mvc;
+using WebMoney.Application;
+using WebMoney.Application.Auth;
 using WebMoney.Data.Enum;
 using WebMoney.Infrastructure.Constants;
 using WebMoney.Models;
-using WebMoney.Services;
 
 namespace WebMoney.Controllers;
 
-public class SignUpController(IAuthService authService, IValidator<SignUpViewModel> signUpValidator) : Controller
+public class SignUpController(IMediator mediator) : Controller
 {
     [HttpGet]
     public IActionResult SignUp() => View(new SignUpViewModel());
@@ -21,18 +23,21 @@ public class SignUpController(IAuthService authService, IValidator<SignUpViewMod
             return View(model);
         }
 
-        var validationResult = signUpValidator.Validate(model);
-        if (!validationResult.IsValid)
+        AuthResult result;
+        try
         {
-            foreach (var err in validationResult.Errors)
+            result = mediator.SendSync(
+                new SignUpCommand(model.UserName, model.Email, model.Password, model.ConfirmPassword));
+        }
+        catch (ValidationException ex)
+        {
+            foreach (var err in ex.Errors)
             {
                 ModelState.AddModelError(err.PropertyName, err.ErrorMessage);
             }
 
             return View(model);
         }
-
-        var result = authService.Register(model.UserName, model.Email, model.Password);
         if (!result.Succeeded)
         {
             model.Alerts.Add(result.ErrorMessage!);

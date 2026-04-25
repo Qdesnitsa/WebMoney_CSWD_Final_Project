@@ -1,11 +1,15 @@
+using FluentValidation;
+using MediatR;
 using Microsoft.AspNetCore.Mvc;
+using WebMoney.Application;
+using WebMoney.Application.Transactions;
 using WebMoney.Infrastructure.Constants;
 using WebMoney.Models;
 using WebMoney.Services;
 
 namespace WebMoney.Controllers;
 
-public class TransactionController(ITransactionService transactionService) : Controller
+public class TransactionController(ICardService cardService, IMediator mediator) : Controller
 {
     [HttpGet]
     public IActionResult Transaction([FromQuery] int? cardId, [FromQuery] DateOnly? periodFrom,
@@ -23,7 +27,32 @@ public class TransactionController(ITransactionService transactionService) : Con
         }
 
         var periodKeysPresent = Request.Query.ContainsKey("periodFrom") || Request.Query.ContainsKey("periodTo");
-        var result = transactionService.GetTransactionsByCardIdForPeriod(cardId.Value, periodFrom, periodTo, periodKeysPresent);
+        var query = new GetTransactionStatementQuery(cardId.Value, periodFrom, periodTo, periodKeysPresent);
+
+        TransactionStatementResult result;
+        try
+        {
+            result = mediator.SendSync(query);
+        }
+        catch (ValidationException ex)
+        {
+            var validationModel = new TransactionViewModel
+            {
+                CardId = cardId.Value,
+                PeriodFrom = periodFrom,
+                PeriodTo = periodTo
+            };
+
+            foreach (var err in ex.Errors)
+            {
+                ModelState.AddModelError(err.PropertyName, err.ErrorMessage);
+            }
+
+            var card = cardService.GetById(cardId.Value);
+            validationModel.CardNumber = card.Card.Number;
+
+            return View(validationModel);
+        }
 
         var model = new TransactionViewModel
         {

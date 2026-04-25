@@ -1,6 +1,6 @@
 using WebMoney.Persistence.Entities;
 
-namespace WebMoney.Models;
+namespace WebMoney.Application.Cards;
 
 public sealed class PrepareNewCardResult
 {

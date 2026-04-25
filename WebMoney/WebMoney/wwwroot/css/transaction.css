@@ -15,12 +15,14 @@
 .transaction-period-row {
   display: flex;
   flex-wrap: wrap;
+  align-items: flex-start;
   gap: 16px;
   margin-bottom: 16px;
 }
 
 .transaction-period-row .transaction-field {
-  min-width: 180px;
+  flex: 1 1 200px;
+  min-width: 0;
   margin-bottom: 0;
 }
 
@@ -31,6 +33,11 @@
   font-size: 14px;
   font-weight: 600;
   color: var(--color-ink);
+  min-width: 0;
+}
+
+.transaction-period-row .transaction-field .login-hint {
+  overflow-wrap: break-word;
 }
 
 .transaction-field input,

@@ -1,17 +1,15 @@
 using FluentValidation;
+using MediatR;
 using Microsoft.AspNetCore.Mvc;
+using WebMoney.Application;
 using WebMoney.Application.Deposits;
 using WebMoney.Infrastructure.Constants;
-using WebMoney.ModelTransfer;
 using WebMoney.Models;
 using WebMoney.Services;
 
 namespace WebMoney.Controllers;
 
-public class DepositController(
-    ICardService cardService,
-    IDepositTransactionService depositTransactionService,
-    IValidator<PrepareNewDepositCommand> submitNewDepositValidator) : Controller
+public class DepositController(ICardService cardService, IMediator mediator) : Controller
 {
     [HttpGet]
     public IActionResult NewDeposit([FromQuery] int? cardId)
@@ -63,21 +61,20 @@ public class DepositController(
         var normalizedEmail = useremail.Trim().ToLowerInvariant();
         var command = new PrepareNewDepositCommand(model.CardId, normalizedEmail, model.Amount);
 
-        var validationResult = submitNewDepositValidator.Validate(command);
-        if (!validationResult.IsValid)
+        PrepareNewDepositResult result;
+        try
         {
-            foreach (var err in validationResult.Errors)
+            result = mediator.SendSync(command);
+        }
+        catch (ValidationException ex)
+        {
+            foreach (var err in ex.Errors)
             {
                 ModelState.AddModelError(err.PropertyName, err.ErrorMessage);
             }
 
             return View(model);
         }
-
-        var result = depositTransactionService.SubmitNewDeposit(
-            command.CardId,
-            command.NormalizedEmail,
-            command.Amount);
 
         if (!result.Success)
         {

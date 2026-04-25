@@ -1,3 +1,5 @@
+using WebMoney.Application.Auth;
+
 namespace WebMoney.Services;
 
 public interface IAuthService

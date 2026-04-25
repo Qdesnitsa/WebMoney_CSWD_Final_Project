@@ -1,4 +1,4 @@
-using WebMoney.ModelTransfer;
+using WebMoney.Application.Deposits;
 
 namespace WebMoney.Services;
 

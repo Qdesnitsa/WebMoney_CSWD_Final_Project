@@ -1,6 +1,6 @@
 using WebMoney.Persistence.Entities;
 
-namespace WebMoney.Services;
+namespace WebMoney.Application.Auth;
 
 public sealed class AuthResult
 {

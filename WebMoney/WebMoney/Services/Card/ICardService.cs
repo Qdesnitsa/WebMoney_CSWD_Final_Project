@@ -1,5 +1,4 @@
-using WebMoney.Models;
-using WebMoney.ModelTransfer;
+using WebMoney.Application.Cards;
 using WebMoney.Persistence.Entities;
 
 namespace WebMoney.Services;
