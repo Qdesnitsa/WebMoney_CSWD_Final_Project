@@ -8,10 +8,10 @@ namespace WebMoney.Data.Repositories;
 public class CardRepository(WebContext webContext)
     : BaseRepository<Card>(webContext), ICardRepository
 {
-    public List<Card> GetCardsByUserEmail(string normalizedEmail) =>
+    public List<Card> GetCardsByUserId(int userId) =>
         webContext.Cards
             .Where(card => card.CardUserProfiles
-                .Any(cup => cup.User.Email == normalizedEmail))
+                .Any(cup => cup.UserId == userId))
             .ToList();
 
     public Card? GetCardWithUsersById(int cardId) =>

@@ -7,7 +7,7 @@ namespace WebMoney.Services;
 public class DepositTransactionService(ICardRepository cardRepository, ILogger<DepositTransactionService> logger)
     : IDepositTransactionService
 {
-    public PrepareNewDepositResult SubmitNewDeposit(int cardId, string normalizedEmail, decimal amount)
+    public PrepareNewDepositResult SubmitNewDeposit(int cardId, int userId, decimal amount)
     {
         var result = new PrepareNewDepositResult();
         var card = cardRepository.GetCardWithUsersById(cardId);
@@ -29,7 +29,7 @@ public class DepositTransactionService(ICardRepository cardRepository, ILogger<D
 
         result.CardNumber = card.Number;
 
-        if (!card.CardUserProfiles.Any(cup => cup.User.Email == normalizedEmail))
+        if (!card.CardUserProfiles.Any(cup => cup.UserId == userId))
         {
             result.Errors.Add((string.Empty, "Нет доступа к этой карте"));
         }
@@ -38,8 +38,12 @@ public class DepositTransactionService(ICardRepository cardRepository, ILogger<D
         {
             return result;
         }
-        
-        cardRepository.CreateDepositTransaction(cardId, normalizedEmail, amount);
+
+        var userEmail = card.CardUserProfiles
+            .First(cup => cup.UserId == userId)
+            .User.Email;
+
+        cardRepository.CreateDepositTransaction(cardId, userEmail, amount);
             
         return result;
     }

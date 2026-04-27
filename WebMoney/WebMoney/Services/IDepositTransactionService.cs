@@ -4,5 +4,5 @@ namespace WebMoney.Services;
 
 public interface IDepositTransactionService
 {
-    PrepareNewDepositResult SubmitNewDeposit(int cardId, string normalizedEmail, decimal amount);
+    PrepareNewDepositResult SubmitNewDeposit(int cardId, int userId, decimal amount);
 }

@@ -8,7 +8,7 @@ public sealed class PrepareNewCardCommandValidator : AbstractValidator<PrepareNe
 
     public PrepareNewCardCommandValidator()
     {
-        RuleFor(x => x.NormalizedEmail).NotEmpty().WithMessage("Email не указан.");
+        RuleFor(x => x.UserId).GreaterThan(0).WithMessage("Пользователь не указан.");
 
         RuleFor(x => x.CardNumber)
             .NotEmpty()

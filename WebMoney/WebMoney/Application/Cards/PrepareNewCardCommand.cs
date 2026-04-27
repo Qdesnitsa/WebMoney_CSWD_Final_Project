@@ -4,7 +4,7 @@ using WebMoney.Data.Enum;
 namespace WebMoney.Application.Cards;
 
 public sealed record PrepareNewCardCommand(
-    string NormalizedEmail,
+    int UserId,
     string CardNumber,
     CurrencyCode CurrencyCode,
     decimal? DailyLimit,

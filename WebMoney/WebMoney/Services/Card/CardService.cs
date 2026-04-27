@@ -13,7 +13,7 @@ public class CardService(
 {
     private const int NumberOfYearsNewCardIsValid = 5;
     private const int NumberOfDigitsCardNumber = 16;
-    public List<Card> GetCardsByUserEmail(string email) => cardRepository.GetCardsByUserEmail(email);
+    public List<Card> GetCardsByUserId(int userId) => cardRepository.GetCardsByUserId(userId);
     public string GenerateNotExistingCardNumber()
     {
         var cardNumber = GenerateCardNumber();
@@ -41,10 +41,10 @@ public class CardService(
         return result;
     }
 
-    public PrepareNewCardResult PrepareNewCard(string normalizedEmail, NewCardInput input)
+    public PrepareNewCardResult PrepareNewCard(int userId, NewCardInput input)
     {
         var result = new PrepareNewCardResult();
-        var user = userRepository.FindByEmail(normalizedEmail);
+        var user = userRepository.GetById(userId);
         if (user is null)
         {
             result.Errors.Add((string.Empty, "Пользователь не найден"));

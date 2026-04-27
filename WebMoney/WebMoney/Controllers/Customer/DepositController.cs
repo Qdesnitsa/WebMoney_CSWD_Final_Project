@@ -41,15 +41,14 @@ public class DepositController(ICardService cardService, IMediator mediator) : C
     [ValidateAntiForgeryToken]
     public IActionResult NewDeposit(NewDepositViewModel model)
     {
-        var useremail = User.WebMoneyEmail()!;
+        var userId = User.WebMoneyUserId()!;
 
         if (!ModelState.IsValid)
         {
             return View(model);
         }
 
-        var normalizedEmail = useremail.Trim().ToLowerInvariant();
-        var command = new PrepareNewDepositCommand(model.CardId, normalizedEmail, model.Amount);
+        var command = new PrepareNewDepositCommand(model.CardId, userId.Value, model.Amount);
 
         PrepareNewDepositResult result;
         try

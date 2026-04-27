@@ -11,7 +11,7 @@ public sealed class PrepareNewDepositCommandHandler(IDepositTransactionService d
         cancellationToken.ThrowIfCancellationRequested();
         var result = depositTransactionService.SubmitNewDeposit(
             request.CardId,
-            request.NormalizedEmail,
+            request.UserId,
             request.Amount);
         return Task.FromResult(result);
     }

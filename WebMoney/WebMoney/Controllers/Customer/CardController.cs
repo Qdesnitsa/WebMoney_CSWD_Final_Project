@@ -16,11 +16,11 @@ public class CardController(ICardService cardService, IMediator mediator) : Cont
     public IActionResult Card()
     {
         var username = User.WebMoneyUserName()!;
-        var useremail = User.WebMoneyEmail()!;
+        var userId = User.WebMoneyUserId()!;
 
         var cardViewModel = new CardViewModel
         {
-            Cards = cardService.GetCardsByUserEmail(useremail).Select(c => new CardViewModel
+            Cards = cardService.GetCardsByUserId(userId.Value).Select(c => new CardViewModel
             {
                 Id = c.Id,
                 Number = c.Number,
@@ -50,16 +50,15 @@ public class CardController(ICardService cardService, IMediator mediator) : Cont
     [ValidateAntiForgeryToken]
     public IActionResult NewCard(NewCardViewModel model)
     {
-        var userEmail = User.WebMoneyEmail()!;
+        var userId = User.WebMoneyUserId()!;
 
         if (!ModelState.IsValid)
         {
             return View(model);
         }
 
-        var normalizedEmail = userEmail.Trim().ToLowerInvariant();
         var command = new PrepareNewCardCommand(
-            normalizedEmail,
+            userId.Value,
             model.CardNumber,
             model.CurrencyCode,
             model.DailyLimit,

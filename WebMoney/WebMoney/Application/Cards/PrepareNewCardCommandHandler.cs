@@ -20,7 +20,7 @@ public class PrepareNewCardCommandHandler(ICardService cardService)
             PinCode = request.PinCode
         };
         
-        var result = cardService.PrepareNewCard(request.NormalizedEmail, input);
+        var result = cardService.PrepareNewCard(request.UserId, input);
         return Task.FromResult(result);
     }
 }
