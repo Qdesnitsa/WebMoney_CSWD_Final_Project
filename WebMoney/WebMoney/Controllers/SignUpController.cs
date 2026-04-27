@@ -1,14 +1,17 @@
 using FluentValidation;
 using MediatR;
+using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using WebMoney.Application;
 using WebMoney.Application.Auth;
-using WebMoney.Data.Enum;
-using WebMoney.Infrastructure.Constants;
+using WebMoney.Auth;
 using WebMoney.Models;
 
 namespace WebMoney.Controllers;
 
+[AllowAnonymous]
 public class SignUpController(IMediator mediator) : Controller
 {
     [HttpGet]
@@ -16,7 +19,7 @@ public class SignUpController(IMediator mediator) : Controller
 
     [HttpPost]
     [ValidateAntiForgeryToken]
-    public IActionResult SignUp(SignUpViewModel model)
+    public async Task<IActionResult> SignUp(SignUpViewModel model)
     {
         if (!ModelState.IsValid)
         {
@@ -38,15 +41,16 @@ public class SignUpController(IMediator mediator) : Controller
 
             return View(model);
         }
+
         if (!result.Succeeded)
         {
             model.Alerts.Add(result.ErrorMessage!);
             return View(model);
         }
-        
-        HttpContext.Session.SetString(SessionKeys.USERNAME, model.UserName);
-        HttpContext.Session.SetString(SessionKeys.USEREMAIL, model.Email);
-        HttpContext.Session.SetString(SessionKeys.USERROLE, Role.User.ToString());
+
+        await HttpContext.SignInAsync(
+            CookieAuthenticationDefaults.AuthenticationScheme,
+            CookiePrincipalFactory.CreateFor(result.User!));
 
         return RedirectToAction(nameof(CardController.Card), nameof(CardController).Replace("Controller", ""));
     }

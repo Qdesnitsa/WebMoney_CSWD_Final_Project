@@ -1,25 +1,21 @@
 using FluentValidation;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using WebMoney.Application;
 using WebMoney.Application.Deposits;
-using WebMoney.Infrastructure.Constants;
+using WebMoney.Auth;
 using WebMoney.Models;
 using WebMoney.Services;
 
 namespace WebMoney.Controllers;
 
+[Authorize(Policy = AuthPolicies.UserOnly)]
 public class DepositController(ICardService cardService, IMediator mediator) : Controller
 {
     [HttpGet]
     public IActionResult NewDeposit([FromQuery] int? cardId)
     {
-        if (string.IsNullOrWhiteSpace(HttpContext.Session.GetString(SessionKeys.USERNAME)))
-        {
-            return RedirectToAction(nameof(SignInController.SignIn),
-                nameof(SignInController).Replace("Controller", ""));
-        }
-
         if (!cardId.HasValue)
         {
             return RedirectToAction(nameof(CardController.Card), nameof(CardController).Replace("Controller", ""));
@@ -45,13 +41,7 @@ public class DepositController(ICardService cardService, IMediator mediator) : C
     [ValidateAntiForgeryToken]
     public IActionResult NewDeposit(NewDepositViewModel model)
     {
-        var useremail = HttpContext.Session.GetString(SessionKeys.USEREMAIL);
-        if (string.IsNullOrWhiteSpace(HttpContext.Session.GetString(SessionKeys.USERNAME))
-            || string.IsNullOrWhiteSpace(useremail))
-        {
-            return RedirectToAction(nameof(SignInController.SignIn),
-                nameof(SignInController).Replace("Controller", ""));
-        }
+        var useremail = User.WebMoneyEmail()!;
 
         if (!ModelState.IsValid)
         {

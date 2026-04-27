@@ -6,6 +6,7 @@ using Serilog;
 using Serilog.Events;
 using WebMoney.Application.Behaviors;
 using WebMoney.Application.Cards;
+using WebMoney.Auth;
 using WebMoney.Data;
 using WebMoney.Data.Repositories;
 using WebMoney.Data.Repositories.Interfaces;
@@ -60,13 +61,7 @@ namespace WebMoney
             builder.Services.AddScoped<ICardRepository, CardRepository>();
             builder.Services.AddScoped<ITransactionRepository, TransactionRepository>();
             builder.Services.AddScoped<IDepositTransactionService, DepositTransactionService>();
-            builder.Services.AddDistributedMemoryCache();
-            builder.Services.AddSession(options =>
-            {
-                options.IdleTimeout = TimeSpan.FromMinutes(30);
-                options.Cookie.HttpOnly = true;
-                options.Cookie.IsEssential = true;
-            });
+            builder.Services.AddWebMoneyCookieAuth();
             builder.Services.AddHttpContextAccessor();
             builder.Logging.AddSerilog(Log.Logger);
 
@@ -83,8 +78,7 @@ namespace WebMoney
             app.UseHttpsRedirection();
             app.UseRouting();
 
-            app.UseSession();
-
+            app.UseAuthentication();
             app.UseAuthorization();
 
             app.MapStaticAssets();

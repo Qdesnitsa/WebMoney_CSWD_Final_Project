@@ -248,6 +248,7 @@ body {
 
 .site-footer {
   flex-shrink: 0;
+  margin-top: auto;
   padding: 40px 20px;
   text-align: center;
   color: var(--color-light);
@@ -426,4 +427,22 @@ body {
 .site-main .admin-section h1 {
   font-size: 1.5rem;
   margin-bottom: 12px;
+}
+
+.site-main-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-top: 1.5rem;
+}
+
+.site-main-actions a {
+  text-decoration: none;
+  font-size: 15px;
+  font-weight: 700;
+  padding: 10px 24px;
+  border: 1px solid var(--color-gold-soft);
+  border-radius: 4px;
+  background: var(--color-ink);
+  color: var(--color-light);
 }

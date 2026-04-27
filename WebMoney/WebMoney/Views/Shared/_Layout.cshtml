@@ -1,12 +1,9 @@
-@using WebMoney.Infrastructure.Constants
-@inject IHttpContextAccessor HttpContextAccessor
+@using WebMoney.Auth
+
 @{
-  var username = HttpContextAccessor.HttpContext?.Session.GetString(SessionKeys.USERNAME);
-  var userrole = HttpContextAccessor.HttpContext?.Session.GetString(SessionKeys.USERROLE);
-  var isUser = !string.IsNullOrEmpty(username)
-                       && userrole == Role.User.ToString();
-  var isAdmin = !string.IsNullOrEmpty(username)
-                && userrole == Role.Admin.ToString();
+  var username = User.WebMoneyUserName();
+  var isUser = User.IsInRole(nameof(Role.User));
+  var isAdmin = User.IsInRole(nameof(Role.Admin));
 }
 
 <!DOCTYPE html>
@@ -53,9 +50,9 @@
       {
         <a href="/SignIn/SignIn" class="header-account-link">Личный кабинет</a>
       }
-      @if (!string.IsNullOrEmpty(username))
+      @if (User.Identity?.IsAuthenticated == true)
       {
-        <form asp-controller="SignOut" asp-action="SignOut" method="post">
+        <form asp-controller="SignOut" asp-action="LogOut" method="post">
           <button type="submit" class="header-account-link">Выйти</button>
         </form>
       }

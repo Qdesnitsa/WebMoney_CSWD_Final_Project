@@ -1,13 +1,21 @@
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
 using WebMoney.Models;
 
 namespace WebMoney.Controllers
 {
+    [AllowAnonymous]
     public class HomeController : Controller
     {
         public IActionResult Index()
         {
+            return View();
+        }
+
+        public IActionResult Forbidden()
+        {
+            Response.StatusCode = StatusCodes.Status403Forbidden;
             return View();
         }
 

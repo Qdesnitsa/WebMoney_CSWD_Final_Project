@@ -1,14 +1,18 @@
 using FluentValidation;
 using MediatR;
+using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using WebMoney.Application;
 using WebMoney.Application.Auth;
+using WebMoney.Auth;
 using WebMoney.Data.Enum;
-using WebMoney.Infrastructure.Constants;
 using WebMoney.Models;
 
 namespace WebMoney.Controllers;
 
+[AllowAnonymous]
 public class SignInController(IMediator mediator) : Controller
 {
     [HttpGet]
@@ -16,7 +20,7 @@ public class SignInController(IMediator mediator) : Controller
 
     [HttpPost]
     [ValidateAntiForgeryToken]
-    public IActionResult SignIn(SignInViewModel model)
+    public async Task<IActionResult> SignIn(SignInViewModel model)
     {
         if (!ModelState.IsValid)
         {
@@ -37,16 +41,17 @@ public class SignInController(IMediator mediator) : Controller
 
             return View(model);
         }
+
         if (!result.Succeeded)
         {
             model.Alerts.Add(result.ErrorMessage!);
             return View(model);
         }
-        
+
         var user = result.User!;
-        HttpContext.Session.SetString(SessionKeys.USERNAME, user.UserName);
-        HttpContext.Session.SetString(SessionKeys.USEREMAIL, user.Email);
-        HttpContext.Session.SetString(SessionKeys.USERROLE, user.Role.ToString());
+        await HttpContext.SignInAsync(
+            CookieAuthenticationDefaults.AuthenticationScheme,
+            CookiePrincipalFactory.CreateFor(user));
 
         return user.Role switch
         {
