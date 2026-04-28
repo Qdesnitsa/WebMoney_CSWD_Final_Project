@@ -10,7 +10,7 @@
 <main class="site-main">
     <section class="login-section">
         <h2 id="login-heading">Войти в личный кабинет</h2>
-        <form class="login-form" asp-controller="SignIn" asp-action="SignIn" method="post" novalidate>
+        <form class="login-form" asp-controller="Auth" asp-action="SignIn" method="post" novalidate>
             <div class="login-field">
                 <label asp-for="Email">Email</label>
                 <input asp-for="Email" autocomplete="email" />
@@ -23,7 +23,7 @@
             </div>
             <div class="login-actions">
                 <button type="submit" class="login-submit">Войти</button>
-                <a asp-controller="SignUp" asp-action="SignUp" class="login-submit login-submit--outline">Нет аккаунта? Зарегистрироваться</a>
+                <a asp-controller="Auth" asp-action="SignUp" class="login-submit login-submit--outline">Нет аккаунта? Зарегистрироваться</a>
             </div>
         </form>
     </section>

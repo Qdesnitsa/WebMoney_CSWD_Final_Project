@@ -16,8 +16,8 @@ public static class AuthServiceCollectionExtensions
                 options.Cookie.SecurePolicy = CookieSecurePolicy.SameAsRequest;
                 options.ExpireTimeSpan = TimeSpan.FromMinutes(30);
                 options.SlidingExpiration = true;
-                options.LoginPath = "/SignIn/SignIn";
-                options.LogoutPath = "/SignOut/LogOut";
+                options.LoginPath = "/Auth/SignIn";
+                options.LogoutPath = "/Auth/LogOut";
                 options.AccessDeniedPath = "/Home/Forbidden";
             });
 

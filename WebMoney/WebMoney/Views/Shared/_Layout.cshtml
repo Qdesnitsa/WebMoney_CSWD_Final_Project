@@ -40,7 +40,7 @@
       </select>
       @if (!string.IsNullOrEmpty(username) && isUser)
       {
-        <a href="/Card/Card" class="header-account-link">Привет, @username</a>
+        <a asp-controller="Card" asp-action="Card" class="header-account-link">Привет, @username</a>
       }
       else if (isAdmin)
       {
@@ -48,11 +48,11 @@
       }
       else
       {
-        <a href="/SignIn/SignIn" class="header-account-link">Личный кабинет</a>
+        <a asp-controller="Auth" asp-action="SignIn" class="header-account-link">Личный кабинет</a>
       }
       @if (User.Identity?.IsAuthenticated == true)
       {
-        <form asp-controller="SignOut" asp-action="LogOut" method="post">
+        <form asp-controller="Auth" asp-action="LogOut" method="post">
           <button type="submit" class="header-account-link">Выйти</button>
         </form>
       }
