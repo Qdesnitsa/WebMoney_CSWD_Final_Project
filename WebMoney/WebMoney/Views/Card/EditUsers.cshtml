@@ -1,0 +1,71 @@
+@model EditUsersViewModel
+@{
+  ViewData["Title"] = "Пользователи карты " + Model.CardNumberMasked;
+}
+
+@section Styles {
+  <link rel="stylesheet" href="~/css/newcard.css" asp-append-version="true" />
+  <link rel="stylesheet" href="~/css/edit-card-users.css" asp-append-version="true" />
+}
+
+<main class="site-main">
+  <section class="new-card-section edit-card-users-wrap">
+    <h2>Пользователи карты @Model.CardNumberMasked</h2>
+
+    <article class="edit-card-user-row">
+        <form asp-controller="Card" asp-action="EditUsers" asp-route-id="@Model.CardId" method="post" class="edit-card-user-settings-form" novalidate>
+          <input type="hidden" asp-for="CardId" />
+          <fieldset class="edit-card-user-rights">
+            <legend>Права</legend>
+            <div class="new-card-field new-card-field-inline">
+              <input asp-for="CanManageUsers" type="checkbox" class="new-card-field-inline-check" />
+              <div>
+                <label asp-for="CanManageUsers">Управление пользователями</label>
+              </div>
+            </div>
+            <div class="new-card-field new-card-field-inline">
+              <input asp-for="CanManageCards" type="checkbox" class="new-card-field-inline-check" />
+              <div>
+                <label asp-for="CanManageCards">Управление картами</label>
+              </div>
+            </div>
+          </fieldset>
+          <div class="edit-card-user-main-row">
+          @if (!string.IsNullOrEmpty(Model.UserEmail))
+          {
+            <div class="edit-card-user-email-col">
+              <p class="edit-card-user-email">@Model.UserEmail</p>
+            </div>
+          }
+          <div class="edit-card-user-limits-row@(string.IsNullOrEmpty(Model.UserEmail) ? " edit-card-user-limits-row--full" : "")">
+            <div class="edit-card-user-fields-horizontal">
+              <div class="new-card-field edit-card-user-limit-field">
+                <label class="new-card-caption" asp-for="DailyLimit">Дневной лимит</label>
+                <input asp-for="DailyLimit" class="new-card-limit" type="number" min="0" step="0.01" inputmode="decimal" />
+                <span asp-validation-for="DailyLimit" class="new-card-hint"></span>
+              </div>
+              <div class="new-card-field edit-card-user-limit-field">
+                <label class="new-card-caption" asp-for="MonthlyLimit">Месячный лимит</label>
+                <input asp-for="MonthlyLimit" class="new-card-limit" type="number" min="0" step="0.01" inputmode="decimal" />
+                <span asp-validation-for="MonthlyLimit" class="new-card-hint"></span>
+              </div>
+              <div class="new-card-field edit-card-user-limit-field">
+                <label class="new-card-caption" asp-for="PerOperationLimit">Лимит на одну операцию</label>
+                <input asp-for="PerOperationLimit" class="new-card-limit" type="number" min="0" step="0.01" inputmode="decimal" />
+                <span asp-validation-for="PerOperationLimit" class="new-card-hint"></span>
+              </div>
+            </div>
+            <div class="edit-card-user-actions new-card-actions">
+              <button type="submit" class="new-card-submit">Сохранить настройки</button>
+              <button type="button" class="new-card-back" disabled>Открепить</button>
+            </div>
+          </div>
+          </div>
+        </form>
+    </article>
+
+    <div class="new-card-actions">
+      <a asp-controller="Card" asp-action="Card" class="new-card-back">Назад к картам</a>
+    </div>
+  </section>
+</main>

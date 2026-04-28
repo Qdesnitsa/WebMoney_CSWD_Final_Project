@@ -9,17 +9,17 @@
 
 <main class="site-main">
   <section class="new-card-section">
-    <h2>Поступление денежных средств на карту @Model.CardNumber</h2>
+    <h2>Поступление денежных средств на карту @Model.CardNumberMasked</h2>
     <p class="new-card-field-hint">Укажите сумму net для зачисления.</p>
 
     <div class="new-card-field">
       <span class="new-card-caption">Отправитель</span>
-      <input type="text" readonly value="ООО «Самый лучший отправитель»"/>
+      <input type="text" readonly class="new-card-input-readonly" value="ООО «Самый лучший отправитель»"/>
     </div>
 
     <form class="new-card-form" asp-controller="Deposit" asp-action="NewDeposit" method="post" novalidate>
       <input type="hidden" asp-for="CardId"/>
-      <input type="hidden" asp-for="CardNumber"/>
+      <input type="hidden" asp-for="CardNumberMasked"/>
 
       <div class="new-card-field">
         <label class="new-card-caption" asp-for="Amount"></label>

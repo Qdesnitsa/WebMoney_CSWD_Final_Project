@@ -1,7 +1,7 @@
 @model CardViewModel
 
 @{
-  ViewData["Title"] = "My Profile";
+  ViewData["Title"] = "Мой профиль";
 }
 
 @section Styles {
@@ -12,9 +12,6 @@
   <section class="user-cards-section">
     <div class="user-cards-heading-row">
       <h2 id="user-cards-heading">Мои карты</h2>
-      <div class="user-cards-heading-actions">
-        <a asp-controller="Card" asp-action="NewCard" class="user-cards-add-btn">Добавить карту</a>
-      </div>
     </div>
     <div class="user-cards-layout">
       @foreach (var card in Model.Cards)
@@ -36,12 +33,21 @@
               <span class="bank-card-holder">@card.Balance.ToString("N2") @card.CurrencyCode</span>
             </div>
           </div>
-          <h3 class="card-operations-title">Операции с картой</h3>
+          <h3 class="card-operations-title card-operations-title--first">Платежные операции</h3>
           <ul class="card-operations-list">
             <li><a asp-controller="Deposit" asp-action="NewDeposit" asp-route-cardId="@card.Id">Пополнить карту</a></li>
             <li><a href="#">Перевести на другую карту</a></li>
             <li><a href="#">Создать платёж</a></li>
             <li><a asp-controller="Transaction" asp-action="Transaction" asp-route-cardId="@card.Id">Посмотреть историю операций</a></li>
+          </ul>
+          <h3 class="card-operations-title card-operations-title--next">Управление пользователями</h3>
+          <ul class="card-operations-list">
+            <li><a asp-controller="Card" asp-action="AddUser" asp-route-cardId="@card.Id">Добавить пользователя</a></li>
+            <li><a asp-controller="Card" asp-action="EditUsers" asp-route-id="@card.Id">Редактировать пользователей</a></li>
+          </ul>
+          <h3 class="card-operations-title card-operations-title--next">Управление картами</h3>
+          <ul class="card-operations-list">
+            <li><a asp-controller="Card" asp-action="NewCard">Добавить карту</a></li>
             <li><a href="#">Заблокировать карту</a></li>
           </ul>
         </article>

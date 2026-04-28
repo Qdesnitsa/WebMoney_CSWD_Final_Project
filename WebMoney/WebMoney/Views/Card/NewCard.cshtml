@@ -14,13 +14,13 @@
       <div class="new-card-field">
         <span class="new-card-caption">Номер карты</span>
         <input type="hidden" asp-for="CardNumber" />
-        <input type="text" readonly value="@Model.CardNumber" />
+        <input type="text" readonly class="new-card-input-readonly" value="@Model.CardNumber" />
       </div>
 
       <div class="new-card-field">
         <span class="new-card-caption">Действует до</span>
         <input type="hidden" asp-for="PeriodOfValidity" />
-        <input type="text" readonly value="@Model.PeriodOfValidity.ToString("MM/yy")" />
+        <input type="text" readonly class="new-card-input-readonly" value="@Model.PeriodOfValidity.ToString("MM/yy")" />
       </div>
 
       <div class="new-card-field">

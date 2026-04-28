@@ -10,7 +10,7 @@
 
 <main class="site-main">
   <section class="transaction-section">
-    <h2 id="transaction-period-heading">Список транзакций по карте @Model.CardNumber</h2>
+    <h2 id="transaction-period-heading">Список транзакций по карте @Model.CardNumberMasked</h2>
     <form asp-controller="Transaction" asp-action="Transaction" method="get" class="transaction-form">
       <input type="hidden" asp-for="CardId" />
       <div class="transaction-period-row">
