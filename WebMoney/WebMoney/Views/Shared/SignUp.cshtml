@@ -10,7 +10,7 @@
 <main class="site-main">
     <section class="login-section">
         <h2 id="login-heading">Зарегистрироваться</h2>
-        <form class="login-form" asp-controller="SignUp" asp-action="SignUp" method="post" novalidate>
+        <form class="login-form" asp-controller="Auth" asp-action="SignUp" method="post" novalidate>
             <div class="login-field">
                 <label asp-for="UserName">Username</label>
                 <input asp-for="UserName" autocomplete="username" />
@@ -33,7 +33,7 @@
             </div>
             <div class="login-actions">
                 <button type="submit" class="login-submit">Зарегистрироваться</button>
-                <a asp-controller="SignIn" asp-action="SignIn" class="login-submit login-submit--outline">Уже есть аккаунт? Войти</a>
+                <a asp-controller="Auth" asp-action="SignIn" class="login-submit login-submit--outline">Уже есть аккаунт? Войти</a>
             </div>
         </form>
     </section>

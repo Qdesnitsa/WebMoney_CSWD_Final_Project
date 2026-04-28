@@ -1,26 +1,22 @@
 using FluentValidation;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using WebMoney.Application;
 using WebMoney.Application.Transactions;
-using WebMoney.Infrastructure.Constants;
+using WebMoney.Auth;
 using WebMoney.Models;
 using WebMoney.Services;
 
 namespace WebMoney.Controllers;
 
+[Authorize(Policy = AuthPolicies.UserOnly)]
 public class TransactionController(ICardService cardService, IMediator mediator) : Controller
 {
     [HttpGet]
     public IActionResult Transaction([FromQuery] int? cardId, [FromQuery] DateOnly? periodFrom,
         [FromQuery] DateOnly? periodTo)
     {
-        var username = HttpContext.Session.GetString(SessionKeys.USERNAME);
-        if (string.IsNullOrWhiteSpace(username))
-        {
-            return RedirectToAction(nameof(SignInController.SignIn), "SignIn");
-        }
-
         if (!cardId.HasValue)
         {
             return RedirectToAction(nameof(CardController.Card), nameof(CardController).Replace("Controller", ""));

@@ -11,7 +11,7 @@ public sealed class PrepareNewDepositCommandValidator : AbstractValidator<Prepar
     {
         RuleFor(x => x.CardId).GreaterThan(0).WithMessage("Не указана карта.");
 
-        RuleFor(x => x.NormalizedEmail).NotEmpty().WithMessage("Не указан email пользователя.");
+        RuleFor(x => x.UserId).GreaterThan(0).WithMessage("Не указан пользователь.");
 
         RuleFor(x => x.Amount)
             .GreaterThanOrEqualTo(MinAmount)

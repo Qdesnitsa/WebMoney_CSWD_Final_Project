@@ -1,30 +1,26 @@
 using FluentValidation;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using WebMoney.Application;
 using WebMoney.Application.Cards;
-using WebMoney.Infrastructure.Constants;
+using WebMoney.Auth;
 using WebMoney.Models;
 using WebMoney.Services;
 
 namespace WebMoney.Controllers;
 
-public class CardController(ICardService cardService, IMediator mediator)
-    : Controller
+[Authorize(Policy = AuthPolicies.UserOnly)]
+public class CardController(ICardService cardService, IMediator mediator) : Controller
 {
     public IActionResult Card()
     {
-        var username = HttpContext.Session.GetString(SessionKeys.USERNAME);
-        var useremail = HttpContext.Session.GetString(SessionKeys.USEREMAIL);
-        if (string.IsNullOrWhiteSpace(username))
-        {
-            return RedirectToAction(nameof(SignInController.SignIn),
-                nameof(SignInController).Replace("Controller", ""));
-        }
+        var username = User.WebMoneyUserName()!;
+        var userId = User.WebMoneyUserId()!;
 
         var cardViewModel = new CardViewModel
         {
-            Cards = cardService.GetCardsByUserEmail(useremail).Select(c => new CardViewModel
+            Cards = cardService.GetCardsByUserId(userId.Value).Select(c => new CardViewModel
             {
                 Id = c.Id,
                 Number = c.Number,
@@ -42,12 +38,6 @@ public class CardController(ICardService cardService, IMediator mediator)
     [HttpGet]
     public IActionResult NewCard()
     {
-        if (string.IsNullOrWhiteSpace(HttpContext.Session.GetString(SessionKeys.USERNAME)))
-        {
-            return RedirectToAction(nameof(SignInController.SignIn),
-                nameof(SignInController).Replace("Controller", ""));
-        }
-
         var model = new NewCardViewModel
         {
             CardNumber = cardService.GenerateNotExistingCardNumber(),
@@ -60,22 +50,15 @@ public class CardController(ICardService cardService, IMediator mediator)
     [ValidateAntiForgeryToken]
     public IActionResult NewCard(NewCardViewModel model)
     {
-        var userEmail = HttpContext.Session.GetString(SessionKeys.USEREMAIL);
-        if (string.IsNullOrWhiteSpace(HttpContext.Session.GetString(SessionKeys.USERNAME)) ||
-            userEmail == null)
-        {
-            return RedirectToAction(nameof(SignInController.SignIn),
-                nameof(SignInController).Replace("Controller", ""));
-        }
+        var userId = User.WebMoneyUserId()!;
 
         if (!ModelState.IsValid)
         {
             return View(model);
         }
 
-        var normalizedEmail = userEmail.Trim().ToLowerInvariant();
         var command = new PrepareNewCardCommand(
-            normalizedEmail,
+            userId.Value,
             model.CardNumber,
             model.CurrencyCode,
             model.DailyLimit,
@@ -95,6 +78,12 @@ public class CardController(ICardService cardService, IMediator mediator)
                 ModelState.AddModelError(err.PropertyName, err.ErrorMessage);
             }
 
+            return View(model);
+        }
+        
+        if (!result.Success)
+        {
+            model.Alerts.AddRange(result.Errors.Select(e => e.Message));
             return View(model);
         }
 
