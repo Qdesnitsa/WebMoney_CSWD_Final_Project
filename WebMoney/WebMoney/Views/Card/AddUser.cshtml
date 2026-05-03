@@ -12,7 +12,7 @@
     <h2>Добавить пользователя к карте @Model.CardNumberMasked</h2>
     <p class="new-card-field-hint">Введите email пользователя и установите персональные лимиты.</p>
 
-    <form class="new-card-form" action="#" method="post" novalidate>
+    <form class="new-card-form" asp-controller="Card" asp-action="AddUser" method="post" novalidate>
       <input type="hidden" asp-for="CardId" />
 
       <div class="new-card-field">
@@ -21,21 +21,20 @@
         <span asp-validation-for="Email" class="new-card-hint"></span>
       </div>
 
-      <fieldset>
-        <legend>Права</legend>
-        <div class="new-card-field new-card-field-inline">
-          <input asp-for="CanManageUsers" type="checkbox" class="new-card-field-inline-check" />
-          <div>
-            <label asp-for="CanManageUsers">Управление пользователями</label>
+      @if (Model.CurrentUserMayManageCardUsers)
+      {
+        <fieldset>
+          <legend>Дополнительные права участника</legend>
+          <p class="new-card-field-hint">Платежи по карте доступны любому привязанному пользователю. Здесь можно выдать
+            право на управление пользователями этой карты.</p>
+          <div class="new-card-field new-card-field-inline">
+            <input asp-for="CanManageUsers" type="checkbox" class="new-card-field-inline-check"/>
+            <div>
+              <label asp-for="CanManageUsers">Управление пользователями карты</label>
+            </div>
           </div>
-        </div>
-        <div class="new-card-field new-card-field-inline">
-          <input asp-for="CanManageCards" type="checkbox" class="new-card-field-inline-check" />
-          <div>
-            <label asp-for="CanManageCards">Управление картами</label>
-          </div>
-        </div>
-      </fieldset>
+        </fieldset>
+      }
 
       <fieldset>
         <legend>Лимиты (необязательно)</legend>
@@ -58,7 +57,7 @@
       </fieldset>
 
       <div class="new-card-actions">
-        <button type="button" class="new-card-submit">Добавить пользователя</button>
+        <button type="submit" class="new-card-submit">Добавить пользователя</button>
         <a asp-controller="Card" asp-action="Card" class="new-card-back">Назад к картам</a>
       </div>
     </form>

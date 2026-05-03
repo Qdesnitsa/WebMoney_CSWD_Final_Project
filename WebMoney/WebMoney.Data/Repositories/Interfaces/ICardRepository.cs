@@ -1,11 +1,12 @@
-using WebMoney.Persistence.Entities;
+using WebMoney.Data.Entities;
 
 namespace WebMoney.Data.Repositories.Interfaces;
 
 public interface ICardRepository : IBaseRepository<Card>
 {
-    List<Card> GetCardsByUserId(int userId);
-    Card? GetCardWithUsersById(int cardId);
+    IReadOnlyList<Card> GetCardsByUserId(int userId);
+    Card? GetCardWithUsersAndCardLimitsById(int cardId);
     void CreateDepositTransaction(int cardId, string normalizedUserEmail, decimal amount);
     bool CheckCardNumberAlreadyExists(string cardNumber);
+    void RemoveCardUserProfileWithOptionalLimit(Card card, CardUserProfile profile);
 }

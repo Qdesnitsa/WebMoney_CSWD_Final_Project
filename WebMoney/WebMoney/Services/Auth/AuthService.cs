@@ -2,7 +2,7 @@ using Microsoft.AspNetCore.Identity;
 using WebMoney.Application.Auth;
 using WebMoney.Data.Enum;
 using WebMoney.Data.Repositories.Interfaces;
-using WebMoney.Persistence.Entities;
+using WebMoney.Data.Entities;
 
 namespace WebMoney.Services;
 

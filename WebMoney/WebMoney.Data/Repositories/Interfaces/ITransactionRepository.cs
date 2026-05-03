@@ -1,9 +1,9 @@
-using WebMoney.Persistence.Entities;
+using WebMoney.Data.Entities;
 
 namespace WebMoney.Data.Repositories.Interfaces;
 
 public interface ITransactionRepository : IBaseRepository<Transaction>
 {
-    List<Transaction> GetTransactionsByCardId(int cardId);
-    List<Transaction> GetTransactionsForPeriodByCard(int cardId, DateTime startDate, DateTime endDate);
+    IReadOnlyList<Transaction> GetTransactionsByCardId(int cardId);
+    IReadOnlyList<Transaction> GetTransactionsForPeriodByCard(int cardId, DateTime startDate, DateTime endDate);
 }

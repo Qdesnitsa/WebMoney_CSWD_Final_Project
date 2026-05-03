@@ -1,8 +1,10 @@
 using Microsoft.AspNetCore.Identity;
+using WebMoney.Auth;
 using WebMoney.Data.Enum;
 using WebMoney.Data.Repositories.Interfaces;
 using WebMoney.Application.Cards;
-using WebMoney.Persistence.Entities;
+using WebMoney.Models;
+using WebMoney.Data.Entities;
 
 namespace WebMoney.Services;
 
@@ -13,18 +15,46 @@ public class CardService(
 {
     private const int NumberOfYearsNewCardIsValid = 5;
     private const int NumberOfDigitsCardNumber = 16;
-    public List<Card> GetCardsByUserId(int userId) => cardRepository.GetCardsByUserId(userId);
+    public IReadOnlyList<UserCardListReadModel>? GetCardsForUser(int userId)
+    {
+        var user = userRepository.GetById(userId);
+        if (user is null)
+        {
+            return null;
+        }
+
+        var cards = cardRepository.GetCardsByUserId(userId);
+        var list = new List<UserCardListReadModel>(cards.Count);
+        foreach (var card in cards)
+        {
+            list.Add(new UserCardListReadModel
+            {
+                CardId = card.Id,
+                MaskedNumber = CardNumberMask.Mask(card.Number),
+                ValidThru = card.PeriodOfValidity.ToString(),
+                CreatedBy = card.CreatedBy,
+                Balance = card.Balance,
+                CurrencyCode = card.CurrencyCode.ToString(),
+                ShowUserManagement = CardPermissions.MayManageCardUsers(user, card),
+                IsOwner = CardPermissions.IsOwner(user, card),
+            });
+        }
+
+        return list;
+    }
+
     public string GenerateNotExistingCardNumber()
     {
         var cardNumber = GenerateCardNumber();
-        while (CheckCardNumberAlreadyExists(cardNumber))
+        while (CardNumberAlreadyExists(cardNumber))
         {
             cardNumber = GenerateCardNumber();
         }
+
         return cardNumber;
     }
-    
-    public bool CheckCardNumberAlreadyExists(string cardNumber) =>
+
+    private bool CardNumberAlreadyExists(string cardNumber) =>
         cardRepository.CheckCardNumberAlreadyExists(cardNumber);
 
     public PrepareNewCardResult GetById(int id)
@@ -41,6 +71,242 @@ public class CardService(
         return result;
     }
 
+    public PrepareNewCardResult GetCardWithUsersAndCardLimitsById(int cardId)
+    {
+        var result = new PrepareNewCardResult();
+        var card = cardRepository.GetCardWithUsersAndCardLimitsById(cardId);
+        if (card is null)
+        {
+            result.Errors.Add((string.Empty, "Карта не найдена"));
+            return result;
+        }
+
+        result.Card = card;
+        return result;
+    }
+
+    public bool UserMayManageCardUsers(int userId, int cardId) =>
+        TryGetUserAndCardForPermissions(userId, cardId, out var user, out var card) &&
+        CardPermissions.MayManageCardUsers(user, card);
+
+    public bool UserIsCardParticipant(int userId, int cardId) =>
+        TryGetUserAndCardForPermissions(userId, cardId, out var user, out var card) &&
+        CardPermissions.IsCardParticipant(user, card);
+
+    public bool UserIsCardOwner(int userId, int cardId) =>
+        TryGetUserAndCardForPermissions(userId, cardId, out var user, out var card) &&
+        CardPermissions.IsOwner(user, card);
+
+    private bool TryGetUserAndCardForPermissions(int userId, int cardId, out User? user, out Card? card)
+    {
+        var fetchedUser = userRepository.GetById(userId);
+        var fetchedCard = cardRepository.GetCardWithUsersAndCardLimitsById(cardId);
+        if (fetchedUser is null || fetchedCard is null)
+        {
+            user = null;
+            card = null;
+            return false;
+        }
+
+        user = fetchedUser;
+        card = fetchedCard;
+        return true;
+    }
+
+    public PrepareNewCardResult AddUserToCard(
+        int currentUserId,
+        int cardId,
+        string userEmail,
+        decimal? dailyLimit,
+        decimal? monthlyLimit,
+        decimal? perOperationLimit,
+        bool grantCanManageUsers)
+    {
+        var result = new PrepareNewCardResult();
+        var currentUser = userRepository.GetById(currentUserId);
+        if (currentUser is null)
+        {
+            result.Errors.Add((string.Empty, "Пользователь не найден"));
+            return result;
+        }
+
+        var card = cardRepository.GetCardWithUsersAndCardLimitsById(cardId);
+        if (card is null)
+        {
+            result.Errors.Add((string.Empty, "Карта не найдена"));
+            return result;
+        }
+
+        if (!CardPermissions.MayManageCardUsers(currentUser, card))
+        {
+            result.Errors.Add((string.Empty, "Недостаточно прав для управления пользователями карты"));
+            return result;
+        }
+
+        var normalizedEmail = NormalizeEmail(userEmail);
+        if (string.IsNullOrWhiteSpace(normalizedEmail))
+        {
+            result.Errors.Add((nameof(userEmail), "Укажите email пользователя"));
+            return result;
+        }
+
+        var user = userRepository.FindByEmail(normalizedEmail);
+        if (user is null)
+        {
+            result.Errors.Add((nameof(userEmail), "Пользователь с таким email не найден"));
+            return result;
+        }
+
+        if (card.CardUserProfiles.Any(cup => cup.UserId == user.Id))
+        {
+            result.Errors.Add((nameof(userEmail), "Пользователь уже имеет доступ к этой карте"));
+            return result;
+        }
+
+        RejectNegative(result, nameof(dailyLimit), dailyLimit);
+        RejectNegative(result, nameof(monthlyLimit), monthlyLimit);
+        RejectNegative(result, nameof(perOperationLimit), perOperationLimit);
+        if (!result.Success)
+        {
+            return result;
+        }
+
+        card.CardUserProfiles.Add(new CardUserProfile
+        {
+            UserId = user.Id,
+            CardId = card.Id,
+            CreatedAt = DateTime.UtcNow,
+            CreatedBy = currentUser.Email,
+            CanManageUsers = grantCanManageUsers,
+            CardLimit = CreateLimitIfNeeded(currentUser.Email, dailyLimit, monthlyLimit, perOperationLimit)
+        });
+
+        cardRepository.SaveChanges();
+        result.Card = card;
+        return result;
+    }
+
+    public PrepareNewCardResult UpdateUserAccess(
+        int currentUserId,
+        int cardId,
+        int cardUserProfileId,
+        decimal? dailyLimit,
+        decimal? monthlyLimit,
+        decimal? perOperationLimit,
+        bool? canManageUsers)
+    {
+        var result = new PrepareNewCardResult();
+        var currentUser = userRepository.GetById(currentUserId);
+        if (currentUser is null)
+        {
+            result.Errors.Add((string.Empty, "Пользователь не найден"));
+            return result;
+        }
+
+        var card = cardRepository.GetCardWithUsersAndCardLimitsById(cardId);
+        if (card is null)
+        {
+            result.Errors.Add((string.Empty, "Карта не найдена"));
+            return result;
+        }
+
+        if (!CardPermissions.MayManageCardUsers(currentUser, card))
+        {
+            result.Errors.Add((string.Empty, "Недостаточно прав для управления пользователями карты"));
+            return result;
+        }
+
+        var cardUserProfile = card.CardUserProfiles.FirstOrDefault(cup => cup.Id == cardUserProfileId);
+        if (cardUserProfile is null)
+        {
+            result.Errors.Add((string.Empty, "Пользователь карты не найден"));
+            return result;
+        }
+        
+        RejectNegative(result, nameof(dailyLimit), dailyLimit);
+        RejectNegative(result, nameof(monthlyLimit), monthlyLimit);
+        RejectNegative(result, nameof(perOperationLimit), perOperationLimit);
+        
+        if (!result.Success)
+        {
+            return result;
+        }
+
+        var targetIsOwner =
+            string.Equals(cardUserProfile.User?.Email, card.CreatedBy, StringComparison.OrdinalIgnoreCase);
+
+        if (targetIsOwner)
+        {
+            cardUserProfile.CanManageUsers = true;
+        }
+        else if (CardPermissions.MayManageCardUsers(currentUser, card) && canManageUsers.HasValue)
+        {
+            cardUserProfile.CanManageUsers = canManageUsers.Value;
+        }
+
+        if (cardUserProfile.CardLimit is null)
+        {
+            cardUserProfile.CardLimit =
+                CreateLimitIfNeeded(currentUser.Email, dailyLimit, monthlyLimit, perOperationLimit);
+        }
+        else
+        {
+            cardUserProfile.CardLimit.DailyLimit = dailyLimit;
+            cardUserProfile.CardLimit.MonthlyLimit = monthlyLimit;
+            cardUserProfile.CardLimit.PerOperationLimit = perOperationLimit;
+            cardUserProfile.CardLimit.UpdatedAt = DateTime.UtcNow;
+            cardUserProfile.CardLimit.UpdatedBy = currentUser.Email;
+        }
+
+        cardUserProfile.UpdatedAt = DateTime.UtcNow;
+        cardUserProfile.UpdatedBy = currentUser.Email;
+
+        cardRepository.SaveChanges();
+        result.Card = card;
+        return result;
+    }
+
+    public PrepareNewCardResult RemoveUserAccess(int currentUserId, int cardId, int cardUserProfileId)
+    {
+        var result = new PrepareNewCardResult();
+        var currentUser = userRepository.GetById(currentUserId);
+        if (currentUser is null)
+        {
+            result.Errors.Add((string.Empty, "Пользователь не найден"));
+            return result;
+        }
+
+        var card = cardRepository.GetCardWithUsersAndCardLimitsById(cardId);
+        if (card is null)
+        {
+            result.Errors.Add((string.Empty, "Карта не найдена"));
+            return result;
+        }
+
+        if (!CardPermissions.MayManageCardUsers(currentUser, card))
+        {
+            result.Errors.Add((string.Empty, "Недостаточно прав для управления пользователями карты"));
+            return result;
+        }
+
+        var cardUserProfile = card.CardUserProfiles.FirstOrDefault(cup => cup.Id == cardUserProfileId);
+        if (cardUserProfile is null)
+        {
+            result.Errors.Add((string.Empty, "Пользователь карты не найден"));
+            return result;
+        }
+
+        if (string.Equals(cardUserProfile.User?.Email, card.CreatedBy, StringComparison.OrdinalIgnoreCase))
+        {
+            result.Errors.Add((string.Empty, "Нельзя открепить владельца карты"));
+            return result;
+        }
+
+        cardRepository.RemoveCardUserProfileWithOptionalLimit(card, cardUserProfile);
+        result.Card = card;
+        return result;
+    }
+
     public PrepareNewCardResult PrepareNewCard(int userId, NewCardInput input)
     {
         var result = new PrepareNewCardResult();
@@ -48,6 +314,13 @@ public class CardService(
         if (user is null)
         {
             result.Errors.Add((string.Empty, "Пользователь не найден"));
+            return result;
+        }
+
+        var existingCards = cardRepository.GetCardsByUserId(userId);
+        if (existingCards.Count > 0 && !existingCards.Any(c => CardPermissions.IsOwner(user, c)))
+        {
+            result.Errors.Add((string.Empty, "Выпуск новой карты доступен только владельцу хотя бы одной карты"));
             return result;
         }
 
@@ -80,6 +353,7 @@ public class CardService(
                     UserId = user.Id,
                     CreatedAt = DateTime.UtcNow,
                     CreatedBy = user.Email,
+                    CanManageUsers = true,
                     CardLimit = new CardLimit
                     {
                         DailyLimit = input.DailyLimit,
@@ -103,6 +377,27 @@ public class CardService(
         {
             result.Errors.Add((field, "Лимит не может быть отрицательным"));
         }
+    }
+
+    private static string NormalizeEmail(string? email) =>
+        email?.Trim().ToLowerInvariant() ?? string.Empty;
+
+    private static CardLimit? CreateLimitIfNeeded(string createdBy, decimal? dailyLimit, decimal? monthlyLimit,
+        decimal? perOperationLimit)
+    {
+        if (dailyLimit is null && monthlyLimit is null && perOperationLimit is null)
+        {
+            return null;
+        }
+
+        return new CardLimit
+        {
+            DailyLimit = dailyLimit,
+            MonthlyLimit = monthlyLimit,
+            PerOperationLimit = perOperationLimit,
+            CreatedAt = DateTime.UtcNow,
+            CreatedBy = createdBy,
+        };
     }
 
     private string GenerateCardNumber()

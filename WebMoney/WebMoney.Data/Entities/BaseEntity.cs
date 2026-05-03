@@ -1,4 +1,4 @@
-namespace WebMoney.Persistence.Entities;
+namespace WebMoney.Data.Entities;
 
 public abstract class BaseEntity
 {

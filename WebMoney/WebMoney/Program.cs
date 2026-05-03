@@ -1,5 +1,4 @@
 using FluentValidation;
-using MediatR;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Serilog;
@@ -10,7 +9,7 @@ using WebMoney.Auth;
 using WebMoney.Data;
 using WebMoney.Data.Repositories;
 using WebMoney.Data.Repositories.Interfaces;
-using WebMoney.Persistence.Entities;
+using WebMoney.Data.Entities;
 using WebMoney.Services;
 
 namespace WebMoney

@@ -1,26 +1,41 @@
 using Microsoft.EntityFrameworkCore;
 using WebMoney.Data.Repositories.Interfaces;
 using WebMoney.Data.Enum;
-using WebMoney.Persistence.Entities;
+using WebMoney.Data.Entities;
 
 namespace WebMoney.Data.Repositories;
 
 public class CardRepository(WebContext webContext)
     : BaseRepository<Card>(webContext), ICardRepository
 {
-    public List<Card> GetCardsByUserId(int userId) =>
+    public IReadOnlyList<Card> GetCardsByUserId(int userId) =>
         webContext.Cards
-            .Where(card => card.CardUserProfiles
-                .Any(cup => cup.UserId == userId))
+            .Where(card => card.CardUserProfiles.Any(cup => cup.UserId == userId))
+            .Include(card => card.CardUserProfiles.Where(cup => cup.UserId == userId))
+            .ThenInclude(cup => cup.User)
             .ToList();
 
-    public Card? GetCardWithUsersById(int cardId) =>
+    public Card? GetCardWithUsersAndCardLimitsById(int cardId) =>
         webContext.Cards
             .Include(c => c.CardUserProfiles)
             .ThenInclude(cup => cup.User)
+            .Include(c => c.CardUserProfiles)
+            .ThenInclude(cup => cup.CardLimit)
             .FirstOrDefault(c => c.Id == cardId);
 
     public bool CheckCardNumberAlreadyExists(string cardNumber) => webContext.Cards.Any(c => c.Number == cardNumber);
+
+    public void RemoveCardUserProfileWithOptionalLimit(Card card, CardUserProfile profile)
+    {
+        var limit = profile.CardLimit;
+        card.CardUserProfiles.Remove(profile);
+        if (limit is not null)
+        {
+            webContext.CardLimits.Remove(limit);
+        }
+
+        webContext.SaveChanges();
+    }
 
     public void CreateDepositTransaction(int cardId, string normalizedUserEmail, decimal amount)
     {

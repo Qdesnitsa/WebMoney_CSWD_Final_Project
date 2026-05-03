@@ -1,5 +1,5 @@
 using WebMoney.Data.Repositories.Interfaces;
-using WebMoney.Persistence.Entities;
+using WebMoney.Data.Entities;
 
 namespace WebMoney.Data.Repositories;
 
@@ -16,6 +16,4 @@ public class UserRepository(WebContext webContext) : BaseRepository<User>(webCon
         webContext.UsersProfiles.Add(profile);
         webContext.SaveChanges();
     }
-
-    public void SaveChanges() => webContext.SaveChanges();
 }

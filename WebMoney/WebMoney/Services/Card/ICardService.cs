@@ -1,14 +1,19 @@
 using WebMoney.Application.Cards;
-using WebMoney.Persistence.Entities;
 
 namespace WebMoney.Services;
 
 public interface ICardService
 {
-    List<Card> GetCardsByUserId(int userId);
-    PrepareNewCardResult PrepareNewCard(int userId, NewCardInput input);
+    IReadOnlyList<UserCardListReadModel>? GetCardsForUser(int userId);
     DateOnly DefaultPeriodOfValidity();
+    bool UserMayManageCardUsers(int userId, int cardId);
+    bool UserIsCardParticipant(int userId, int cardId);
+    bool UserIsCardOwner(int userId, int cardId);
+    string GenerateNotExistingCardNumber();
+    PrepareNewCardResult AddUserToCard(int currentUserId, int cardId, string userEmail, decimal? dailyLimit, decimal? monthlyLimit, decimal? perOperationLimit, bool grantCanManageUsers);
+    PrepareNewCardResult UpdateUserAccess(int currentUserId, int cardId, int cardUserProfileId, decimal? dailyLimit, decimal? monthlyLimit, decimal? perOperationLimit, bool? canManageUsers);
+    PrepareNewCardResult RemoveUserAccess(int currentUserId, int cardId, int cardUserProfileId);
+    PrepareNewCardResult PrepareNewCard(int userId, NewCardInput input);
     PrepareNewCardResult GetById(int id);
-    public string GenerateNotExistingCardNumber();
-    bool CheckCardNumberAlreadyExists(string cardNumber);
+    PrepareNewCardResult GetCardWithUsersAndCardLimitsById(int cardId);
 }

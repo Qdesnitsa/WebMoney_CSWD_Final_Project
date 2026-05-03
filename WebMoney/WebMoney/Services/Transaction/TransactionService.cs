@@ -1,23 +1,35 @@
+using WebMoney.Auth;
 using WebMoney.Data.Repositories.Interfaces;
 using WebMoney.Application.Transactions;
-using WebMoney.Persistence.Entities;
+using WebMoney.Data.Entities;
 
 namespace WebMoney.Services;
 
-public class TransactionService(ITransactionRepository transactionRepository, ICardRepository cardRepository)
+public class TransactionService(
+    ITransactionRepository transactionRepository,
+    ICardRepository cardRepository,
+    IUserRepository userRepository)
     : ITransactionService
 {
-    public TransactionStatementResult GetTransactionsByCardIdForPeriod(int cardId, DateOnly? periodFrom,
+    public TransactionStatementResult GetTransactionsByCardIdForPeriod(int cardId, int currentUserId, DateOnly? periodFrom,
         DateOnly? periodTo,
         bool periodKeysPresentInQuery)
     {
         var result = new TransactionStatementResult();
 
-        var card = cardRepository.GetById(cardId);
+        var user = userRepository.GetById(currentUserId);
+        var card = cardRepository.GetCardWithUsersAndCardLimitsById(cardId);
         if (card is null)
         {
             result.CardId = cardId;
             result.Errors.Add((string.Empty, $"Карта с id {cardId} не найдена"));
+            return result;
+        }
+
+        if (user is null || !CardPermissions.IsCardParticipant(user, card))
+        {
+            result.CardId = cardId;
+            result.Errors.Add((string.Empty, "Доступно только участникам карты"));
             return result;
         }
 
@@ -49,6 +61,6 @@ public class TransactionService(ITransactionRepository transactionRepository, IC
         return result;
     }
 
-    public List<Transaction> GetTransactionsByCardId(int cardId) =>
+    public IReadOnlyList<Transaction> GetTransactionsByCardId(int cardId) =>
         transactionRepository.GetTransactionsByCardId(cardId);
 }

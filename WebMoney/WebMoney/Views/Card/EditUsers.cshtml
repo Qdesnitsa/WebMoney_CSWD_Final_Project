@@ -1,70 +1,118 @@
 @model EditUsersViewModel
+@using System.Globalization
 @{
   ViewData["Title"] = "Пользователи карты " + Model.CardNumberMasked;
 }
 
 @section Styles {
-  <link rel="stylesheet" href="~/css/newcard.css" asp-append-version="true" />
-  <link rel="stylesheet" href="~/css/edit-card-users.css" asp-append-version="true" />
+  <link rel="stylesheet" href="~/css/newcard.css" asp-append-version="true"/>
+  <link rel="stylesheet" href="~/css/edit-card-users.css" asp-append-version="true"/>
 }
 
 <main class="site-main">
   <section class="new-card-section edit-card-users-wrap">
     <h2>Пользователи карты @Model.CardNumberMasked</h2>
+    @if (Model.Users.Count == 0)
+    {
+      <p class="new-card-field-hint">К этой карте пока не привязано ни одного пользователя.<br>
+        Похоже, данные повреждены. Обратитесь в поддержку</p>
+    }
+    else
+    {
+      @foreach (var user in Model.Users)
+      {
+        <article class="edit-card-user-row">
+          <form asp-controller="Card" asp-action="EditUsers" asp-route-id="@Model.CardId" method="post"
+                class="edit-card-user-settings-form" novalidate>
+            <input type="hidden" name="CardId" value="@Model.CardId"/>
+            <input type="hidden" name="CardUserProfileId" value="@user.CardUserProfileId"/>
 
-    <article class="edit-card-user-row">
-        <form asp-controller="Card" asp-action="EditUsers" asp-route-id="@Model.CardId" method="post" class="edit-card-user-settings-form" novalidate>
-          <input type="hidden" asp-for="CardId" />
-          <fieldset class="edit-card-user-rights">
-            <legend>Права</legend>
-            <div class="new-card-field new-card-field-inline">
-              <input asp-for="CanManageUsers" type="checkbox" class="new-card-field-inline-check" />
-              <div>
-                <label asp-for="CanManageUsers">Управление пользователями</label>
+            <div class="edit-card-user-main-row">
+              <div class="edit-card-user-email-col">
+                <p class="edit-card-user-email">
+                  @user.UserEmail
+                  @if (user.IsOwner)
+                  {
+                    <span>(владелец)</span>
+                  }
+                </p>
+              </div>
+              <div class="edit-card-user-limits-row">
+                @if (Model.CurrentUserMayManageUsers && !user.IsOwner)
+                {
+                  <fieldset class="edit-card-user-rights">
+                    <legend>Дополнительные права</legend>
+                    <p class="new-card-field-hint">Платежи доступны всем привязанным к карте. Право «Управление
+                      пользователями карты» может выдавать владелец и делегаты с этим правом.</p>
+                    <div class="new-card-field new-card-field-inline">
+                      <input type="hidden" name="CanManageUsers" value="false"/>
+                      <input id="cup_@(user.CardUserProfileId)_mu" type="checkbox" name="CanManageUsers" value="true"
+                             class="new-card-field-inline-check" @(user.CanManageUsers ? "checked=\"checked\"" : null)/>
+                      <div>
+                        <label for="cup_@(user.CardUserProfileId)_mu">Управление пользователями карты</label>
+                      </div>
+                    </div>
+                  </fieldset>
+                }
+                <div class="edit-card-user-fields-horizontal">
+                  <div class="new-card-field edit-card-user-limit-field">
+                    <label class="new-card-caption" for="DailyLimit_@user.CardUserProfileId">Дневной лимит</label>
+                    <input id="DailyLimit_@user.CardUserProfileId"
+                           name="DailyLimit"
+                           class="new-card-limit"
+                           type="number"
+                           min="0"
+                           step="0.01"
+                           inputmode="decimal"
+                           value="@(user.DailyLimit?.ToString(CultureInfo.InvariantCulture))"/>
+                  </div>
+                  <div class="new-card-field edit-card-user-limit-field">
+                    <label class="new-card-caption" for="MonthlyLimit_@user.CardUserProfileId">Месячный лимит</label>
+                    <input id="MonthlyLimit_@user.CardUserProfileId"
+                           name="MonthlyLimit"
+                           class="new-card-limit"
+                           type="number"
+                           min="0"
+                           step="0.01"
+                           inputmode="decimal"
+                           value="@(user.MonthlyLimit?.ToString(CultureInfo.InvariantCulture))"/>
+                  </div>
+                  <div class="new-card-field edit-card-user-limit-field">
+                    <label class="new-card-caption" for="PerOperationLimit_@user.CardUserProfileId">Лимит на одну
+                      операцию</label>
+                    <input id="PerOperationLimit_@user.CardUserProfileId"
+                           name="PerOperationLimit"
+                           class="new-card-limit"
+                           type="number"
+                           min="0"
+                           step="0.01"
+                           inputmode="decimal"
+                           value="@(user.PerOperationLimit?.ToString(CultureInfo.InvariantCulture))"/>
+                  </div>
+                </div>
+                <div class="edit-card-user-actions new-card-actions">
+                  <button type="submit" class="new-card-submit">Сохранить настройки</button>
+                </div>
               </div>
             </div>
-            <div class="new-card-field new-card-field-inline">
-              <input asp-for="CanManageCards" type="checkbox" class="new-card-field-inline-check" />
-              <div>
-                <label asp-for="CanManageCards">Управление картами</label>
-              </div>
-            </div>
-          </fieldset>
-          <div class="edit-card-user-main-row">
-          @if (!string.IsNullOrEmpty(Model.UserEmail))
+          </form>
+
+          @if (!user.IsOwner)
           {
-            <div class="edit-card-user-email-col">
-              <p class="edit-card-user-email">@Model.UserEmail</p>
-            </div>
+            <form asp-controller="Card" asp-action="RemoveUser" asp-route-id="@Model.CardId" method="post"
+                  class="new-card-actions">
+              <input type="hidden" name="CardId" value="@Model.CardId"/>
+              <input type="hidden" name="CardUserProfileId" value="@user.CardUserProfileId"/>
+              <button type="submit" class="new-card-back">Открепить</button>
+            </form>
           }
-          <div class="edit-card-user-limits-row@(string.IsNullOrEmpty(Model.UserEmail) ? " edit-card-user-limits-row--full" : "")">
-            <div class="edit-card-user-fields-horizontal">
-              <div class="new-card-field edit-card-user-limit-field">
-                <label class="new-card-caption" asp-for="DailyLimit">Дневной лимит</label>
-                <input asp-for="DailyLimit" class="new-card-limit" type="number" min="0" step="0.01" inputmode="decimal" />
-                <span asp-validation-for="DailyLimit" class="new-card-hint"></span>
-              </div>
-              <div class="new-card-field edit-card-user-limit-field">
-                <label class="new-card-caption" asp-for="MonthlyLimit">Месячный лимит</label>
-                <input asp-for="MonthlyLimit" class="new-card-limit" type="number" min="0" step="0.01" inputmode="decimal" />
-                <span asp-validation-for="MonthlyLimit" class="new-card-hint"></span>
-              </div>
-              <div class="new-card-field edit-card-user-limit-field">
-                <label class="new-card-caption" asp-for="PerOperationLimit">Лимит на одну операцию</label>
-                <input asp-for="PerOperationLimit" class="new-card-limit" type="number" min="0" step="0.01" inputmode="decimal" />
-                <span asp-validation-for="PerOperationLimit" class="new-card-hint"></span>
-              </div>
-            </div>
-            <div class="edit-card-user-actions new-card-actions">
-              <button type="submit" class="new-card-submit">Сохранить настройки</button>
-              <button type="button" class="new-card-back" disabled>Открепить</button>
-            </div>
-          </div>
-          </div>
-        </form>
-    </article>
+        </article>
+      }
+    }
 
     <div class="new-card-actions">
+      <a asp-controller="Card" asp-action="AddUser" asp-route-cardId="@Model.CardId" class="new-card-submit">Добавить
+        пользователя</a>
       <a asp-controller="Card" asp-action="Card" class="new-card-back">Назад к картам</a>
     </div>
   </section>

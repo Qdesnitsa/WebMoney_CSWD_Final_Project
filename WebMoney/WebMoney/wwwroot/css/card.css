@@ -4,13 +4,28 @@
   display: flex;
   flex-wrap: wrap;
   align-items: center;
-  justify-content: flex-start;
+  justify-content: space-between;
   gap: 12px;
   margin-bottom: 24px;
+  width: 100%;
 }
 
 .user-cards-heading-row h2 {
   margin: 0;
+}
+
+a.user-cards-add-card {
+  display: inline-block;
+  padding: 10px 18px;
+  font: inherit;
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--color-light);
+  background: var(--color-ink);
+  border: 1px solid var(--color-gold-soft);
+  border-radius: 4px;
+  text-decoration: none;
+  white-space: nowrap;
 }
 
 .user-cards-layout {
