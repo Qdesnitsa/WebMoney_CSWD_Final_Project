@@ -1,4 +1,7 @@
 using FluentValidation;
+using Microsoft.Extensions.Localization;
+using WebMoney;
+using WebMoney.Localization;
 
 namespace WebMoney.Application.Cards;
 
@@ -6,36 +9,36 @@ public sealed class PrepareNewCardCommandValidator : AbstractValidator<PrepareNe
 {
     private const int CardNumberLength = 16;
 
-    public PrepareNewCardCommandValidator()
+    public PrepareNewCardCommandValidator(IStringLocalizer<SharedResource> localizer)
     {
-        RuleFor(x => x.UserId).GreaterThan(0).WithMessage("Пользователь не указан.");
+        RuleFor(x => x.UserId).GreaterThan(0).WithMessage(_ => ValidationString.From(localizer, "Validation_PrepareCardUserRequired"));
 
         RuleFor(x => x.CardNumber)
-            .NotEmpty()
-            .Length(CardNumberLength)
+            .NotEmpty().WithMessage(_ => ValidationString.From(localizer, "Validation_CardNumberEmpty"))
+            .Length(CardNumberLength).WithMessage(_ => ValidationString.From(localizer, "Validation_CardNumberLength"))
             .Matches(@"^[1-9]\d{15}$")
-            .WithMessage("Номер карты — 16 цифр, не начинается с 0");
+            .WithMessage(_ => ValidationString.From(localizer, "Validation_CardNumberFormat"));
 
         RuleFor(x => x.PinCode)
-            .NotEmpty()
+            .NotEmpty().WithMessage(_ => ValidationString.From(localizer, "Validation_PinRequired"))
             .Matches(@"^\d{4}$")
-            .WithMessage("PIN-код — ровно 4 цифры");
+            .WithMessage(_ => ValidationString.From(localizer, "Validation_PinFormat"));
 
-        RuleFor(x => x.CurrencyCode).IsInEnum().WithMessage("Выберите валюту.");
+        RuleFor(x => x.CurrencyCode).IsInEnum().WithMessage(_ => ValidationString.From(localizer, "Validation_CurrencyRequired"));
 
         RuleFor(x => x.DailyLimit)
             .GreaterThan(0)
             .When(x => x.DailyLimit.HasValue)
-            .WithMessage("Дневной лимит должен быть больше 0");
+            .WithMessage(_ => ValidationString.From(localizer, "Validation_LimitDailyPositive"));
 
         RuleFor(x => x.MonthlyLimit)
             .GreaterThan(0)
             .When(x => x.MonthlyLimit.HasValue)
-            .WithMessage("Месячный лимит должен быть больше 0");
+            .WithMessage(_ => ValidationString.From(localizer, "Validation_LimitMonthlyPositive"));
 
         RuleFor(x => x.PerOperationLimit)
             .GreaterThan(0)
             .When(x => x.PerOperationLimit.HasValue)
-            .WithMessage("Лимит на одну операцию должен быть больше 0");
+            .WithMessage(_ => ValidationString.From(localizer, "Validation_LimitPerOperationPositive"));
     }
 }

@@ -1,62 +1,63 @@
 @model TransactionViewModel
-
+@inject IStringLocalizer<SharedResource> SharedLocalizer
 @{
-    ViewData["Title"] = "Транзакции";
+    ViewData["Title"] = SharedLocalizer["Txn_PageTitle"].Value;
 }
 
 @section Styles {
-  <link rel="stylesheet" href="~/css/transaction.css" asp-append-version="true"/>
+    <link rel="stylesheet" href="~/css/transaction.css" asp-append-version="true"/>
 }
 
 <main class="site-main">
   <section class="transaction-section">
-    <h2 id="transaction-period-heading">Список транзакций по карте @Model.CardNumberMasked</h2>
+    <h2 id="transaction-period-heading">@SharedLocalizer["Txn_Heading", Model.CardNumberMasked]</h2>
     <form asp-controller="Transaction" asp-action="Transaction" method="get" class="transaction-form">
       <input type="hidden" asp-for="CardId" />
       <div class="transaction-period-row">
         <div class="transaction-field">
-          <label asp-for="PeriodFrom">С даты (включительно)</label>
+          <label asp-for="PeriodFrom">@SharedLocalizer["Txn_LabelFrom"]</label>
           <input asp-for="PeriodFrom" type="date" required />
           <span asp-validation-for="PeriodFrom" class="login-hint"></span>
         </div>
         <div class="transaction-field">
-          <label asp-for="PeriodTo">По дату (включительно)</label>
+          <label asp-for="PeriodTo">@SharedLocalizer["Txn_LabelTo"]</label>
           <input asp-for="PeriodTo" type="date" required />
           <span asp-validation-for="PeriodTo" class="login-hint"></span>
         </div>
       </div>
-      <button type="submit" class="transaction-submit">Показать транзакции</button>
-      <a asp-controller="Card" asp-action="Card" class="cards-back">Назад к картам</a>
+      <button type="submit" class="transaction-submit">@SharedLocalizer["Txn_Show"]</button>
+      <a asp-controller="Card" asp-action="Card" class="cards-back">@SharedLocalizer["Card_BackToCards"]</a>
     </form>
 
     @if (Model.Transactions.Count > 0)
     {
       <div class="transaction-grid" role="table">
         <div class="transaction-grid-row transaction-grid-row--head" role="row">
-          <span role="columnheader">Дата</span>
-          <span role="columnheader">Тип</span>
-          <span role="columnheader">Статус</span>
-          <span role="columnheader">Валюта</span>
-          <span role="columnheader" class="transaction-grid-num">Сумма</span>
-          <span role="columnheader">Контрагент</span>
-          <span role="columnheader">RRN</span>
+          <span role="columnheader">@SharedLocalizer["Txn_ColDate"]</span>
+          <span role="columnheader">@SharedLocalizer["Txn_ColType"]</span>
+          <span role="columnheader">@SharedLocalizer["Txn_ColStatus"]</span>
+          <span role="columnheader">@SharedLocalizer["Txn_ColCurrency"]</span>
+          <span role="columnheader" class="transaction-grid-num">@SharedLocalizer["Txn_ColAmount"]</span>
+          <span role="columnheader">@SharedLocalizer["Txn_ColCounterparty"]</span>
+          <span role="columnheader">@SharedLocalizer["Txn_ColRrn"]</span>
         </div>
         @foreach (var txn in Model.Transactions)
         {
           <div class="transaction-grid-row" role="row">
-            <span>@txn.DateTime.ToString("dd.MM.yyyy HH:mm")</span>
-            <span>@txn.TransactionType</span>
-            <span>@txn.TransactionStatus</span>
-            <span>@txn.CurrencyCode</span>
-            <span class="transaction-grid-num">@txn.Amount.ToString("N2")</span>
+            <span>@txn.DateTime.ToString("g", CultureInfo.CurrentCulture)</span>
+            <span>@SharedLocalizer["Enum_TransactionType_" + txn.TransactionType.ToString()]</span>
+            <span>@SharedLocalizer["Enum_TransactionStatus_" + txn.TransactionStatus.ToString()]</span>
+            <span>@SharedLocalizer["Enum_CurrencyCode_" + txn.CurrencyCode.ToString()]</span>
+            <span class="transaction-grid-num">@txn.Amount.ToString("N2", CultureInfo.CurrentCulture)</span>
             <span>@txn.Counterparty</span>
+            <span></span>
           </div>
         }
       </div>
     }
     else if (Model.ShowEmptyPeriodMessage)
     {
-      <p class="transaction-empty">За выбранный период операций нет.</p>
+      <p class="transaction-empty">@SharedLocalizer["Txn_Empty"]</p>
     }
   </section>
 </main>

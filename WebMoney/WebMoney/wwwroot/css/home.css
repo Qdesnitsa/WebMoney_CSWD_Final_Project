@@ -101,18 +101,57 @@ body {
   gap: 12px;
 }
 
-.lang-select {
-  font-family: inherit;
+.site-header-lang-dropdown {
+  position: relative;
+  flex-shrink: 0;
+}
+
+.site-header-lang-dropdown > summary {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  min-width: 4.25rem;
+  min-height: 42px;
+  padding: 10px 12px;
+  list-style: none;
+  font: inherit;
   font-size: 15px;
   font-weight: 500;
   color: var(--color-light);
-  background-color: var(--color-black);
-  padding: 10px 12px;
-  min-height: 42px;
-  border-radius: 6px;
+  background: var(--color-black);
   border: 1px solid var(--color-edge-on-dark);
+  border-radius: 6px;
   cursor: pointer;
+  user-select: none;
   appearance: none;
+}
+
+.site-header-lang-panel {
+  position: absolute;
+  top: calc(100% + 4px);
+  right: 0;
+  z-index: 30;
+  min-width: 5.5rem;
+  padding: 4px 0;
+  list-style: none;
+  background: var(--color-black);
+  border: 1px solid var(--color-edge-on-dark);
+  border-radius: 6px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.35);
+}
+
+.site-header-lang-option {
+  display: block;
+  padding: 10px 14px;
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--color-light);
+}
+
+.site-header-lang-option:hover,
+.site-header-lang-option:focus-visible {
+  background-color: rgba(255, 255, 255, 0.06);
+  color: var(--color-gold-soft);
 }
 
 .header-account-link {

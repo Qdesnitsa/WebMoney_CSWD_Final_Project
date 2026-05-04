@@ -1,6 +1,7 @@
 @model SignUpViewModel
+@inject IStringLocalizer<SharedResource> SharedLocalizer
 @{
-    ViewData["Title"] = "Регистрация";
+    ViewData["Title"] = SharedLocalizer["Auth_SignUp_Title"].Value;
 }
 
 @section Styles {
@@ -9,31 +10,31 @@
 
 <main class="site-main">
     <section class="login-section">
-        <h2 id="login-heading">Зарегистрироваться</h2>
+        <h2 id="login-heading">@SharedLocalizer["Auth_SignUp_Heading"]</h2>
         <form class="login-form" asp-controller="Auth" asp-action="SignUp" method="post" novalidate>
             <div class="login-field">
-                <label asp-for="UserName">Username</label>
+                <label asp-for="UserName">@SharedLocalizer["Auth_LabelUserName"]</label>
                 <input asp-for="UserName" autocomplete="username" />
                 <span asp-validation-for="UserName" class="login-hint"></span>
             </div>
             <div class="login-field">
-                <label asp-for="Email">Email</label>
+                <label asp-for="Email">@SharedLocalizer["Auth_LabelEmail"]</label>
                 <input asp-for="Email" autocomplete="email" />
                 <span asp-validation-for="Email" class="login-hint"></span>
             </div>
             <div class="login-field">
-                <label asp-for="Password">Пароль</label>
+                <label asp-for="Password">@SharedLocalizer["Auth_LabelPassword"]</label>
                 <input asp-for="Password" autocomplete="new-password" />
                 <span asp-validation-for="Password" class="login-hint"></span>
             </div>
             <div class="login-field">
-                <label asp-for="ConfirmPassword">Подтвердите пароль</label>
+                <label asp-for="ConfirmPassword">@SharedLocalizer["Auth_LabelConfirmPassword"]</label>
                 <input asp-for="ConfirmPassword" autocomplete="new-password" />
                 <span asp-validation-for="ConfirmPassword" class="login-hint"></span>
             </div>
             <div class="login-actions">
-                <button type="submit" class="login-submit">Зарегистрироваться</button>
-                <a asp-controller="Auth" asp-action="SignIn" class="login-submit login-submit--outline">Уже есть аккаунт? Войти</a>
+                <button type="submit" class="login-submit">@SharedLocalizer["Auth_SignUp_Submit"]</button>
+                <a asp-controller="Auth" asp-action="SignIn" class="login-submit login-submit--outline">@SharedLocalizer["Auth_SignUp_SignInLink"]</a>
             </div>
         </form>
     </section>

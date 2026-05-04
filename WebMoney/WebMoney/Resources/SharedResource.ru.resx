@@ -1,0 +1,621 @@
+<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="Layout_NavAbout" xml:space="preserve">
+    <value>О компании</value>
+  </data>
+  <data name="Layout_NavRates" xml:space="preserve">
+    <value>Курсы валют</value>
+  </data>
+  <data name="Layout_NavNews" xml:space="preserve">
+    <value>Новости</value>
+  </data>
+  <data name="Layout_NavContacts" xml:space="preserve">
+    <value>Контакты</value>
+  </data>
+  <data name="Layout_GreetingUser" xml:space="preserve">
+    <value>Привет, {0}</value>
+  </data>
+  <data name="Layout_GreetingAdmin" xml:space="preserve">
+    <value>Привет, Админ: {0}</value>
+  </data>
+  <data name="Layout_AccountLink" xml:space="preserve">
+    <value>Личный кабинет</value>
+  </data>
+  <data name="Layout_SignOut" xml:space="preserve">
+    <value>Выйти</value>
+  </data>
+  <data name="Layout_FooterContacts" xml:space="preserve">
+    <value>Контакты</value>
+  </data>
+  <data name="Layout_FooterSupport" xml:space="preserve">
+    <value>Служба поддержки</value>
+  </data>
+  <data name="Layout_FooterPhoneLandline" xml:space="preserve">
+    <value>Городской</value>
+  </data>
+  <data name="Layout_FooterSocial" xml:space="preserve">
+    <value>Мы в соцсетях</value>
+  </data>
+  <data name="Layout_FooterCopyright" xml:space="preserve">
+    <value>© 2000 – 2026 «ВебМани»</value>
+  </data>
+  <data name="Forbidden_Title" xml:space="preserve">
+    <value>Доступ запрещён</value>
+  </data>
+  <data name="Forbidden_Heading" xml:space="preserve">
+    <value>403 — доступ запрещён</value>
+  </data>
+  <data name="Forbidden_Body" xml:space="preserve">
+    <value>У вас нет прав для просмотра этой страницы. Если вы считаете, что это ошибка, обратитесь в службу поддержки.</value>
+  </data>
+  <data name="Forbidden_GoHome" xml:space="preserve">
+    <value>На главную</value>
+  </data>
+  <data name="Forbidden_SignInAsOther" xml:space="preserve">
+    <value>Войти под другим пользователем</value>
+  </data>
+  <data name="Home_PageTitle" xml:space="preserve">
+    <value>WebMoney</value>
+  </data>
+  <data name="Home_About_H2" xml:space="preserve">
+    <value>О нас</value>
+  </data>
+  <data name="Home_About_P1" xml:space="preserve">
+    <value>WebMoney — один из крупных коммерческих банков, включен в I группу системно значимых банков на 2025 год. Инициатор внедрения современных разработок в области безналичных расчетов и систем дистанционного обслуживания.</value>
+  </data>
+  <data name="Home_About_P2" xml:space="preserve">
+    <value>По версии аналитиков американского журнала Global Finance WebMoney стал лучшим банком в 2024 году.</value>
+  </data>
+  <data name="Home_About_P3Intro" xml:space="preserve">
+    <value>Также WebMoney в 2024 году получил серию наград на премии «Банк года» по итогам 2023 года:</value>
+  </data>
+  <data name="Home_About_Li1" xml:space="preserve">
+    <value>Вклад в науку — 1 место</value>
+  </data>
+  <data name="Home_About_Li2" xml:space="preserve">
+    <value>Крупный банк — 2 место</value>
+  </data>
+  <data name="Home_About_Li3" xml:space="preserve">
+    <value>Мобильное приложение для физических лиц — 3 место</value>
+  </data>
+  <data name="Home_About_P4" xml:space="preserve">
+    <value>Одна из главных отличительных черт WebMoney — стремление быть инновационным и технологичным, задавать тренды в развитии банковских сервисов. Выстраивая бизнес-стратегию, WebMoney стремится действовать социально ответственно, чтобы способствовать долгосрочному благосостоянию людей. В 2024 году независимое рейтинговое агентство BIK-Ratings присвоило WebMoney ESG-рейтинг на уровне AA.esg (прогноз стабильный).</value>
+  </data>
+  <data name="Home_Rates_Note" xml:space="preserve">
+    <value>Курсы указаны за единицу иностранной валюты в рублях</value>
+  </data>
+  <data name="Home_Rates_Caption" xml:space="preserve">
+    <value>Действуют с 08:30 30.03.2026 и могут быть изменены в течение дня.</value>
+  </data>
+  <data name="Home_Rates_ColCurrency" xml:space="preserve">
+    <value>Валюта</value>
+  </data>
+  <data name="Home_Rates_ColBuy" xml:space="preserve">
+    <value>Покупка</value>
+  </data>
+  <data name="Home_Rates_ColSell" xml:space="preserve">
+    <value>Продажа</value>
+  </data>
+  <data name="Home_News1_Time" xml:space="preserve">
+    <value>28 марта 2026</value>
+  </data>
+  <data name="Home_News1_Title" xml:space="preserve">
+    <value>WebMoney подтвердил ESG-рейтинг AA с «стабильным» прогнозом</value>
+  </data>
+  <data name="Home_News1_Body" xml:space="preserve">
+    <value>Агентство BIK-Ratings отметило прозрачность экологической и социальной отчётности банка и вовлечённость в программы финансовой грамотности для молодёжи и пенсионеров.</value>
+  </data>
+  <data name="Home_News2_Time" xml:space="preserve">
+    <value>26 марта 2026</value>
+  </data>
+  <data name="Home_News2_Title" xml:space="preserve">
+    <value>Изменения в величинах процентных ставок</value>
+  </data>
+  <data name="Home_News2_Body" xml:space="preserve">
+    <value>С 1 мая 2026 года вступают в силу новые Величины процентных ставок и прочие условия обслуживания счетов физических лиц.</value>
+  </data>
+  <data name="Home_News3_Time" xml:space="preserve">
+    <value>22 марта 2026</value>
+  </data>
+  <data name="Home_News3_Title" xml:space="preserve">
+    <value>WebMoney поддержал Единый день открытых дверей в учебных заведениях</value>
+  </data>
+  <data name="Home_News3_Body" xml:space="preserve">
+    <value>Мероприятие традиционно объединяет абитуриентов, их родителей, педагогов и организации-заказчиков кадров, предоставляя площадку для открытого диалога и знакомства с будущими возможностями обучения и трудоустройства.</value>
+  </data>
+  <data name="Home_News4_Time" xml:space="preserve">
+    <value>18 марта 2026</value>
+  </data>
+  <data name="Home_News4_Title" xml:space="preserve">
+    <value>Открыт образовательный центр «Финансы без страха»</value>
+  </data>
+  <data name="Home_News4_Body" xml:space="preserve">
+    <value>Бесплатные вебинары и очные встречи: как распознать мошенничество, безопасно пользоваться картами и планировать семейный бюджет. Запись доступна всем жителям региона.</value>
+  </data>
+  <data name="Home_News5_Time" xml:space="preserve">
+    <value>14 марта 2026</value>
+  </data>
+  <data name="Home_News5_Title" xml:space="preserve">
+    <value>Технологические работы 19 марта</value>
+  </data>
+  <data name="Home_News5_P1" xml:space="preserve">
+    <value>Уважаемые клиенты!</value>
+  </data>
+  <data name="Home_News5_P2" xml:space="preserve">
+    <value>Информируем, что 19 марта 2026 года с 02:00 до 06:00 запланированы технологические работы. В это время будут кратковременные перерывы в работе приложения. Просим планировать платежи с учетом данной информации.</value>
+  </data>
+  <data name="Auth_SignIn_Title" xml:space="preserve">
+    <value>Вход в личный кабинет</value>
+  </data>
+  <data name="Auth_SignIn_Heading" xml:space="preserve">
+    <value>Войти в личный кабинет</value>
+  </data>
+  <data name="Auth_LabelEmail" xml:space="preserve">
+    <value>Email</value>
+  </data>
+  <data name="Auth_LabelPassword" xml:space="preserve">
+    <value>Пароль</value>
+  </data>
+  <data name="Auth_SignIn_Submit" xml:space="preserve">
+    <value>Войти</value>
+  </data>
+  <data name="Auth_SignIn_RegisterLink" xml:space="preserve">
+    <value>Нет аккаунта? Зарегистрироваться</value>
+  </data>
+  <data name="Auth_SignUp_Title" xml:space="preserve">
+    <value>Регистрация</value>
+  </data>
+  <data name="Auth_SignUp_Heading" xml:space="preserve">
+    <value>Зарегистрироваться</value>
+  </data>
+  <data name="Auth_LabelUserName" xml:space="preserve">
+    <value>Имя пользователя</value>
+  </data>
+  <data name="Auth_LabelConfirmPassword" xml:space="preserve">
+    <value>Подтвердите пароль</value>
+  </data>
+  <data name="Auth_SignUp_Submit" xml:space="preserve">
+    <value>Зарегистрироваться</value>
+  </data>
+  <data name="Auth_SignUp_SignInLink" xml:space="preserve">
+    <value>Уже есть аккаунт? Войти</value>
+  </data>
+  <data name="Error_Title" xml:space="preserve">
+    <value>Ошибка</value>
+  </data>
+  <data name="Error_H1" xml:space="preserve">
+    <value>Ошибка.</value>
+  </data>
+  <data name="Error_H2" xml:space="preserve">
+    <value>При обработке запроса произошла ошибка.</value>
+  </data>
+  <data name="Error_RequestIdLabel" xml:space="preserve">
+    <value>Идентификатор запроса:</value>
+  </data>
+  <data name="Error_DevHeading" xml:space="preserve">
+    <value>Режим разработки</value>
+  </data>
+  <data name="Error_DevP1" xml:space="preserve">
+    <value>Переключение в среду Development покажет более подробные сведения об ошибке.</value>
+  </data>
+  <data name="Error_DevP2" xml:space="preserve">
+    <value>Среду Development не следует включать на опубликованном приложении: пользователям могут отображаться конфиденциальные данные из исключений. Для отладки на своей машине задайте переменную окружения ASPNETCORE_ENVIRONMENT значением Development и перезапустите приложение.</value>
+  </data>
+  <data name="Card_IndexTitle" xml:space="preserve">
+    <value>Мой профиль</value>
+  </data>
+  <data name="Card_MyCards" xml:space="preserve">
+    <value>Мои карты</value>
+  </data>
+  <data name="Card_AddCard" xml:space="preserve">
+    <value>Добавить карту</value>
+  </data>
+  <data name="Card_LabelCardNumber" xml:space="preserve">
+    <value>Номер карты</value>
+  </data>
+  <data name="Card_LabelValidThru" xml:space="preserve">
+    <value>Действует до</value>
+  </data>
+  <data name="Card_LabelHolder" xml:space="preserve">
+    <value>Владелец</value>
+  </data>
+  <data name="Card_LabelBalance" xml:space="preserve">
+    <value>Баланс</value>
+  </data>
+  <data name="Card_SectionPayments" xml:space="preserve">
+    <value>Платежные операции</value>
+  </data>
+  <data name="Card_Deposit" xml:space="preserve">
+    <value>Пополнить карту</value>
+  </data>
+  <data name="Card_TransferOther" xml:space="preserve">
+    <value>Перевести на другую карту</value>
+  </data>
+  <data name="Card_CreatePayment" xml:space="preserve">
+    <value>Создать платёж</value>
+  </data>
+  <data name="Card_ViewHistory" xml:space="preserve">
+    <value>Посмотреть историю операций</value>
+  </data>
+  <data name="Card_SectionUserMgmt" xml:space="preserve">
+    <value>Управление пользователями</value>
+  </data>
+  <data name="Card_AddUserLink" xml:space="preserve">
+    <value>Добавить пользователя</value>
+  </data>
+  <data name="Card_EditUsersLink" xml:space="preserve">
+    <value>Редактировать пользователей</value>
+  </data>
+  <data name="Card_SectionCard" xml:space="preserve">
+    <value>Карта</value>
+  </data>
+  <data name="Card_BlockCard" xml:space="preserve">
+    <value>Заблокировать карту</value>
+  </data>
+  <data name="Card_EditUsersPageTitle" xml:space="preserve">
+    <value>Пользователи карты {0}</value>
+  </data>
+  <data name="Card_EditUsersHeading" xml:space="preserve">
+    <value>Пользователи карты {0}</value>
+  </data>
+  <data name="Card_EditUsersEmpty1" xml:space="preserve">
+    <value>К этой карте пока не привязано ни одного пользователя.</value>
+  </data>
+  <data name="Card_EditUsersEmpty2" xml:space="preserve">
+    <value>Похоже, данные повреждены. Обратитесь в поддержку</value>
+  </data>
+  <data name="Card_OwnerBadge" xml:space="preserve">
+    <value>(владелец)</value>
+  </data>
+  <data name="Card_FieldsetExtraRights" xml:space="preserve">
+    <value>Дополнительные права</value>
+  </data>
+  <data name="Card_EditUsersRightsHint" xml:space="preserve">
+    <value>Платежи доступны всем привязанным к карте. Право «Управление пользователями карты» может выдавать владелец и делегаты с этим правом.</value>
+  </data>
+  <data name="Card_CanManageUsersLabel" xml:space="preserve">
+    <value>Управление пользователями карты</value>
+  </data>
+  <data name="Card_LimitDaily" xml:space="preserve">
+    <value>Дневной лимит</value>
+  </data>
+  <data name="Card_LimitMonthly" xml:space="preserve">
+    <value>Месячный лимит</value>
+  </data>
+  <data name="Card_LimitPerOperation" xml:space="preserve">
+    <value>Лимит на одну операцию</value>
+  </data>
+  <data name="Card_SaveSettings" xml:space="preserve">
+    <value>Сохранить настройки</value>
+  </data>
+  <data name="Card_Unlink" xml:space="preserve">
+    <value>Открепить</value>
+  </data>
+  <data name="Card_AddUserPrimary" xml:space="preserve">
+    <value>Добавить пользователя</value>
+  </data>
+  <data name="Card_BackToCards" xml:space="preserve">
+    <value>Назад к картам</value>
+  </data>
+  <data name="Card_NewCardTitle" xml:space="preserve">
+    <value>Новая карта</value>
+  </data>
+  <data name="Card_NewCardHeading" xml:space="preserve">
+    <value>Новая карта</value>
+  </data>
+  <data name="Card_CurrencyCode" xml:space="preserve">
+    <value>Код валюты</value>
+  </data>
+  <data name="Card_LimitsOptionalLegend" xml:space="preserve">
+    <value>Лимиты карты (необязательно)</value>
+  </data>
+  <data name="Card_LimitsOptionalHint" xml:space="preserve">
+    <value>Оставьте поля пустыми, если лимиты не нужны.</value>
+  </data>
+  <data name="Card_PinCaption" xml:space="preserve">
+    <value>PIN-код (4 цифры)</value>
+  </data>
+  <data name="Card_CreateCard" xml:space="preserve">
+    <value>Создать карту</value>
+  </data>
+  <data name="Card_BackToCardList" xml:space="preserve">
+    <value>К списку карт</value>
+  </data>
+  <data name="Card_AddUserPageTitle" xml:space="preserve">
+    <value>Добавить пользователя</value>
+  </data>
+  <data name="Card_AddUserHeading" xml:space="preserve">
+    <value>Добавить пользователя к карте {0}</value>
+  </data>
+  <data name="Card_AddUserIntro" xml:space="preserve">
+    <value>Введите email пользователя и установите персональные лимиты.</value>
+  </data>
+  <data name="Card_AddUserEmailLabel" xml:space="preserve">
+    <value>Email пользователя</value>
+  </data>
+  <data name="Card_AddUserParticipantRightsLegend" xml:space="preserve">
+    <value>Дополнительные права участника</value>
+  </data>
+  <data name="Card_AddUserParticipantRightsHint" xml:space="preserve">
+    <value>Платежи по карте доступны любому привязанному пользователю. Здесь можно выдать право на управление пользователями этой карты.</value>
+  </data>
+  <data name="Card_AddUserLimitsLegend" xml:space="preserve">
+    <value>Лимиты (необязательно)</value>
+  </data>
+  <data name="Card_AddUserLimitsHint" xml:space="preserve">
+    <value>Если поле оставить пустым, лимит не будет применяться.</value>
+  </data>
+  <data name="Card_AddUserSubmit" xml:space="preserve">
+    <value>Добавить пользователя</value>
+  </data>
+  <data name="Deposit_PageTitle" xml:space="preserve">
+    <value>Поступление на карту</value>
+  </data>
+  <data name="Deposit_Heading" xml:space="preserve">
+    <value>Поступление денежных средств на карту {0}</value>
+  </data>
+  <data name="Deposit_Hint" xml:space="preserve">
+    <value>Укажите сумму net для зачисления.</value>
+  </data>
+  <data name="Deposit_AmountLabel" xml:space="preserve">
+    <value>Сумма</value>
+  </data>
+  <data name="Deposit_Sender" xml:space="preserve">
+    <value>Отправитель</value>
+  </data>
+  <data name="Deposit_SenderName" xml:space="preserve">
+    <value>ООО «Самый лучший отправитель»</value>
+  </data>
+  <data name="Deposit_Submit" xml:space="preserve">
+    <value>Перечислить на карту</value>
+  </data>
+  <data name="Txn_PageTitle" xml:space="preserve">
+    <value>Транзакции</value>
+  </data>
+  <data name="Txn_Heading" xml:space="preserve">
+    <value>Список транзакций по карте {0}</value>
+  </data>
+  <data name="Txn_LabelFrom" xml:space="preserve">
+    <value>С даты (включительно)</value>
+  </data>
+  <data name="Txn_LabelTo" xml:space="preserve">
+    <value>По дату (включительно)</value>
+  </data>
+  <data name="Txn_Show" xml:space="preserve">
+    <value>Показать транзакции</value>
+  </data>
+  <data name="Txn_ColDate" xml:space="preserve">
+    <value>Дата</value>
+  </data>
+  <data name="Txn_ColType" xml:space="preserve">
+    <value>Тип</value>
+  </data>
+  <data name="Txn_ColStatus" xml:space="preserve">
+    <value>Статус</value>
+  </data>
+  <data name="Txn_ColCurrency" xml:space="preserve">
+    <value>Валюта</value>
+  </data>
+  <data name="Txn_ColAmount" xml:space="preserve">
+    <value>Сумма</value>
+  </data>
+  <data name="Txn_ColCounterparty" xml:space="preserve">
+    <value>Контрагент</value>
+  </data>
+  <data name="Txn_ColRrn" xml:space="preserve">
+    <value>RRN</value>
+  </data>
+  <data name="Txn_Empty" xml:space="preserve">
+    <value>За выбранный период операций нет.</value>
+  </data>
+  <data name="Admin_PageTitle" xml:space="preserve">
+    <value>Панель администратора</value>
+  </data>
+  <data name="Admin_Heading" xml:space="preserve">
+    <value>Панель администратора</value>
+  </data>
+  <data name="Admin_Actions" xml:space="preserve">
+    <value>Действия</value>
+  </data>
+  <data name="Admin_ShowApplications" xml:space="preserve">
+    <value>Показать заявки</value>
+  </data>
+  <data name="Admin_ShowStatistics" xml:space="preserve">
+    <value>Показать статистику</value>
+  </data>
+  <data name="Admin_ServiceFeeDebit" xml:space="preserve">
+    <value>Списать комиссию за обслуживание</value>
+  </data>
+  <data name="Admin_BlockUser" xml:space="preserve">
+    <value>Заблокировать/Разблокировать пользователя</value>
+  </data>
+  <data name="Admin_AddNews" xml:space="preserve">
+    <value>Добавить новость</value>
+  </data>
+  <data name="Enum_TransactionType_Withdrawal" xml:space="preserve">
+    <value>Списание</value>
+  </data>
+  <data name="Enum_TransactionType_Deposit" xml:space="preserve">
+    <value>Пополнение</value>
+  </data>
+  <data name="Enum_TransactionStatus_Initialized" xml:space="preserve">
+    <value>Создана</value>
+  </data>
+  <data name="Enum_TransactionStatus_Pending" xml:space="preserve">
+    <value>В обработке</value>
+  </data>
+  <data name="Enum_TransactionStatus_Completed" xml:space="preserve">
+    <value>Исполнена</value>
+  </data>
+  <data name="Enum_TransactionStatus_Canceled" xml:space="preserve">
+    <value>Отменена</value>
+  </data>
+  <data name="Enum_TransactionStatus_Failed" xml:space="preserve">
+    <value>Отклонена</value>
+  </data>
+  <data name="Enum_CurrencyCode_BYN" xml:space="preserve">
+    <value>BYN</value>
+  </data>
+  <data name="Enum_CurrencyCode_USD" xml:space="preserve">
+    <value>USD</value>
+  </data>
+  <data name="Enum_CurrencyCode_EURO" xml:space="preserve">
+    <value>EUR</value>
+  </data>
+  <data name="Service_Err_InvalidCredentials" xml:space="preserve">
+    <value>Неверный email или пароль</value>
+  </data>
+  <data name="Service_Err_EmailAlreadyRegistered" xml:space="preserve">
+    <value>Пользователь с таким email уже зарегистрирован</value>
+  </data>
+  <data name="Service_Err_CardNotFoundById" xml:space="preserve">
+    <value>Карта с id {0} не найдена</value>
+  </data>
+  <data name="Service_Err_CardMembersOnly" xml:space="preserve">
+    <value>Доступно только участникам карты</value>
+  </data>
+  <data name="Service_Err_BothDatesRequired" xml:space="preserve">
+    <value>Укажите обе даты периода.</value>
+  </data>
+  <data name="Service_Err_PeriodFromAfterTo" xml:space="preserve">
+    <value>Дата «с» не может быть позже даты «по».</value>
+  </data>
+  <data name="Service_Err_CardNotFound" xml:space="preserve">
+    <value>Карта не найдена</value>
+  </data>
+  <data name="Service_Err_CardInactive" xml:space="preserve">
+    <value>Карта не активна</value>
+  </data>
+  <data name="Service_Err_AmountOutOfRange" xml:space="preserve">
+    <value>Сумма вне допустимого диапазона</value>
+  </data>
+  <data name="Service_Err_UserNotFound" xml:space="preserve">
+    <value>Пользователь не найден</value>
+  </data>
+  <data name="Service_Err_NoPermissionManageCardUsers" xml:space="preserve">
+    <value>Недостаточно прав для управления пользователями карты</value>
+  </data>
+  <data name="Service_Err_SpecifyUserEmail" xml:space="preserve">
+    <value>Укажите email пользователя</value>
+  </data>
+  <data name="Service_Err_UserEmailNotFound" xml:space="preserve">
+    <value>Пользователь с таким email не найден</value>
+  </data>
+  <data name="Service_Err_UserAlreadyHasCardAccess" xml:space="preserve">
+    <value>Пользователь уже имеет доступ к этой карте</value>
+  </data>
+  <data name="Service_Err_CardUserNotFound" xml:space="preserve">
+    <value>Пользователь карты не найден</value>
+  </data>
+  <data name="Service_Err_CannotDetachOwner" xml:space="preserve">
+    <value>Нельзя открепить владельца карты</value>
+  </data>
+  <data name="Service_Err_NewCardOwnerOnly" xml:space="preserve">
+    <value>Выпуск новой карты доступен только владельцу хотя бы одной карты</value>
+  </data>
+  <data name="Service_Err_CardNumberFormat" xml:space="preserve">
+    <value>Номер карты — 16 цифр, не начинается с 0</value>
+  </data>
+  <data name="Service_Err_LimitNonNegative" xml:space="preserve">
+    <value>Лимит не может быть отрицательным</value>
+  </data>
+  <data name="Validation_EmailRequired" xml:space="preserve">
+    <value>Укажите email</value>
+  </data>
+  <data name="Validation_EmailInvalid" xml:space="preserve">
+    <value>Введите корректный адрес email</value>
+  </data>
+  <data name="Validation_EmailLength" xml:space="preserve">
+    <value>Email: 5–256 символов</value>
+  </data>
+  <data name="Validation_PasswordRequired" xml:space="preserve">
+    <value>Укажите пароль</value>
+  </data>
+  <data name="Validation_PasswordMinLength" xml:space="preserve">
+    <value>Пароль: минимум 8 символов</value>
+  </data>
+  <data name="Validation_PasswordMaxLength" xml:space="preserve">
+    <value>Пароль: максимум 100 символов</value>
+  </data>
+  <data name="Validation_PasswordPattern" xml:space="preserve">
+    <value>Пароль: латиница, цифра, заглавная и строчная буквы, от 8 символов</value>
+  </data>
+  <data name="Validation_UserNameRequired" xml:space="preserve">
+    <value>Укажите ваше имя</value>
+  </data>
+  <data name="Validation_UserNameLength" xml:space="preserve">
+    <value>Имя: 3–256 символов</value>
+  </data>
+  <data name="Validation_UserNamePattern" xml:space="preserve">
+    <value>Только латинские буквы, цифры, _ и -</value>
+  </data>
+  <data name="Validation_ConfirmPasswordRequired" xml:space="preserve">
+    <value>Подтвердите пароль</value>
+  </data>
+  <data name="Validation_ConfirmPasswordMismatch" xml:space="preserve">
+    <value>Пароли не совпадают</value>
+  </data>
+  <data name="Validation_UserIdRequired" xml:space="preserve">
+    <value>Не указан пользователь.</value>
+  </data>
+  <data name="Validation_PrepareCardUserRequired" xml:space="preserve">
+    <value>Пользователь не указан.</value>
+  </data>
+  <data name="Validation_CardNumberEmpty" xml:space="preserve">
+    <value>Укажите номер карты.</value>
+  </data>
+  <data name="Validation_CardNumberLength" xml:space="preserve">
+    <value>Номер карты должен содержать 16 цифр.</value>
+  </data>
+  <data name="Validation_CardNumberFormat" xml:space="preserve">
+    <value>Номер карты — 16 цифр, не начинается с 0</value>
+  </data>
+  <data name="Validation_PinRequired" xml:space="preserve">
+    <value>Укажите PIN-код.</value>
+  </data>
+  <data name="Validation_PinFormat" xml:space="preserve">
+    <value>PIN-код — ровно 4 цифры</value>
+  </data>
+  <data name="Validation_CurrencyRequired" xml:space="preserve">
+    <value>Выберите валюту.</value>
+  </data>
+  <data name="Validation_LimitDailyPositive" xml:space="preserve">
+    <value>Дневной лимит должен быть больше 0</value>
+  </data>
+  <data name="Validation_LimitMonthlyPositive" xml:space="preserve">
+    <value>Месячный лимит должен быть больше 0</value>
+  </data>
+  <data name="Validation_LimitPerOperationPositive" xml:space="preserve">
+    <value>Лимит на одну операцию должен быть больше 0</value>
+  </data>
+  <data name="Validation_CardIdRequired" xml:space="preserve">
+    <value>Не указана карта.</value>
+  </data>
+  <data name="Validation_AmountMin" xml:space="preserve">
+    <value>Сумма должна быть не меньше 0,01.</value>
+  </data>
+  <data name="Validation_AmountMax" xml:space="preserve">
+    <value>Сумма не может превышать 1 000 000 000.</value>
+  </data>
+  <data name="Validation_PeriodFromRequired" xml:space="preserve">
+    <value>Укажите дату «с».</value>
+  </data>
+  <data name="Validation_PeriodToRequired" xml:space="preserve">
+    <value>Укажите дату «по».</value>
+  </data>
+  <data name="Validation_PeriodRangeInvalid" xml:space="preserve">
+    <value>Дата «с» не может быть позже даты «по».</value>
+  </data>
+</root>

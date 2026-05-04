@@ -1,7 +1,8 @@
 @model EditUsersViewModel
 @using System.Globalization
+@inject IStringLocalizer<SharedResource> SharedLocalizer
 @{
-  ViewData["Title"] = "Пользователи карты " + Model.CardNumberMasked;
+  ViewData["Title"] = SharedLocalizer["Card_EditUsersPageTitle", Model.CardNumberMasked].Value;
 }
 
 @section Styles {
@@ -11,11 +12,10 @@
 
 <main class="site-main">
   <section class="new-card-section edit-card-users-wrap">
-    <h2>Пользователи карты @Model.CardNumberMasked</h2>
+    <h2>@SharedLocalizer["Card_EditUsersHeading", Model.CardNumberMasked]</h2>
     @if (Model.Users.Count == 0)
     {
-      <p class="new-card-field-hint">К этой карте пока не привязано ни одного пользователя.<br>
-        Похоже, данные повреждены. Обратитесь в поддержку</p>
+      <p class="new-card-field-hint">@SharedLocalizer["Card_EditUsersEmpty1"]<br>@SharedLocalizer["Card_EditUsersEmpty2"]</p>
     }
     else
     {
@@ -33,7 +33,7 @@
                   @user.UserEmail
                   @if (user.IsOwner)
                   {
-                    <span>(владелец)</span>
+                    <span>@SharedLocalizer["Card_OwnerBadge"]</span>
                   }
                 </p>
               </div>
@@ -41,22 +41,21 @@
                 @if (Model.CurrentUserMayManageUsers && !user.IsOwner)
                 {
                   <fieldset class="edit-card-user-rights">
-                    <legend>Дополнительные права</legend>
-                    <p class="new-card-field-hint">Платежи доступны всем привязанным к карте. Право «Управление
-                      пользователями карты» может выдавать владелец и делегаты с этим правом.</p>
+                    <legend>@SharedLocalizer["Card_FieldsetExtraRights"]</legend>
+                    <p class="new-card-field-hint">@SharedLocalizer["Card_EditUsersRightsHint"]</p>
                     <div class="new-card-field new-card-field-inline">
                       <input type="hidden" name="CanManageUsers" value="false"/>
                       <input id="cup_@(user.CardUserProfileId)_mu" type="checkbox" name="CanManageUsers" value="true"
                              class="new-card-field-inline-check" @(user.CanManageUsers ? "checked=\"checked\"" : null)/>
                       <div>
-                        <label for="cup_@(user.CardUserProfileId)_mu">Управление пользователями карты</label>
+                        <label for="cup_@(user.CardUserProfileId)_mu">@SharedLocalizer["Card_CanManageUsersLabel"]</label>
                       </div>
                     </div>
                   </fieldset>
                 }
                 <div class="edit-card-user-fields-horizontal">
                   <div class="new-card-field edit-card-user-limit-field">
-                    <label class="new-card-caption" for="DailyLimit_@user.CardUserProfileId">Дневной лимит</label>
+                    <label class="new-card-caption" for="DailyLimit_@user.CardUserProfileId">@SharedLocalizer["Card_LimitDaily"]</label>
                     <input id="DailyLimit_@user.CardUserProfileId"
                            name="DailyLimit"
                            class="new-card-limit"
@@ -67,7 +66,7 @@
                            value="@(user.DailyLimit?.ToString(CultureInfo.InvariantCulture))"/>
                   </div>
                   <div class="new-card-field edit-card-user-limit-field">
-                    <label class="new-card-caption" for="MonthlyLimit_@user.CardUserProfileId">Месячный лимит</label>
+                    <label class="new-card-caption" for="MonthlyLimit_@user.CardUserProfileId">@SharedLocalizer["Card_LimitMonthly"]</label>
                     <input id="MonthlyLimit_@user.CardUserProfileId"
                            name="MonthlyLimit"
                            class="new-card-limit"
@@ -78,8 +77,7 @@
                            value="@(user.MonthlyLimit?.ToString(CultureInfo.InvariantCulture))"/>
                   </div>
                   <div class="new-card-field edit-card-user-limit-field">
-                    <label class="new-card-caption" for="PerOperationLimit_@user.CardUserProfileId">Лимит на одну
-                      операцию</label>
+                    <label class="new-card-caption" for="PerOperationLimit_@user.CardUserProfileId">@SharedLocalizer["Card_LimitPerOperation"]</label>
                     <input id="PerOperationLimit_@user.CardUserProfileId"
                            name="PerOperationLimit"
                            class="new-card-limit"
@@ -91,7 +89,7 @@
                   </div>
                 </div>
                 <div class="edit-card-user-actions new-card-actions">
-                  <button type="submit" class="new-card-submit">Сохранить настройки</button>
+                  <button type="submit" class="new-card-submit">@SharedLocalizer["Card_SaveSettings"]</button>
                 </div>
               </div>
             </div>
@@ -103,7 +101,7 @@
                   class="new-card-actions">
               <input type="hidden" name="CardId" value="@Model.CardId"/>
               <input type="hidden" name="CardUserProfileId" value="@user.CardUserProfileId"/>
-              <button type="submit" class="new-card-back">Открепить</button>
+              <button type="submit" class="new-card-back">@SharedLocalizer["Card_Unlink"]</button>
             </form>
           }
         </article>
@@ -111,9 +109,8 @@
     }
 
     <div class="new-card-actions">
-      <a asp-controller="Card" asp-action="AddUser" asp-route-cardId="@Model.CardId" class="new-card-submit">Добавить
-        пользователя</a>
-      <a asp-controller="Card" asp-action="Card" class="new-card-back">Назад к картам</a>
+      <a asp-controller="Card" asp-action="AddUser" asp-route-cardId="@Model.CardId" class="new-card-submit">@SharedLocalizer["Card_AddUserPrimary"]</a>
+      <a asp-controller="Card" asp-action="Card" class="new-card-back">@SharedLocalizer["Card_BackToCards"]</a>
     </div>
   </section>
 </main>

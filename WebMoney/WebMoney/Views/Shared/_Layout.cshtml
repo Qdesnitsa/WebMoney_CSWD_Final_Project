@@ -1,13 +1,17 @@
+@using System.Globalization
 @using WebMoney.Auth
+@inject IStringLocalizer<SharedResource> SharedLocalizer
 
 @{
   var username = User.WebMoneyUserName();
   var isUser = User.IsInRole(nameof(Role.User));
   var isAdmin = User.IsInRole(nameof(Role.Admin));
+  var returnUrl = Context.Request.Path + Context.Request.QueryString;
+  var isEn = string.Equals(CultureInfo.CurrentUICulture.Name, "en-US", StringComparison.OrdinalIgnoreCase);
 }
 
 <!DOCTYPE html>
-<html lang="ru">
+<html lang="@CultureInfo.CurrentUICulture.Name">
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -28,32 +32,39 @@
           WebMoney
         </a>
       </li>
-      <li><a href="/#about-company" class="site-header-link">О компании</a></li>
-      <li><a href="/#currency-rates" class="site-header-link">Курсы валют</a></li>
-      <li><a href="/#news" class="site-header-link">Новости</a></li>
-      <li><a href="/#footer-contacts" class="site-header-link">Контакты</a></li>
+      <li><a href="/#about-company" class="site-header-link">@SharedLocalizer["Layout_NavAbout"]</a></li>
+      <li><a href="/#currency-rates" class="site-header-link">@SharedLocalizer["Layout_NavRates"]</a></li>
+      <li><a href="/#news" class="site-header-link">@SharedLocalizer["Layout_NavNews"]</a></li>
+      <li><a href="/#footer-contacts" class="site-header-link">@SharedLocalizer["Layout_NavContacts"]</a></li>
     </ul>
     <div class="site-header-tools">
-      <select id="header-language" class="lang-select" name="language">
-        <option value="ru" selected>Рус</option>
-        <option value="en">Eng</option>
-      </select>
+      <details class="site-header-lang-dropdown">
+        <summary>@(isEn ? "EN" : "RU")</summary>
+        <ul class="site-header-lang-panel">
+          <li>
+            <a asp-controller="Culture" asp-action="Set" asp-route-culture="ru-RU" asp-route-returnUrl="@returnUrl" class="site-header-lang-option">RU</a>
+          </li>
+          <li>
+            <a asp-controller="Culture" asp-action="Set" asp-route-culture="en-US" asp-route-returnUrl="@returnUrl" class="site-header-lang-option">EN</a>
+          </li>
+        </ul>
+      </details>
       @if (!string.IsNullOrEmpty(username) && isUser)
       {
-        <a asp-controller="Card" asp-action="Card" class="header-account-link">Привет, @username</a>
+        <a asp-controller="Card" asp-action="Card" class="header-account-link">@SharedLocalizer["Layout_GreetingUser", username]</a>
       }
       else if (isAdmin)
       {
-        <a asp-controller="Admin" asp-action="Admin" class="header-account-link">Привет, Админ: @username</a>
+        <a asp-controller="Admin" asp-action="Admin" class="header-account-link">@SharedLocalizer["Layout_GreetingAdmin", username]</a>
       }
       else
       {
-        <a asp-controller="Auth" asp-action="SignIn" class="header-account-link">Личный кабинет</a>
+        <a asp-controller="Auth" asp-action="SignIn" class="header-account-link">@SharedLocalizer["Layout_AccountLink"]</a>
       }
       @if (User.Identity?.IsAuthenticated == true)
       {
         <form asp-controller="Auth" asp-action="LogOut" method="post">
-          <button type="submit" class="header-account-link">Выйти</button>
+          <button type="submit" class="header-account-link">@SharedLocalizer["Layout_SignOut"]</button>
         </form>
       }
     </div>
@@ -68,10 +79,10 @@
   <footer class="site-footer">
     <div class="footer-columns">
       <div id="footer-contacts">
-        <p class="footer-contacts-title">Контакты</p>
-        <p class="footer-contacts-subtitle">Служба поддержки</p>
+        <p class="footer-contacts-title">@SharedLocalizer["Layout_FooterContacts"]</p>
+        <p class="footer-contacts-subtitle">@SharedLocalizer["Layout_FooterSupport"]</p>
           <dl class="footer-contacts-phones">
-            <dt>Городской</dt>
+            <dt>@SharedLocalizer["Layout_FooterPhoneLandline"]</dt>
             <dd>+375 17 111 11 11</dd>
             <dt>life:)</dt>
             <dd>+375 25 222 22 22</dd>
@@ -82,7 +93,7 @@
           </dl>
       </div>
       <div class="footer-social">
-        <p class="footer-social-title">Мы в соцсетях</p>
+        <p class="footer-social-title">@SharedLocalizer["Layout_FooterSocial"]</p>
         <ul class="footer-social-list">
           <li>
             <a class="footer-social-link" href="#">
@@ -107,7 +118,7 @@
         </ul>
       </div>
     </div>
-    <p class="footer-copy">&copy; 2000 – 2026 «ВебМани»</p>
+    <p class="footer-copy">@SharedLocalizer["Layout_FooterCopyright"]</p>
   </footer>
   <script src="~/js/site.js" asp-append-version="true"></script>
 </body>
