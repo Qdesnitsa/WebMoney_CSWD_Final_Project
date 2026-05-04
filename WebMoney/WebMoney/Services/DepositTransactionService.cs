@@ -1,3 +1,4 @@
+using Microsoft.Extensions.Localization;
 using WebMoney.Auth;
 using WebMoney.Data.Enum;
 using WebMoney.Data.Repositories.Interfaces;
@@ -8,7 +9,8 @@ namespace WebMoney.Services;
 public class DepositTransactionService(
     ICardRepository cardRepository,
     IUserRepository userRepository,
-    ILogger<DepositTransactionService> logger)
+    ILogger<DepositTransactionService> logger,
+    IStringLocalizer<SharedResource> localizer)
     : IDepositTransactionService
 {
     public PrepareNewDepositResult SubmitNewDeposit(int cardId, int userId, decimal amount)
@@ -17,18 +19,18 @@ public class DepositTransactionService(
         var card = cardRepository.GetCardWithUsersAndCardLimitsById(cardId);
         if (card is null)
         {
-            result.Errors.Add((string.Empty, "Карта не найдена"));
+            result.Errors.Add((string.Empty, localizer["Service_Err_CardNotFound"].Value!));
             return result;
         }
 
         if (card.CardStatus != CardStatus.Active)
         {
-            result.Errors.Add((string.Empty, "Карта не активна"));
+            result.Errors.Add((string.Empty, localizer["Service_Err_CardInactive"].Value!));
         }
 
         if (amount is < 0.01m or > 1_000_000_000m)
         {
-            result.Errors.Add((nameof(amount), "Сумма вне допустимого диапазона"));
+            result.Errors.Add((nameof(amount), localizer["Service_Err_AmountOutOfRange"].Value!));
         }
 
         result.CardNumber = card.Number;
@@ -36,7 +38,7 @@ public class DepositTransactionService(
         var user = userRepository.GetById(userId);
         if (user is null || !CardPermissions.IsCardParticipant(user, card))
         {
-            result.Errors.Add((string.Empty, "Доступно только участникам карты"));
+            result.Errors.Add((string.Empty, localizer["Service_Err_CardMembersOnly"].Value!));
         }
 
         if (!result.Success)

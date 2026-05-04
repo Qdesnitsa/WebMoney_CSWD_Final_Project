@@ -1,30 +1,31 @@
+@inject IStringLocalizer<SharedResource> SharedLocalizer
 @{
-    ViewData["Title"] = "WebMoney";
+    ViewData["Title"] = SharedLocalizer["Home_PageTitle"].Value;
 }
 
 <main class="site-main">
     <article id="about-company" class="about-company">
-        <h2>О нас</h2>
-        <p>WebMoney — один из крупных коммерческих банков, включен в I группу системно значимых банков на 2025 год. Инициатор внедрения современных разработок в области безналичных расчетов и систем дистанционного обслуживания.</p>
-        <p>По версии аналитиков американского журнала Global Finance WebMoney стал лучшим банком в 2024 году.</p>
-        <p>Также WebMoney в 2024 году получил серию наград на премии «Банк года» по итогам 2023 года:</p>
+        <h2>@SharedLocalizer["Home_About_H2"]</h2>
+        <p>@SharedLocalizer["Home_About_P1"]</p>
+        <p>@SharedLocalizer["Home_About_P2"]</p>
+        <p>@SharedLocalizer["Home_About_P3Intro"]</p>
         <ul>
-            <li>Вклад в науку — 1 место</li>
-            <li>Крупный банк — 2 место</li>
-            <li>Мобильное приложение для физических лиц — 3 место</li>
+            <li>@SharedLocalizer["Home_About_Li1"]</li>
+            <li>@SharedLocalizer["Home_About_Li2"]</li>
+            <li>@SharedLocalizer["Home_About_Li3"]</li>
         </ul>
-        <p>Одна из главных отличительных черт WebMoney — стремление быть инновационным и технологичным, задавать тренды в развитии банковских сервисов. Выстраивая бизнес-стратегию, WebMoney стремится действовать социально ответственно, чтобы способствовать долгосрочному благосостоянию людей. В 2024 году независимое рейтинговое агентство BIK-Ratings присвоило WebMoney ESG-рейтинг на уровне AA.esg (прогноз стабильный).</p>
+        <p>@SharedLocalizer["Home_About_P4"]</p>
     </article>
 
     <section id="currency-rates" class="currency-rates">
-        <h2 id="currency-rates-heading">Курсы валют</h2>
-        <p>Курсы указаны за единицу иностранной валюты в рублях</p>
+        <h2 id="currency-rates-heading">@SharedLocalizer["Layout_NavRates"]</h2>
+        <p>@SharedLocalizer["Home_Rates_Note"]</p>
         <div class="rates-table">
-            <p class="rates-table-caption">Действуют с 08:30 30.03.2026 и могут быть изменены в течение дня.</p>
+            <p class="rates-table-caption">@SharedLocalizer["Home_Rates_Caption"]</p>
             <div class="rates-grid rates-grid-head">
-                <div class="rates-cell rates-head-cell">Валюта</div>
-                <div class="rates-cell rates-head-cell">Покупка</div>
-                <div class="rates-cell rates-head-cell">Продажа</div>
+                <div class="rates-cell rates-head-cell">@SharedLocalizer["Home_Rates_ColCurrency"]</div>
+                <div class="rates-cell rates-head-cell">@SharedLocalizer["Home_Rates_ColBuy"]</div>
+                <div class="rates-cell rates-head-cell">@SharedLocalizer["Home_Rates_ColSell"]</div>
             </div>
             <div class="rates-grid">
                 <div class="rates-cell">
@@ -70,42 +71,41 @@
     </section>
 
     <section id="news" class="site-news">
-        <h2 id="news-heading">Новости</h2>
+        <h2 id="news-heading">@SharedLocalizer["Layout_NavNews"]</h2>
         <ul class="news-list">
             <li>
                 <article class="news-card">
-                    <time class="news-date" datetime="2026-03-28">28 марта 2026</time>
-                    <h3 class="news-title">WebMoney подтвердил ESG-рейтинг AA с «стабильным» прогнозом</h3>
-                    <p class="news-content">Агентство BIK-Ratings отметило прозрачность экологической и социальной отчётности банка и вовлечённость в программы финансовой грамотности для молодёжи и пенсионеров.</p>
+                    <time class="news-date" datetime="2026-03-28">@SharedLocalizer["Home_News1_Time"]</time>
+                    <h3 class="news-title">@SharedLocalizer["Home_News1_Title"]</h3>
+                    <p class="news-content">@SharedLocalizer["Home_News1_Body"]</p>
                 </article>
             </li>
             <li>
                 <article class="news-card">
-                    <time class="news-date" datetime="2026-03-26">26 марта 2026</time>
-                    <h3 class="news-title">Изменения в величинах процентных ставок</h3>
-                    <p class="news-content">С 1 мая 2026 года вступают в силу новые Величины процентных ставок и прочие условия обслуживания счетов физических лиц.</p>
+                    <time class="news-date" datetime="2026-03-26">@SharedLocalizer["Home_News2_Time"]</time>
+                    <h3 class="news-title">@SharedLocalizer["Home_News2_Title"]</h3>
+                    <p class="news-content">@SharedLocalizer["Home_News2_Body"]</p>
                 </article>
             </li>
             <li>
                 <article class="news-card">
-                    <time class="news-date" datetime="2026-03-22">22 марта 2026</time>
-                    <h3 class="news-title">WebMoney поддержал Единый день открытых дверей в учебных заведениях</h3>
-                    <p class="news-content">Мероприятие традиционно объединяет абитуриентов, их родителей, педагогов и организации-заказчиков кадров, предоставляя площадку для открытого диалога и знакомства с будущими возможностями обучения и трудоустройства.</p>
+                    <time class="news-date" datetime="2026-03-22">@SharedLocalizer["Home_News3_Time"]</time>
+                    <h3 class="news-title">@SharedLocalizer["Home_News3_Title"]</h3>
+                    <p class="news-content">@SharedLocalizer["Home_News3_Body"]</p>
                 </article>
             </li>
             <li>
                 <article class="news-card">
-                    <time class="news-date" datetime="2026-03-18">18 марта 2026</time>
-                    <h3 class="news-title">Открыт образовательный центр «Финансы без страха»</h3>
-                    <p class="news-content">Бесплатные вебинары и очные встречи: как распознать мошенничество, безопасно пользоваться картами и планировать семейный бюджет. Запись доступна всем жителям региона.</p>
+                    <time class="news-date" datetime="2026-03-18">@SharedLocalizer["Home_News4_Time"]</time>
+                    <h3 class="news-title">@SharedLocalizer["Home_News4_Title"]</h3>
+                    <p class="news-content">@SharedLocalizer["Home_News4_Body"]</p>
                 </article>
             </li>
             <li>
                 <article class="news-card">
-                    <time class="news-date" datetime="2026-03-14">14 марта 2026</time>
-                    <h3 class="news-title">Технологические работы 19 марта</h3>
-                    <p class="news-content">Уважаемые клиенты!<br>
-                        Информируем, что 19 марта 2026 года с 02:00 до 06:00 запланированы технологические работы. В это время будут кратковременные перерывы в работе приложения. Просим планировать платежи с учетом данной информации.</p>
+                    <time class="news-date" datetime="2026-03-14">@SharedLocalizer["Home_News5_Time"]</time>
+                    <h3 class="news-title">@SharedLocalizer["Home_News5_Title"]</h3>
+                    <p class="news-content">@SharedLocalizer["Home_News5_P1"]<br>@SharedLocalizer["Home_News5_P2"]</p>
                 </article>
             </li>
         </ul>

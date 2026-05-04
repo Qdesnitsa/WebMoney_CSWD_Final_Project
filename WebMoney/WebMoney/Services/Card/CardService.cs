@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Identity;
+using Microsoft.Extensions.Localization;
 using WebMoney.Auth;
 using WebMoney.Data.Enum;
 using WebMoney.Data.Repositories.Interfaces;
@@ -11,7 +12,8 @@ namespace WebMoney.Services;
 public class CardService(
     IPasswordHasher<Card> passwordHasher,
     ICardRepository cardRepository,
-    IUserRepository userRepository) : ICardService
+    IUserRepository userRepository,
+    IStringLocalizer<SharedResource> localizer) : ICardService
 {
     private const int NumberOfYearsNewCardIsValid = 5;
     private const int NumberOfDigitsCardNumber = 16;
@@ -63,7 +65,7 @@ public class CardService(
         var card = cardRepository.GetById(id);
         if (card is null)
         {
-            result.Errors.Add((string.Empty, "Карта не найдена"));
+            result.Errors.Add((string.Empty, localizer["Service_Err_CardNotFound"].Value!));
             return result;
         }
 
@@ -77,7 +79,7 @@ public class CardService(
         var card = cardRepository.GetCardWithUsersAndCardLimitsById(cardId);
         if (card is null)
         {
-            result.Errors.Add((string.Empty, "Карта не найдена"));
+            result.Errors.Add((string.Empty, localizer["Service_Err_CardNotFound"].Value!));
             return result;
         }
 
@@ -126,40 +128,40 @@ public class CardService(
         var currentUser = userRepository.GetById(currentUserId);
         if (currentUser is null)
         {
-            result.Errors.Add((string.Empty, "Пользователь не найден"));
+            result.Errors.Add((string.Empty, localizer["Service_Err_UserNotFound"].Value!));
             return result;
         }
 
         var card = cardRepository.GetCardWithUsersAndCardLimitsById(cardId);
         if (card is null)
         {
-            result.Errors.Add((string.Empty, "Карта не найдена"));
+            result.Errors.Add((string.Empty, localizer["Service_Err_CardNotFound"].Value!));
             return result;
         }
 
         if (!CardPermissions.MayManageCardUsers(currentUser, card))
         {
-            result.Errors.Add((string.Empty, "Недостаточно прав для управления пользователями карты"));
+            result.Errors.Add((string.Empty, localizer["Service_Err_NoPermissionManageCardUsers"].Value!));
             return result;
         }
 
         var normalizedEmail = NormalizeEmail(userEmail);
         if (string.IsNullOrWhiteSpace(normalizedEmail))
         {
-            result.Errors.Add((nameof(userEmail), "Укажите email пользователя"));
+            result.Errors.Add((nameof(userEmail), localizer["Service_Err_SpecifyUserEmail"].Value!));
             return result;
         }
 
         var user = userRepository.FindByEmail(normalizedEmail);
         if (user is null)
         {
-            result.Errors.Add((nameof(userEmail), "Пользователь с таким email не найден"));
+            result.Errors.Add((nameof(userEmail), localizer["Service_Err_UserEmailNotFound"].Value!));
             return result;
         }
 
         if (card.CardUserProfiles.Any(cup => cup.UserId == user.Id))
         {
-            result.Errors.Add((nameof(userEmail), "Пользователь уже имеет доступ к этой карте"));
+            result.Errors.Add((nameof(userEmail), localizer["Service_Err_UserAlreadyHasCardAccess"].Value!));
             return result;
         }
 
@@ -199,27 +201,27 @@ public class CardService(
         var currentUser = userRepository.GetById(currentUserId);
         if (currentUser is null)
         {
-            result.Errors.Add((string.Empty, "Пользователь не найден"));
+            result.Errors.Add((string.Empty, localizer["Service_Err_UserNotFound"].Value!));
             return result;
         }
 
         var card = cardRepository.GetCardWithUsersAndCardLimitsById(cardId);
         if (card is null)
         {
-            result.Errors.Add((string.Empty, "Карта не найдена"));
+            result.Errors.Add((string.Empty, localizer["Service_Err_CardNotFound"].Value!));
             return result;
         }
 
         if (!CardPermissions.MayManageCardUsers(currentUser, card))
         {
-            result.Errors.Add((string.Empty, "Недостаточно прав для управления пользователями карты"));
+            result.Errors.Add((string.Empty, localizer["Service_Err_NoPermissionManageCardUsers"].Value!));
             return result;
         }
 
         var cardUserProfile = card.CardUserProfiles.FirstOrDefault(cup => cup.Id == cardUserProfileId);
         if (cardUserProfile is null)
         {
-            result.Errors.Add((string.Empty, "Пользователь карты не найден"));
+            result.Errors.Add((string.Empty, localizer["Service_Err_CardUserNotFound"].Value!));
             return result;
         }
         
@@ -272,33 +274,33 @@ public class CardService(
         var currentUser = userRepository.GetById(currentUserId);
         if (currentUser is null)
         {
-            result.Errors.Add((string.Empty, "Пользователь не найден"));
+            result.Errors.Add((string.Empty, localizer["Service_Err_UserNotFound"].Value!));
             return result;
         }
 
         var card = cardRepository.GetCardWithUsersAndCardLimitsById(cardId);
         if (card is null)
         {
-            result.Errors.Add((string.Empty, "Карта не найдена"));
+            result.Errors.Add((string.Empty, localizer["Service_Err_CardNotFound"].Value!));
             return result;
         }
 
         if (!CardPermissions.MayManageCardUsers(currentUser, card))
         {
-            result.Errors.Add((string.Empty, "Недостаточно прав для управления пользователями карты"));
+            result.Errors.Add((string.Empty, localizer["Service_Err_NoPermissionManageCardUsers"].Value!));
             return result;
         }
 
         var cardUserProfile = card.CardUserProfiles.FirstOrDefault(cup => cup.Id == cardUserProfileId);
         if (cardUserProfile is null)
         {
-            result.Errors.Add((string.Empty, "Пользователь карты не найден"));
+            result.Errors.Add((string.Empty, localizer["Service_Err_CardUserNotFound"].Value!));
             return result;
         }
 
         if (string.Equals(cardUserProfile.User?.Email, card.CreatedBy, StringComparison.OrdinalIgnoreCase))
         {
-            result.Errors.Add((string.Empty, "Нельзя открепить владельца карты"));
+            result.Errors.Add((string.Empty, localizer["Service_Err_CannotDetachOwner"].Value!));
             return result;
         }
 
@@ -313,20 +315,20 @@ public class CardService(
         var user = userRepository.GetById(userId);
         if (user is null)
         {
-            result.Errors.Add((string.Empty, "Пользователь не найден"));
+            result.Errors.Add((string.Empty, localizer["Service_Err_UserNotFound"].Value!));
             return result;
         }
 
         var existingCards = cardRepository.GetCardsByUserId(userId);
         if (existingCards.Count > 0 && !existingCards.Any(c => CardPermissions.IsOwner(user, c)))
         {
-            result.Errors.Add((string.Empty, "Выпуск новой карты доступен только владельцу хотя бы одной карты"));
+            result.Errors.Add((string.Empty, localizer["Service_Err_NewCardOwnerOnly"].Value!));
             return result;
         }
 
         if (string.IsNullOrEmpty(input.CardNumber) || input.CardNumber.Length != NumberOfDigitsCardNumber)
         {
-            result.Errors.Add((input.CardNumber, "Номер карты — 16 цифр, не начинается с 0"));
+            result.Errors.Add((input.CardNumber, localizer["Service_Err_CardNumberFormat"].Value!));
         }
 
         RejectNegative(result, nameof(input.DailyLimit), input.DailyLimit);
@@ -375,7 +377,7 @@ public class CardService(
     {
         if (value is < 0)
         {
-            result.Errors.Add((field, "Лимит не может быть отрицательным"));
+            result.Errors.Add((field, localizer["Service_Err_LimitNonNegative"].Value!));
         }
     }
 

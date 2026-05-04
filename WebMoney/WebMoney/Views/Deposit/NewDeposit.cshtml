@@ -1,6 +1,7 @@
 @model NewDepositViewModel
+@inject IStringLocalizer<SharedResource> SharedLocalizer
 @{
-  ViewData["Title"] = "Поступление на карту";
+  ViewData["Title"] = SharedLocalizer["Deposit_PageTitle"].Value;
 }
 
 @section Styles {
@@ -9,12 +10,12 @@
 
 <main class="site-main">
   <section class="new-card-section">
-    <h2>Поступление денежных средств на карту @Model.CardNumberMasked</h2>
-    <p class="new-card-field-hint">Укажите сумму net для зачисления.</p>
+    <h2>@SharedLocalizer["Deposit_Heading", Model.CardNumberMasked]</h2>
+    <p class="new-card-field-hint">@SharedLocalizer["Deposit_Hint"]</p>
 
     <div class="new-card-field">
-      <span class="new-card-caption">Отправитель</span>
-      <input type="text" readonly class="new-card-input-readonly" value="ООО «Самый лучший отправитель»"/>
+      <span class="new-card-caption">@SharedLocalizer["Deposit_Sender"]</span>
+      <input type="text" readonly class="new-card-input-readonly" value="@(SharedLocalizer["Deposit_SenderName"])" />
     </div>
 
     <form class="new-card-form" asp-controller="Deposit" asp-action="NewDeposit" method="post" novalidate>
@@ -22,14 +23,14 @@
       <input type="hidden" asp-for="CardNumberMasked"/>
 
       <div class="new-card-field">
-        <label class="new-card-caption" asp-for="Amount"></label>
+        <label class="new-card-caption" asp-for="Amount">@SharedLocalizer["Deposit_AmountLabel"]</label>
         <input asp-for="Amount" type="number" min="0.01" step="0.01" inputmode="decimal"/>
         <span asp-validation-for="Amount" class="new-card-hint"></span>
       </div>
 
       <div class="new-card-actions">
-        <button type="submit" class="new-card-submit">Перечислить на карту</button>
-        <a asp-controller="Card" asp-action="Card" class="new-card-back">Назад к картам</a>
+        <button type="submit" class="new-card-submit">@SharedLocalizer["Deposit_Submit"]</button>
+        <a asp-controller="Card" asp-action="Card" class="new-card-back">@SharedLocalizer["Card_BackToCards"]</a>
       </div>
     </form>
   </section>

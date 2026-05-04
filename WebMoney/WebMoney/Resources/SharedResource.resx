@@ -1,0 +1,621 @@
+<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="Layout_NavAbout" xml:space="preserve">
+    <value>About</value>
+  </data>
+  <data name="Layout_NavRates" xml:space="preserve">
+    <value>Exchange rates</value>
+  </data>
+  <data name="Layout_NavNews" xml:space="preserve">
+    <value>News</value>
+  </data>
+  <data name="Layout_NavContacts" xml:space="preserve">
+    <value>Contacts</value>
+  </data>
+  <data name="Layout_GreetingUser" xml:space="preserve">
+    <value>Hello, {0}</value>
+  </data>
+  <data name="Layout_GreetingAdmin" xml:space="preserve">
+    <value>Hello, Admin: {0}</value>
+  </data>
+  <data name="Layout_AccountLink" xml:space="preserve">
+    <value>My profile</value>
+  </data>
+  <data name="Layout_SignOut" xml:space="preserve">
+    <value>Sign out</value>
+  </data>
+  <data name="Layout_FooterContacts" xml:space="preserve">
+    <value>Contacts</value>
+  </data>
+  <data name="Layout_FooterSupport" xml:space="preserve">
+    <value>Customer support</value>
+  </data>
+  <data name="Layout_FooterPhoneLandline" xml:space="preserve">
+    <value>Landline</value>
+  </data>
+  <data name="Layout_FooterSocial" xml:space="preserve">
+    <value>Follow us</value>
+  </data>
+  <data name="Layout_FooterCopyright" xml:space="preserve">
+    <value>© 2000 – 2026 WebMoney</value>
+  </data>
+  <data name="Forbidden_Title" xml:space="preserve">
+    <value>Access denied</value>
+  </data>
+  <data name="Forbidden_Heading" xml:space="preserve">
+    <value>403 — Access denied</value>
+  </data>
+  <data name="Forbidden_Body" xml:space="preserve">
+    <value>You do not have permission to view this page. If you believe this is a mistake, please contact customer support.</value>
+  </data>
+  <data name="Forbidden_GoHome" xml:space="preserve">
+    <value>Back to home</value>
+  </data>
+  <data name="Forbidden_SignInAsOther" xml:space="preserve">
+    <value>Sign in as another user</value>
+  </data>
+  <data name="Home_PageTitle" xml:space="preserve">
+    <value>WebMoney</value>
+  </data>
+  <data name="Home_About_H2" xml:space="preserve">
+    <value>About us</value>
+  </data>
+  <data name="Home_About_P1" xml:space="preserve">
+    <value>WebMoney is one of the largest commercial banks; it is included in Tier I of systemically important banks for 2025. The bank pioneered modern cashless payments and remote service channels.</value>
+  </data>
+  <data name="Home_About_P2" xml:space="preserve">
+    <value>According to analysts at US magazine Global Finance, WebMoney was named the best bank of 2024.</value>
+  </data>
+  <data name="Home_About_P3Intro" xml:space="preserve">
+    <value>WebMoney also received multiple awards at the “Bank of the Year” ceremony for 2023, announced in 2024:</value>
+  </data>
+  <data name="Home_About_Li1" xml:space="preserve">
+    <value>Contribution to science — 1st place</value>
+  </data>
+  <data name="Home_About_Li2" xml:space="preserve">
+    <value>Large bank — 2nd place</value>
+  </data>
+  <data name="Home_About_Li3" xml:space="preserve">
+    <value>Retail mobile app — 3rd place</value>
+  </data>
+  <data name="Home_About_P4" xml:space="preserve">
+    <value>A hallmark of WebMoney is innovation and technology leadership in banking services. The bank pursues a socially responsible strategy to support long-term prosperity. In 2024, independent agency BIK-Ratings assigned WebMoney an ESG rating of AA.esg (Stable Outlook).</value>
+  </data>
+  <data name="Home_Rates_Note" xml:space="preserve">
+    <value>Rates are quoted per unit of foreign currency in rubles.</value>
+  </data>
+  <data name="Home_Rates_Caption" xml:space="preserve">
+    <value>Effective from 08:30 30.03.2026 and subject to change during the day.</value>
+  </data>
+  <data name="Home_Rates_ColCurrency" xml:space="preserve">
+    <value>Currency</value>
+  </data>
+  <data name="Home_Rates_ColBuy" xml:space="preserve">
+    <value>Buy</value>
+  </data>
+  <data name="Home_Rates_ColSell" xml:space="preserve">
+    <value>Sell</value>
+  </data>
+  <data name="Home_News1_Time" xml:space="preserve">
+    <value>March 28, 2026</value>
+  </data>
+  <data name="Home_News1_Title" xml:space="preserve">
+    <value>WebMoney affirmed an AA ESG rating with a “Stable” outlook</value>
+  </data>
+  <data name="Home_News1_Body" xml:space="preserve">
+    <value>BIK-Ratings highlighted transparency in environmental and social reporting and programs that promote financial literacy for young people and seniors.</value>
+  </data>
+  <data name="Home_News2_Time" xml:space="preserve">
+    <value>March 26, 2026</value>
+  </data>
+  <data name="Home_News2_Title" xml:space="preserve">
+    <value>Changes to benchmark interest rates</value>
+  </data>
+  <data name="Home_News2_Body" xml:space="preserve">
+    <value>From May 1, 2026, new benchmark rates and other retail account terms will take effect.</value>
+  </data>
+  <data name="Home_News3_Time" xml:space="preserve">
+    <value>March 22, 2026</value>
+  </data>
+  <data name="Home_News3_Title" xml:space="preserve">
+    <value>WebMoney supported Open Doors Day at educational institutions</value>
+  </data>
+  <data name="Home_News3_Body" xml:space="preserve">
+    <value>The event brings together applicants, parents, educators, and employers for an open dialogue and a look at future study and career opportunities.</value>
+  </data>
+  <data name="Home_News4_Time" xml:space="preserve">
+    <value>March 18, 2026</value>
+  </data>
+  <data name="Home_News4_Title" xml:space="preserve">
+    <value>“Finance without fear” education hub opens</value>
+  </data>
+  <data name="Home_News4_Body" xml:space="preserve">
+    <value>Free webinars and in-person sessions: how to spot fraud, use cards safely, and plan a household budget. Registration is open to all residents of the region.</value>
+  </data>
+  <data name="Home_News5_Time" xml:space="preserve">
+    <value>March 14, 2026</value>
+  </data>
+  <data name="Home_News5_Title" xml:space="preserve">
+    <value>Planned maintenance on March 19</value>
+  </data>
+  <data name="Home_News5_P1" xml:space="preserve">
+    <value>Dear customers!</value>
+  </data>
+  <data name="Home_News5_P2" xml:space="preserve">
+    <value>On March 19, 2026, from 02:00 to 06:00, maintenance is scheduled. The app may be briefly unavailable. Please plan payments accordingly.</value>
+  </data>
+  <data name="Auth_SignIn_Title" xml:space="preserve">
+    <value>Sign in</value>
+  </data>
+  <data name="Auth_SignIn_Heading" xml:space="preserve">
+    <value>Sign in to your account</value>
+  </data>
+  <data name="Auth_LabelEmail" xml:space="preserve">
+    <value>Email</value>
+  </data>
+  <data name="Auth_LabelPassword" xml:space="preserve">
+    <value>Password</value>
+  </data>
+  <data name="Auth_SignIn_Submit" xml:space="preserve">
+    <value>Sign in</value>
+  </data>
+  <data name="Auth_SignIn_RegisterLink" xml:space="preserve">
+    <value>No account? Register</value>
+  </data>
+  <data name="Auth_SignUp_Title" xml:space="preserve">
+    <value>Registration</value>
+  </data>
+  <data name="Auth_SignUp_Heading" xml:space="preserve">
+    <value>Create an account</value>
+  </data>
+  <data name="Auth_LabelUserName" xml:space="preserve">
+    <value>Username</value>
+  </data>
+  <data name="Auth_LabelConfirmPassword" xml:space="preserve">
+    <value>Confirm password</value>
+  </data>
+  <data name="Auth_SignUp_Submit" xml:space="preserve">
+    <value>Register</value>
+  </data>
+  <data name="Auth_SignUp_SignInLink" xml:space="preserve">
+    <value>Already have an account? Sign in</value>
+  </data>
+  <data name="Error_Title" xml:space="preserve">
+    <value>Error</value>
+  </data>
+  <data name="Error_H1" xml:space="preserve">
+    <value>Error.</value>
+  </data>
+  <data name="Error_H2" xml:space="preserve">
+    <value>An error occurred while processing your request.</value>
+  </data>
+  <data name="Error_RequestIdLabel" xml:space="preserve">
+    <value>Request ID:</value>
+  </data>
+  <data name="Error_DevHeading" xml:space="preserve">
+    <value>Development mode</value>
+  </data>
+  <data name="Error_DevP1" xml:space="preserve">
+    <value>Switching to the Development environment shows more detailed information about the error.</value>
+  </data>
+  <data name="Error_DevP2" xml:space="preserve">
+    <value>The Development environment must not be enabled in production: it can expose sensitive exception details to users. For local debugging, set the ASPNETCORE_ENVIRONMENT variable to Development and restart the app.</value>
+  </data>
+  <data name="Card_IndexTitle" xml:space="preserve">
+    <value>My profile</value>
+  </data>
+  <data name="Card_MyCards" xml:space="preserve">
+    <value>My cards</value>
+  </data>
+  <data name="Card_AddCard" xml:space="preserve">
+    <value>Add card</value>
+  </data>
+  <data name="Card_LabelCardNumber" xml:space="preserve">
+    <value>Card number</value>
+  </data>
+  <data name="Card_LabelValidThru" xml:space="preserve">
+    <value>Valid thru</value>
+  </data>
+  <data name="Card_LabelHolder" xml:space="preserve">
+    <value>Cardholder</value>
+  </data>
+  <data name="Card_LabelBalance" xml:space="preserve">
+    <value>Balance</value>
+  </data>
+  <data name="Card_SectionPayments" xml:space="preserve">
+    <value>Payments</value>
+  </data>
+  <data name="Card_Deposit" xml:space="preserve">
+    <value>Top up card</value>
+  </data>
+  <data name="Card_TransferOther" xml:space="preserve">
+    <value>Transfer to another card</value>
+  </data>
+  <data name="Card_CreatePayment" xml:space="preserve">
+    <value>Create payment</value>
+  </data>
+  <data name="Card_ViewHistory" xml:space="preserve">
+    <value>View transaction history</value>
+  </data>
+  <data name="Card_SectionUserMgmt" xml:space="preserve">
+    <value>User management</value>
+  </data>
+  <data name="Card_AddUserLink" xml:space="preserve">
+    <value>Add user</value>
+  </data>
+  <data name="Card_EditUsersLink" xml:space="preserve">
+    <value>Edit users</value>
+  </data>
+  <data name="Card_SectionCard" xml:space="preserve">
+    <value>Card</value>
+  </data>
+  <data name="Card_BlockCard" xml:space="preserve">
+    <value>Block card</value>
+  </data>
+  <data name="Card_EditUsersPageTitle" xml:space="preserve">
+    <value>Card users {0}</value>
+  </data>
+  <data name="Card_EditUsersHeading" xml:space="preserve">
+    <value>Card users {0}</value>
+  </data>
+  <data name="Card_EditUsersEmpty1" xml:space="preserve">
+    <value>No users are linked to this card yet.</value>
+  </data>
+  <data name="Card_EditUsersEmpty2" xml:space="preserve">
+    <value>The data may be corrupted. Please contact support.</value>
+  </data>
+  <data name="Card_OwnerBadge" xml:space="preserve">
+    <value>(owner)</value>
+  </data>
+  <data name="Card_FieldsetExtraRights" xml:space="preserve">
+    <value>Additional permissions</value>
+  </data>
+  <data name="Card_EditUsersRightsHint" xml:space="preserve">
+    <value>Payments are available to everyone linked to the card. Only the owner and delegates with this permission can grant “Manage card users”.</value>
+  </data>
+  <data name="Card_CanManageUsersLabel" xml:space="preserve">
+    <value>Manage card users</value>
+  </data>
+  <data name="Card_LimitDaily" xml:space="preserve">
+    <value>Daily limit</value>
+  </data>
+  <data name="Card_LimitMonthly" xml:space="preserve">
+    <value>Monthly limit</value>
+  </data>
+  <data name="Card_LimitPerOperation" xml:space="preserve">
+    <value>Per-transaction limit</value>
+  </data>
+  <data name="Card_SaveSettings" xml:space="preserve">
+    <value>Save settings</value>
+  </data>
+  <data name="Card_Unlink" xml:space="preserve">
+    <value>Remove user</value>
+  </data>
+  <data name="Card_AddUserPrimary" xml:space="preserve">
+    <value>Add user</value>
+  </data>
+  <data name="Card_BackToCards" xml:space="preserve">
+    <value>Back to cards</value>
+  </data>
+  <data name="Card_NewCardTitle" xml:space="preserve">
+    <value>New card</value>
+  </data>
+  <data name="Card_NewCardHeading" xml:space="preserve">
+    <value>New card</value>
+  </data>
+  <data name="Card_CurrencyCode" xml:space="preserve">
+    <value>Currency code</value>
+  </data>
+  <data name="Card_LimitsOptionalLegend" xml:space="preserve">
+    <value>Card limits (optional)</value>
+  </data>
+  <data name="Card_LimitsOptionalHint" xml:space="preserve">
+    <value>Leave fields empty if limits are not required.</value>
+  </data>
+  <data name="Card_PinCaption" xml:space="preserve">
+    <value>PIN code (4 digits)</value>
+  </data>
+  <data name="Card_CreateCard" xml:space="preserve">
+    <value>Create card</value>
+  </data>
+  <data name="Card_BackToCardList" xml:space="preserve">
+    <value>Back to card list</value>
+  </data>
+  <data name="Card_AddUserPageTitle" xml:space="preserve">
+    <value>Add user</value>
+  </data>
+  <data name="Card_AddUserHeading" xml:space="preserve">
+    <value>Add user to card {0}</value>
+  </data>
+  <data name="Card_AddUserIntro" xml:space="preserve">
+    <value>Enter the user email and set personal limits.</value>
+  </data>
+  <data name="Card_AddUserEmailLabel" xml:space="preserve">
+    <value>User email</value>
+  </data>
+  <data name="Card_AddUserParticipantRightsLegend" xml:space="preserve">
+    <value>Additional participant permissions</value>
+  </data>
+  <data name="Card_AddUserParticipantRightsHint" xml:space="preserve">
+    <value>Payments on the card are available to any linked user. Here you can grant permission to manage users of this card.</value>
+  </data>
+  <data name="Card_AddUserLimitsLegend" xml:space="preserve">
+    <value>Limits (optional)</value>
+  </data>
+  <data name="Card_AddUserLimitsHint" xml:space="preserve">
+    <value>If a field is left empty, the limit will not apply.</value>
+  </data>
+  <data name="Card_AddUserSubmit" xml:space="preserve">
+    <value>Add user</value>
+  </data>
+  <data name="Deposit_PageTitle" xml:space="preserve">
+    <value>Deposit to card</value>
+  </data>
+  <data name="Deposit_Heading" xml:space="preserve">
+    <value>Deposit funds to card {0}</value>
+  </data>
+  <data name="Deposit_Hint" xml:space="preserve">
+    <value>Enter the net amount to credit.</value>
+  </data>
+  <data name="Deposit_AmountLabel" xml:space="preserve">
+    <value>Amount</value>
+  </data>
+  <data name="Deposit_Sender" xml:space="preserve">
+    <value>Sender</value>
+  </data>
+  <data name="Deposit_SenderName" xml:space="preserve">
+    <value>Best Sender LLC</value>
+  </data>
+  <data name="Deposit_Submit" xml:space="preserve">
+    <value>Transfer to card</value>
+  </data>
+  <data name="Txn_PageTitle" xml:space="preserve">
+    <value>Transactions</value>
+  </data>
+  <data name="Txn_Heading" xml:space="preserve">
+    <value>Transactions for card {0}</value>
+  </data>
+  <data name="Txn_LabelFrom" xml:space="preserve">
+    <value>From date (inclusive)</value>
+  </data>
+  <data name="Txn_LabelTo" xml:space="preserve">
+    <value>To date (inclusive)</value>
+  </data>
+  <data name="Txn_Show" xml:space="preserve">
+    <value>Show transactions</value>
+  </data>
+  <data name="Txn_ColDate" xml:space="preserve">
+    <value>Date</value>
+  </data>
+  <data name="Txn_ColType" xml:space="preserve">
+    <value>Type</value>
+  </data>
+  <data name="Txn_ColStatus" xml:space="preserve">
+    <value>Status</value>
+  </data>
+  <data name="Txn_ColCurrency" xml:space="preserve">
+    <value>Currency</value>
+  </data>
+  <data name="Txn_ColAmount" xml:space="preserve">
+    <value>Amount</value>
+  </data>
+  <data name="Txn_ColCounterparty" xml:space="preserve">
+    <value>Counterparty</value>
+  </data>
+  <data name="Txn_ColRrn" xml:space="preserve">
+    <value>RRN</value>
+  </data>
+  <data name="Txn_Empty" xml:space="preserve">
+    <value>No transactions for the selected period.</value>
+  </data>
+  <data name="Admin_PageTitle" xml:space="preserve">
+    <value>Admin panel</value>
+  </data>
+  <data name="Admin_Heading" xml:space="preserve">
+    <value>Admin panel</value>
+  </data>
+  <data name="Admin_Actions" xml:space="preserve">
+    <value>Actions</value>
+  </data>
+  <data name="Admin_ShowApplications" xml:space="preserve">
+    <value>View applications</value>
+  </data>
+  <data name="Admin_ShowStatistics" xml:space="preserve">
+    <value>View statistics</value>
+  </data>
+  <data name="Admin_ServiceFeeDebit" xml:space="preserve">
+    <value>Debit maintenance fee</value>
+  </data>
+  <data name="Admin_BlockUser" xml:space="preserve">
+    <value>Block / unblock user</value>
+  </data>
+  <data name="Admin_AddNews" xml:space="preserve">
+    <value>Add news</value>
+  </data>
+  <data name="Enum_TransactionType_Withdrawal" xml:space="preserve">
+    <value>Withdrawal</value>
+  </data>
+  <data name="Enum_TransactionType_Deposit" xml:space="preserve">
+    <value>Deposit</value>
+  </data>
+  <data name="Enum_TransactionStatus_Initialized" xml:space="preserve">
+    <value>Initialized</value>
+  </data>
+  <data name="Enum_TransactionStatus_Pending" xml:space="preserve">
+    <value>Pending</value>
+  </data>
+  <data name="Enum_TransactionStatus_Completed" xml:space="preserve">
+    <value>Completed</value>
+  </data>
+  <data name="Enum_TransactionStatus_Canceled" xml:space="preserve">
+    <value>Canceled</value>
+  </data>
+  <data name="Enum_TransactionStatus_Failed" xml:space="preserve">
+    <value>Failed</value>
+  </data>
+  <data name="Enum_CurrencyCode_BYN" xml:space="preserve">
+    <value>BYN</value>
+  </data>
+  <data name="Enum_CurrencyCode_USD" xml:space="preserve">
+    <value>USD</value>
+  </data>
+  <data name="Enum_CurrencyCode_EURO" xml:space="preserve">
+    <value>EUR</value>
+  </data>
+  <data name="Service_Err_InvalidCredentials" xml:space="preserve">
+    <value>Invalid email or password.</value>
+  </data>
+  <data name="Service_Err_EmailAlreadyRegistered" xml:space="preserve">
+    <value>A user with this email is already registered.</value>
+  </data>
+  <data name="Service_Err_CardNotFoundById" xml:space="preserve">
+    <value>Card with id {0} was not found.</value>
+  </data>
+  <data name="Service_Err_CardMembersOnly" xml:space="preserve">
+    <value>Available only to card participants.</value>
+  </data>
+  <data name="Service_Err_BothDatesRequired" xml:space="preserve">
+    <value>Please specify both dates of the period.</value>
+  </data>
+  <data name="Service_Err_PeriodFromAfterTo" xml:space="preserve">
+    <value>The start date cannot be later than the end date.</value>
+  </data>
+  <data name="Service_Err_CardNotFound" xml:space="preserve">
+    <value>Card not found.</value>
+  </data>
+  <data name="Service_Err_CardInactive" xml:space="preserve">
+    <value>The card is not active.</value>
+  </data>
+  <data name="Service_Err_AmountOutOfRange" xml:space="preserve">
+    <value>Amount is outside the allowed range.</value>
+  </data>
+  <data name="Service_Err_UserNotFound" xml:space="preserve">
+    <value>User not found.</value>
+  </data>
+  <data name="Service_Err_NoPermissionManageCardUsers" xml:space="preserve">
+    <value>Insufficient permission to manage card users.</value>
+  </data>
+  <data name="Service_Err_SpecifyUserEmail" xml:space="preserve">
+    <value>Enter the user's email.</value>
+  </data>
+  <data name="Service_Err_UserEmailNotFound" xml:space="preserve">
+    <value>No user with this email was found.</value>
+  </data>
+  <data name="Service_Err_UserAlreadyHasCardAccess" xml:space="preserve">
+    <value>The user already has access to this card.</value>
+  </data>
+  <data name="Service_Err_CardUserNotFound" xml:space="preserve">
+    <value>Card user not found.</value>
+  </data>
+  <data name="Service_Err_CannotDetachOwner" xml:space="preserve">
+    <value>The card owner cannot be removed.</value>
+  </data>
+  <data name="Service_Err_NewCardOwnerOnly" xml:space="preserve">
+    <value>Issuing a new card is available only to an owner of at least one card.</value>
+  </data>
+  <data name="Service_Err_CardNumberFormat" xml:space="preserve">
+    <value>Card number must be 16 digits and must not start with 0.</value>
+  </data>
+  <data name="Service_Err_LimitNonNegative" xml:space="preserve">
+    <value>The limit cannot be negative.</value>
+  </data>
+  <data name="Validation_EmailRequired" xml:space="preserve">
+    <value>Please enter your email.</value>
+  </data>
+  <data name="Validation_EmailInvalid" xml:space="preserve">
+    <value>Enter a valid email address.</value>
+  </data>
+  <data name="Validation_EmailLength" xml:space="preserve">
+    <value>Email must be between 5 and 256 characters.</value>
+  </data>
+  <data name="Validation_PasswordRequired" xml:space="preserve">
+    <value>Please enter your password.</value>
+  </data>
+  <data name="Validation_PasswordMinLength" xml:space="preserve">
+    <value>Password must be at least 8 characters.</value>
+  </data>
+  <data name="Validation_PasswordMaxLength" xml:space="preserve">
+    <value>Password must be at most 100 characters.</value>
+  </data>
+  <data name="Validation_PasswordPattern" xml:space="preserve">
+    <value>Password must include Latin letters, a digit, upper and lower case, at least 8 characters.</value>
+  </data>
+  <data name="Validation_UserNameRequired" xml:space="preserve">
+    <value>Please enter your username.</value>
+  </data>
+  <data name="Validation_UserNameLength" xml:space="preserve">
+    <value>Username must be between 3 and 256 characters.</value>
+  </data>
+  <data name="Validation_UserNamePattern" xml:space="preserve">
+    <value>Only Latin letters, digits, underscore and hyphen.</value>
+  </data>
+  <data name="Validation_ConfirmPasswordRequired" xml:space="preserve">
+    <value>Please confirm your password.</value>
+  </data>
+  <data name="Validation_ConfirmPasswordMismatch" xml:space="preserve">
+    <value>Passwords do not match.</value>
+  </data>
+  <data name="Validation_UserIdRequired" xml:space="preserve">
+    <value>User is not specified.</value>
+  </data>
+  <data name="Validation_PrepareCardUserRequired" xml:space="preserve">
+    <value>User is not specified.</value>
+  </data>
+  <data name="Validation_CardNumberEmpty" xml:space="preserve">
+    <value>Enter the card number.</value>
+  </data>
+  <data name="Validation_CardNumberLength" xml:space="preserve">
+    <value>Card number must be exactly 16 digits.</value>
+  </data>
+  <data name="Validation_CardNumberFormat" xml:space="preserve">
+    <value>Card number must be 16 digits and must not start with 0.</value>
+  </data>
+  <data name="Validation_PinRequired" xml:space="preserve">
+    <value>Enter the PIN.</value>
+  </data>
+  <data name="Validation_PinFormat" xml:space="preserve">
+    <value>PIN must be exactly 4 digits.</value>
+  </data>
+  <data name="Validation_CurrencyRequired" xml:space="preserve">
+    <value>Select a currency.</value>
+  </data>
+  <data name="Validation_LimitDailyPositive" xml:space="preserve">
+    <value>Daily limit must be greater than 0.</value>
+  </data>
+  <data name="Validation_LimitMonthlyPositive" xml:space="preserve">
+    <value>Monthly limit must be greater than 0.</value>
+  </data>
+  <data name="Validation_LimitPerOperationPositive" xml:space="preserve">
+    <value>Per-transaction limit must be greater than 0.</value>
+  </data>
+  <data name="Validation_CardIdRequired" xml:space="preserve">
+    <value>Card is not specified.</value>
+  </data>
+  <data name="Validation_AmountMin" xml:space="preserve">
+    <value>Amount must be at least 0.01.</value>
+  </data>
+  <data name="Validation_AmountMax" xml:space="preserve">
+    <value>Amount cannot exceed 1,000,000,000.</value>
+  </data>
+  <data name="Validation_PeriodFromRequired" xml:space="preserve">
+    <value>Enter the start date.</value>
+  </data>
+  <data name="Validation_PeriodToRequired" xml:space="preserve">
+    <value>Enter the end date.</value>
+  </data>
+  <data name="Validation_PeriodRangeInvalid" xml:space="preserve">
+    <value>The start date cannot be after the end date.</value>
+  </data>
+</root>
