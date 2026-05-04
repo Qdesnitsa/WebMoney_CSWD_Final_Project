@@ -1,12 +1,16 @@
 using Microsoft.AspNetCore.Identity;
+using Microsoft.Extensions.Localization;
 using WebMoney.Application.Auth;
 using WebMoney.Data.Enum;
 using WebMoney.Data.Repositories.Interfaces;
-using WebMoney.Persistence.Entities;
+using WebMoney.Data.Entities;
 
 namespace WebMoney.Services;
 
-public class AuthService(IPasswordHasher<User> passwordHasher, IUserRepository userRepository)
+public class AuthService(
+    IPasswordHasher<User> passwordHasher,
+    IUserRepository userRepository,
+    IStringLocalizer<SharedResource> localizer)
     : IAuthService
 {
     public AuthResult TrySignIn(string email, string password)
@@ -15,7 +19,7 @@ public class AuthService(IPasswordHasher<User> passwordHasher, IUserRepository u
         var user = userRepository.FindByEmail(normalizedEmail);
         if (user is null)
         {
-            return AuthResult.Fail("Неверный email или пароль");
+            return AuthResult.Fail(localizer["Service_Err_InvalidCredentials"].Value!);
         }
 
         var verifyPassword =
@@ -23,7 +27,7 @@ public class AuthService(IPasswordHasher<User> passwordHasher, IUserRepository u
         if (verifyPassword != PasswordVerificationResult.Success &&
             verifyPassword != PasswordVerificationResult.SuccessRehashNeeded)
         {
-            return AuthResult.Fail("Неверный email или пароль");
+            return AuthResult.Fail(localizer["Service_Err_InvalidCredentials"].Value!);
         }
 
         if (verifyPassword == PasswordVerificationResult.SuccessRehashNeeded)
@@ -41,7 +45,7 @@ public class AuthService(IPasswordHasher<User> passwordHasher, IUserRepository u
 
         if (userRepository.EmailExists(normalizedEmail))
         {
-            return AuthResult.Fail("Пользователь с таким email уже зарегистрирован");
+            return AuthResult.Fail(localizer["Service_Err_EmailAlreadyRegistered"].Value!);
         }
 
         var userProfile = new UserProfile

@@ -22,8 +22,14 @@ public class TransactionController(ICardService cardService, IMediator mediator)
             return RedirectToAction(nameof(CardController.Card), nameof(CardController).Replace("Controller", ""));
         }
 
+        var userId = User.WebMoneyUserId()!.Value;
+        if (!cardService.UserIsCardParticipant(userId, cardId.Value))
+        {
+            return RedirectToAction(nameof(CardController.Card), nameof(CardController).Replace("Controller", ""));
+        }
+
         var periodKeysPresent = Request.Query.ContainsKey("periodFrom") || Request.Query.ContainsKey("periodTo");
-        var query = new GetTransactionStatementQuery(cardId.Value, periodFrom, periodTo, periodKeysPresent);
+        var query = new GetTransactionStatementQuery(cardId.Value, userId, periodFrom, periodTo, periodKeysPresent);
 
         TransactionStatementResult result;
         try
@@ -45,7 +51,7 @@ public class TransactionController(ICardService cardService, IMediator mediator)
             }
 
             var card = cardService.GetById(cardId.Value);
-            validationModel.CardNumber = card.Card.Number;
+            validationModel.CardNumberMasked = CardNumberMask.Mask(card.Card?.Number);
 
             return View(validationModel);
         }
@@ -53,7 +59,7 @@ public class TransactionController(ICardService cardService, IMediator mediator)
         var model = new TransactionViewModel
         {
             CardId = result.CardId,
-            CardNumber = result.CardNumber,
+            CardNumberMasked = CardNumberMask.Mask(result.CardNumber),
             PeriodFrom = result.PeriodFrom,
             PeriodTo = result.PeriodTo,
             ShowEmptyPeriodMessage = result.ShowEmptyPeriodMessage,

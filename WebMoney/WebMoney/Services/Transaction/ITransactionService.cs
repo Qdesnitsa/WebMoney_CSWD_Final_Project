@@ -1,11 +1,11 @@
 using WebMoney.Application.Transactions;
-using WebMoney.Persistence.Entities;
+using WebMoney.Data.Entities;
 
 namespace WebMoney.Services;
 
 public interface ITransactionService
 {
-    TransactionStatementResult GetTransactionsByCardIdForPeriod(int cardId, DateOnly? periodFrom, DateOnly? periodTo,
+    TransactionStatementResult GetTransactionsByCardIdForPeriod(int cardId, int currentUserId, DateOnly? periodFrom, DateOnly? periodTo,
         bool periodKeysPresentInQuery);
-    List<Transaction> GetTransactionsByCardId(int cardId);
+    IReadOnlyList<Transaction> GetTransactionsByCardId(int cardId);
 }

@@ -1,6 +1,6 @@
 using WebMoney.Data.Enum;
 
-namespace WebMoney.Persistence.Entities;
+namespace WebMoney.Data.Entities;
 
 public class User : BaseEntity
 {

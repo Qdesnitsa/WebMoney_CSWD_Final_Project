@@ -1,23 +1,37 @@
+using Microsoft.Extensions.Localization;
+using WebMoney.Auth;
 using WebMoney.Data.Repositories.Interfaces;
 using WebMoney.Application.Transactions;
-using WebMoney.Persistence.Entities;
+using WebMoney.Data.Entities;
 
 namespace WebMoney.Services;
 
-public class TransactionService(ITransactionRepository transactionRepository, ICardRepository cardRepository)
+public class TransactionService(
+    ITransactionRepository transactionRepository,
+    ICardRepository cardRepository,
+    IUserRepository userRepository,
+    IStringLocalizer<SharedResource> localizer)
     : ITransactionService
 {
-    public TransactionStatementResult GetTransactionsByCardIdForPeriod(int cardId, DateOnly? periodFrom,
+    public TransactionStatementResult GetTransactionsByCardIdForPeriod(int cardId, int currentUserId, DateOnly? periodFrom,
         DateOnly? periodTo,
         bool periodKeysPresentInQuery)
     {
         var result = new TransactionStatementResult();
 
-        var card = cardRepository.GetById(cardId);
+        var user = userRepository.GetById(currentUserId);
+        var card = cardRepository.GetCardWithUsersAndCardLimitsById(cardId);
         if (card is null)
         {
             result.CardId = cardId;
-            result.Errors.Add((string.Empty, $"Карта с id {cardId} не найдена"));
+            result.Errors.Add((string.Empty, localizer["Service_Err_CardNotFoundById", cardId].Value!));
+            return result;
+        }
+
+        if (user is null || !CardPermissions.IsCardParticipant(user, card))
+        {
+            result.CardId = cardId;
+            result.Errors.Add((string.Empty, localizer["Service_Err_CardMembersOnly"].Value!));
             return result;
         }
 
@@ -30,7 +44,7 @@ public class TransactionService(ITransactionRepository transactionRepository, IC
         {
             if (periodKeysPresentInQuery)
             {
-                result.Errors.Add((string.Empty, "Укажите обе даты периода."));
+                result.Errors.Add((string.Empty, localizer["Service_Err_BothDatesRequired"].Value!));
             }
 
             return result;
@@ -38,7 +52,7 @@ public class TransactionService(ITransactionRepository transactionRepository, IC
 
         if (periodFrom > periodTo)
         {
-            result.Errors.Add((string.Empty, "Дата «с» не может быть позже даты «по»."));
+            result.Errors.Add((string.Empty, localizer["Service_Err_PeriodFromAfterTo"].Value!));
             return result;
         }
 
@@ -49,6 +63,6 @@ public class TransactionService(ITransactionRepository transactionRepository, IC
         return result;
     }
 
-    public List<Transaction> GetTransactionsByCardId(int cardId) =>
+    public IReadOnlyList<Transaction> GetTransactionsByCardId(int cardId) =>
         transactionRepository.GetTransactionsByCardId(cardId);
 }

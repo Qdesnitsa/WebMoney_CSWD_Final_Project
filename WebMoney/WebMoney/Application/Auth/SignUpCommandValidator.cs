@@ -1,4 +1,7 @@
 using FluentValidation;
+using Microsoft.Extensions.Localization;
+using WebMoney;
+using WebMoney.Localization;
 
 namespace WebMoney.Application.Auth;
 
@@ -7,28 +10,28 @@ public sealed class SignUpCommandValidator : AbstractValidator<SignUpCommand>
     private const string PasswordPattern = @"^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).{8,}$";
     private const string UserNamePattern = @"^[a-zA-Z0-9_-]+$";
 
-    public SignUpCommandValidator()
+    public SignUpCommandValidator(IStringLocalizer<SharedResource> localizer)
     {
         RuleFor(x => x.UserName)
-            .NotEmpty().WithMessage("Укажите ваше имя")
-            .Length(3, 256).WithMessage("Имя: 3–256 символов")
+            .NotEmpty().WithMessage(_ => ValidationString.From(localizer, "Validation_UserNameRequired"))
+            .Length(3, 256).WithMessage(_ => ValidationString.From(localizer, "Validation_UserNameLength"))
             .Matches(UserNamePattern)
-            .WithMessage("Только латинские буквы, цифры, _ и -");
+            .WithMessage(_ => ValidationString.From(localizer, "Validation_UserNamePattern"));
 
         RuleFor(x => x.Email)
-            .NotEmpty().WithMessage("Укажите email")
-            .EmailAddress().WithMessage("Введите корректный адрес email")
-            .Length(5, 256).WithMessage("Email: 5–256 символов");
+            .NotEmpty().WithMessage(_ => ValidationString.From(localizer, "Validation_EmailRequired"))
+            .EmailAddress().WithMessage(_ => ValidationString.From(localizer, "Validation_EmailInvalid"))
+            .Length(5, 256).WithMessage(_ => ValidationString.From(localizer, "Validation_EmailLength"));
 
         RuleFor(x => x.Password)
-            .NotEmpty().WithMessage("Укажите пароль")
-            .MinimumLength(8).WithMessage("Пароль: минимум 8 символов")
-            .MaximumLength(100).WithMessage("Пароль: максимум 100 символов")
+            .NotEmpty().WithMessage(_ => ValidationString.From(localizer, "Validation_PasswordRequired"))
+            .MinimumLength(8).WithMessage(_ => ValidationString.From(localizer, "Validation_PasswordMinLength"))
+            .MaximumLength(100).WithMessage(_ => ValidationString.From(localizer, "Validation_PasswordMaxLength"))
             .Matches(PasswordPattern)
-            .WithMessage("Пароль: латиница, цифра, заглавная и строчная буквы, от 8 символов");
+            .WithMessage(_ => ValidationString.From(localizer, "Validation_PasswordPattern"));
 
         RuleFor(x => x.ConfirmPassword)
-            .NotEmpty().WithMessage("Подтвердите пароль")
-            .Equal(x => x.Password).WithMessage("Пароли не совпадают");
+            .NotEmpty().WithMessage(_ => ValidationString.From(localizer, "Validation_ConfirmPasswordRequired"))
+            .Equal(x => x.Password).WithMessage(_ => ValidationString.From(localizer, "Validation_ConfirmPasswordMismatch"));
     }
 }

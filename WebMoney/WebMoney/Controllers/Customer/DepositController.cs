@@ -21,18 +21,23 @@ public class DepositController(ICardService cardService, IMediator mediator) : C
             return RedirectToAction(nameof(CardController.Card), nameof(CardController).Replace("Controller", ""));
         }
 
+        var userId = User.WebMoneyUserId()!.Value;
         var result = cardService.GetById(cardId.Value);
+        if (!result.Success || result.Card is null)
+        {
+            return RedirectToAction(nameof(CardController.Card), nameof(CardController).Replace("Controller", ""));
+        }
+
+        if (!cardService.UserIsCardParticipant(userId, cardId.Value))
+        {
+            return RedirectToAction(nameof(CardController.Card), nameof(CardController).Replace("Controller", ""));
+        }
 
         var model = new NewDepositViewModel
         {
             CardId = cardId.Value,
-            CardNumber = result.Card?.Number ?? string.Empty
+            CardNumberMasked = CardNumberMask.Mask(result.Card.Number)
         };
-
-        if (!result.Success)
-        {
-            model.Alerts.AddRange(result.Errors.Select(e => e.Message));
-        }
 
         return View(model);
     }

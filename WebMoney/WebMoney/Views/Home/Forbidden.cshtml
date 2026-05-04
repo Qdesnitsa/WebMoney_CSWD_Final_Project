@@ -1,12 +1,13 @@
+@inject IStringLocalizer<SharedResource> SharedLocalizer
 @{
-    ViewData["Title"] = "Доступ запрещён";
+    ViewData["Title"] = SharedLocalizer["Forbidden_Title"].Value;
 }
 
 <main class="site-main">
-    <h1>403 — доступ запрещён</h1>
-    <p>У вас нет прав для просмотра этой страницы. Если вы считаете, что это ошибка, обратитесь в службу поддержки.</p>
+    <h1>@SharedLocalizer["Forbidden_Heading"]</h1>
+    <p>@SharedLocalizer["Forbidden_Body"]</p>
     <p class="site-main-actions">
-        <a href="/">На главную</a>
-        <a asp-controller="Auth" asp-action="SignIn">Войти под другим пользователем</a>
+        <a href="/">@SharedLocalizer["Forbidden_GoHome"]</a>
+        <a asp-controller="Auth" asp-action="SignIn">@SharedLocalizer["Forbidden_SignInAsOther"]</a>
     </p>
 </main>

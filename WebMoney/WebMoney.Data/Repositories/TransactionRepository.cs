@@ -1,13 +1,13 @@
 using Microsoft.EntityFrameworkCore;
 using WebMoney.Data.Repositories.Interfaces;
-using WebMoney.Persistence.Entities;
+using WebMoney.Data.Entities;
 
 namespace WebMoney.Data.Repositories;
 
 public class TransactionRepository(WebContext webContext)
     : BaseRepository<Transaction>(webContext), ITransactionRepository
 {
-    public List<Transaction> GetTransactionsByCardId(int cardId) =>
+    public IReadOnlyList<Transaction> GetTransactionsByCardId(int cardId) =>
         webContext.Transactions
             .AsNoTracking()
             .Include(t => t.Card)
@@ -16,7 +16,7 @@ public class TransactionRepository(WebContext webContext)
             .OrderBy(t => t.CreatedAt)
             .ToList();
 
-    public List<Transaction> GetTransactionsForPeriodByCard(int cardId, DateTime startDate, DateTime endDate) =>
+    public IReadOnlyList<Transaction> GetTransactionsForPeriodByCard(int cardId, DateTime startDate, DateTime endDate) =>
         webContext.Transactions
             .AsNoTracking()
             .Include(t => t.Card)

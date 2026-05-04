@@ -1,4 +1,4 @@
-using WebMoney.Persistence.Entities;
+using WebMoney.Data.Entities;
 
 namespace WebMoney.Application.Cards;
 

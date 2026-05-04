@@ -1,5 +1,6 @@
+using System.Globalization;
 using FluentValidation;
-using MediatR;
+using Microsoft.AspNetCore.Localization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Serilog;
@@ -10,7 +11,7 @@ using WebMoney.Auth;
 using WebMoney.Data;
 using WebMoney.Data.Repositories;
 using WebMoney.Data.Repositories.Interfaces;
-using WebMoney.Persistence.Entities;
+using WebMoney.Data.Entities;
 using WebMoney.Services;
 
 namespace WebMoney
@@ -40,6 +41,19 @@ namespace WebMoney
             var builder = WebApplication.CreateBuilder(args);
 
             // Add services to the container.
+            builder.Services.AddLocalization(options => options.ResourcesPath = "Resources");
+            builder.Services.Configure<RequestLocalizationOptions>(options =>
+            {
+                var supported = new[] { "ru-RU", "en-US" }.Select(CultureInfo.GetCultureInfo).ToList();
+                options.DefaultRequestCulture = new RequestCulture("ru-RU");
+                options.SupportedCultures = supported;
+                options.SupportedUICultures = supported;
+                options.RequestCultureProviders =
+                [
+                    new CookieRequestCultureProvider(),
+                    new AcceptLanguageHeaderRequestCultureProvider()
+                ];
+            });
             builder.Services.AddControllersWithViews(options =>
             {
                 options.SuppressImplicitRequiredAttributeForNonNullableReferenceTypes = true;
@@ -77,6 +91,7 @@ namespace WebMoney
 
             app.UseHttpsRedirection();
             app.UseRouting();
+            app.UseRequestLocalization();
 
             app.UseAuthentication();
             app.UseAuthorization();

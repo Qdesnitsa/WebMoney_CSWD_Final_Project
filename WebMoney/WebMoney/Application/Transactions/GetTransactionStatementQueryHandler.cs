@@ -13,6 +13,7 @@ public sealed class GetTransactionStatementQueryHandler(ITransactionService tran
         cancellationToken.ThrowIfCancellationRequested();
         var result = transactionService.GetTransactionsByCardIdForPeriod(
             request.CardId,
+            request.CurrentUserId,
             request.PeriodFrom,
             request.PeriodTo,
             request.PeriodKeysPresentInQuery);

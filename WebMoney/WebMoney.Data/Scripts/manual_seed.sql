@@ -1,5 +1,4 @@
--- 1) Migration. Enums are populated and kept in DB as string
--- 2) dotnet run --project WebMoney.Tools.HashPasswords 
+-- dotnet run --project WebMoney.Tools.HashPasswords 
 
 BEGIN;
 
@@ -15,14 +14,14 @@ VALUES (
   'AQAAAAIAAYagAAAAED4JovDDvgc1UNyHKPZj6b2gKaEwj3zZuQQ9SQUP9h1zOH0bDQwXYU73amWoooEPYg==',
   'User',
   now(),
-  'seed'),
+  'test@test.com'),
        (
     'admin',
     'test1@test.com',
     'AQAAAAIAAYagAAAAED4JovDDvgc1UNyHKPZj6b2gKaEwj3zZuQQ9SQUP9h1zOH0bDQwXYU73amWoooEPYg==',
     'Admin',
     now(),
-    'seed'
+    'test@test.com'
        ) ;
 
 INSERT INTO users_profiles (user_id, identity_document_id, created_at, created_by)
@@ -30,7 +29,7 @@ VALUES (
   (SELECT id FROM users WHERE email = 'test@test.com'),
   NULL,
   now(),
-  'seed'
+  'test@test.com'
 );
 
 INSERT INTO card_limits (daily_limit, monthly_limit, per_operation_limit, created_at, created_by)
@@ -48,7 +47,7 @@ VALUES (
   (current_date + interval '5 years')::date,
   10000,
   now(),
-  'seed'
+  'test@test.com'
 );
 
 INSERT INTO card_user_profiles (card_id, user_id, card_limit_id, created_at, created_by)
@@ -57,7 +56,7 @@ VALUES (
   (SELECT id FROM users WHERE email = 'test@test.com'),
   (SELECT id FROM card_limits ORDER BY id DESC LIMIT 1),
   now(),
-  'seed'
+  'test@test.com'
 );
 
 INSERT INTO transactions (
@@ -72,7 +71,7 @@ VALUES
     (SELECT id FROM counterparties ORDER BY id LIMIT 1),
     500,
     now() - interval '30 days',
-    'seed'
+    'test@test.com'
   ),
   (
     (SELECT id FROM cards WHERE number = '4111111111111111' ORDER BY id DESC LIMIT 1),
@@ -81,7 +80,7 @@ VALUES
     (SELECT id FROM counterparties ORDER BY id LIMIT 1 OFFSET 1),
     100,
     now() - interval '10 days',
-    'seed'
+    'test@test.com'
   );
 
 UPDATE cards

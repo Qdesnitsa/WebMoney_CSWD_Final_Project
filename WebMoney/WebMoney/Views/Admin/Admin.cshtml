@@ -1,5 +1,6 @@
+@inject IStringLocalizer<SharedResource> SharedLocalizer
 @{
-    ViewData["Title"] = "Панель администратора";
+    ViewData["Title"] = SharedLocalizer["Admin_PageTitle"].Value;
 }
 
 @section Styles {
@@ -8,14 +9,14 @@
 
 <main class="site-main">
     <section class="admin-section">
-        <h1>Панель администратора</h1>
-        <h3 class="card-operations-title">Действия</h3>
+        <h1>@SharedLocalizer["Admin_Heading"]</h1>
+        <h3 class="card-operations-title">@SharedLocalizer["Admin_Actions"]</h3>
         <ul class="card-operations-list">
-            <li><a href="#">Показать заявки</a></li>
-            <li><a href="#">Показать статистику</a></li>
-            <li><a href="#">Списать комиссию за обслуживание</a></li>
-            <li><a href="#">Заблокировать/Разблокировать пользователя</a></li>
-            <li><a href="#">Добавить новость</a></li>
+            <li><a href="#">@SharedLocalizer["Admin_ShowApplications"]</a></li>
+            <li><a href="#">@SharedLocalizer["Admin_ShowStatistics"]</a></li>
+            <li><a href="#">@SharedLocalizer["Admin_ServiceFeeDebit"]</a></li>
+            <li><a href="#">@SharedLocalizer["Admin_BlockUser"]</a></li>
+            <li><a href="#">@SharedLocalizer["Admin_AddNews"]</a></li>
         </ul>
     </section>
 </main>

@@ -1,65 +1,64 @@
 @model AddCardUserViewModel
+@inject IStringLocalizer<SharedResource> SharedLocalizer
 @{
-  ViewData["Title"] = "Добавить пользователя";
+  ViewData["Title"] = SharedLocalizer["Card_AddUserPageTitle"].Value;
 }
 
 @section Styles {
-  <link rel="stylesheet" href="~/css/newcard.css" asp-append-version="true" />
+  <link rel="stylesheet" href="~/css/newcard.css" asp-append-version="true"/>
 }
 
 <main class="site-main">
   <section class="new-card-section">
-    <h2>Добавить пользователя к карте @Model.CardNumberMasked</h2>
-    <p class="new-card-field-hint">Введите email пользователя и установите персональные лимиты.</p>
+    <h2>@SharedLocalizer["Card_AddUserHeading", Model.CardNumberMasked]</h2>
+    <p class="new-card-field-hint">@SharedLocalizer["Card_AddUserIntro"]</p>
 
-    <form class="new-card-form" action="#" method="post" novalidate>
-      <input type="hidden" asp-for="CardId" />
+    <form class="new-card-form" asp-controller="Card" asp-action="AddUser" method="post" novalidate>
+      <input type="hidden" asp-for="CardId"/>
 
       <div class="new-card-field">
-        <label class="new-card-caption" asp-for="Email">Email пользователя</label>
-        <input asp-for="Email" type="email" autocomplete="email" />
+        <label class="new-card-caption" asp-for="Email">@SharedLocalizer["Card_AddUserEmailLabel"]</label>
+        <input asp-for="Email" type="email" autocomplete="email"/>
         <span asp-validation-for="Email" class="new-card-hint"></span>
       </div>
 
-      <fieldset>
-        <legend>Права</legend>
-        <div class="new-card-field new-card-field-inline">
-          <input asp-for="CanManageUsers" type="checkbox" class="new-card-field-inline-check" />
-          <div>
-            <label asp-for="CanManageUsers">Управление пользователями</label>
+      @if (Model.CurrentUserMayManageCardUsers)
+      {
+        <fieldset>
+          <legend>@SharedLocalizer["Card_AddUserParticipantRightsLegend"]</legend>
+          <p class="new-card-field-hint">@SharedLocalizer["Card_AddUserParticipantRightsHint"]</p>
+          <div class="new-card-field new-card-field-inline">
+            <input asp-for="CanManageUsers" type="checkbox" class="new-card-field-inline-check"/>
+            <div>
+              <label asp-for="CanManageUsers">@SharedLocalizer["Card_CanManageUsersLabel"]</label>
+            </div>
           </div>
-        </div>
-        <div class="new-card-field new-card-field-inline">
-          <input asp-for="CanManageCards" type="checkbox" class="new-card-field-inline-check" />
-          <div>
-            <label asp-for="CanManageCards">Управление картами</label>
-          </div>
-        </div>
-      </fieldset>
+        </fieldset>
+      }
 
       <fieldset>
-        <legend>Лимиты (необязательно)</legend>
-        <p class="new-card-field-hint">Если поле оставить пустым, лимит не будет применяться.</p>
+        <legend>@SharedLocalizer["Card_AddUserLimitsLegend"]</legend>
+        <p class="new-card-field-hint">@SharedLocalizer["Card_AddUserLimitsHint"]</p>
         <div class="new-card-field">
-          <label class="new-card-caption" asp-for="DailyLimit">Дневной лимит</label>
-          <input asp-for="DailyLimit" type="number" min="0" step="0.01" inputmode="decimal" />
+          <label class="new-card-caption" asp-for="DailyLimit">@SharedLocalizer["Card_LimitDaily"]</label>
+          <input asp-for="DailyLimit" type="number" min="0" step="0.01" inputmode="decimal"/>
           <span asp-validation-for="DailyLimit" class="new-card-hint"></span>
         </div>
         <div class="new-card-field">
-          <label class="new-card-caption" asp-for="MonthlyLimit">Месячный лимит</label>
-          <input asp-for="MonthlyLimit" type="number" min="0" step="0.01" inputmode="decimal" />
+          <label class="new-card-caption" asp-for="MonthlyLimit">@SharedLocalizer["Card_LimitMonthly"]</label>
+          <input asp-for="MonthlyLimit" type="number" min="0" step="0.01" inputmode="decimal"/>
           <span asp-validation-for="MonthlyLimit" class="new-card-hint"></span>
         </div>
         <div class="new-card-field">
-          <label class="new-card-caption" asp-for="PerOperationLimit">Лимит на одну операцию</label>
-          <input asp-for="PerOperationLimit" type="number" min="0" step="0.01" inputmode="decimal" />
+          <label class="new-card-caption" asp-for="PerOperationLimit">@SharedLocalizer["Card_LimitPerOperation"]</label>
+          <input asp-for="PerOperationLimit" type="number" min="0" step="0.01" inputmode="decimal"/>
           <span asp-validation-for="PerOperationLimit" class="new-card-hint"></span>
         </div>
       </fieldset>
 
       <div class="new-card-actions">
-        <button type="button" class="new-card-submit">Добавить пользователя</button>
-        <a asp-controller="Card" asp-action="Card" class="new-card-back">Назад к картам</a>
+        <button type="submit" class="new-card-submit">@SharedLocalizer["Card_AddUserSubmit"]</button>
+        <a asp-controller="Card" asp-action="Card" class="new-card-back">@SharedLocalizer["Card_BackToCards"]</a>
       </div>
     </form>
   </section>

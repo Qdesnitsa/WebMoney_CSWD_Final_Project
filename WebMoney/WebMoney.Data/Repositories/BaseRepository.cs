@@ -1,6 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using WebMoney.Data.Repositories.Interfaces;
-using WebMoney.Persistence.Entities;
+using WebMoney.Data.Entities;
 
 namespace WebMoney.Data.Repositories;
 
@@ -22,4 +22,5 @@ public abstract class BaseRepository<TEntity> : IBaseRepository<TEntity> where T
     }
 
     public virtual TEntity? GetById(int id) => dbSet.Find(id);
+    public void SaveChanges() => webContext.SaveChanges();
 }

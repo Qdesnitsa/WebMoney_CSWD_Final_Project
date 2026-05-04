@@ -22,7 +22,7 @@ namespace WebMoney.Data.Migrations
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
 
-            modelBuilder.Entity("WebMoney.Persistence.Entities.Card", b =>
+            modelBuilder.Entity("WebMoney.Data.Entities.Card", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -84,7 +84,7 @@ namespace WebMoney.Data.Migrations
                     b.ToTable("cards", (string)null);
                 });
 
-            modelBuilder.Entity("WebMoney.Persistence.Entities.CardLimit", b =>
+            modelBuilder.Entity("WebMoney.Data.Entities.CardLimit", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -128,7 +128,7 @@ namespace WebMoney.Data.Migrations
                     b.ToTable("card_limits", (string)null);
                 });
 
-            modelBuilder.Entity("WebMoney.Persistence.Entities.CardUserProfile", b =>
+            modelBuilder.Entity("WebMoney.Data.Entities.CardUserProfile", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -136,6 +136,10 @@ namespace WebMoney.Data.Migrations
                         .HasColumnName("id");
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<bool>("CanManageUsers")
+                        .HasColumnType("boolean")
+                        .HasColumnName("can_manage_users");
 
                     b.Property<int>("CardId")
                         .HasColumnType("integer")
@@ -170,7 +174,9 @@ namespace WebMoney.Data.Migrations
                         .HasName("pk_card_user_profiles");
 
                     b.HasIndex("CardLimitId")
-                        .HasDatabaseName("ix_card_user_profiles_card_limit_id");
+                        .IsUnique()
+                        .HasDatabaseName("ix_card_user_profiles_card_limit_id")
+                        .HasFilter("card_limit_id IS NOT NULL");
 
                     b.HasIndex("UserId")
                         .HasDatabaseName("ix_card_user_profiles_user_id");
@@ -182,7 +188,7 @@ namespace WebMoney.Data.Migrations
                     b.ToTable("card_user_profiles", (string)null);
                 });
 
-            modelBuilder.Entity("WebMoney.Persistence.Entities.Counterparty", b =>
+            modelBuilder.Entity("WebMoney.Data.Entities.Counterparty", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -219,7 +225,7 @@ namespace WebMoney.Data.Migrations
                     b.ToTable("counterparties", (string)null);
                 });
 
-            modelBuilder.Entity("WebMoney.Persistence.Entities.IdentityDocument", b =>
+            modelBuilder.Entity("WebMoney.Data.Entities.IdentityDocument", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -271,7 +277,7 @@ namespace WebMoney.Data.Migrations
                     b.ToTable("identity_documents", (string)null);
                 });
 
-            modelBuilder.Entity("WebMoney.Persistence.Entities.Transaction", b =>
+            modelBuilder.Entity("WebMoney.Data.Entities.Transaction", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -333,7 +339,7 @@ namespace WebMoney.Data.Migrations
                     b.ToTable("transactions", (string)null);
                 });
 
-            modelBuilder.Entity("WebMoney.Persistence.Entities.User", b =>
+            modelBuilder.Entity("WebMoney.Data.Entities.User", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -390,7 +396,7 @@ namespace WebMoney.Data.Migrations
                     b.ToTable("users", (string)null);
                 });
 
-            modelBuilder.Entity("WebMoney.Persistence.Entities.UserProfile", b =>
+            modelBuilder.Entity("WebMoney.Data.Entities.UserProfile", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -438,22 +444,22 @@ namespace WebMoney.Data.Migrations
                     b.ToTable("users_profiles", (string)null);
                 });
 
-            modelBuilder.Entity("WebMoney.Persistence.Entities.CardUserProfile", b =>
+            modelBuilder.Entity("WebMoney.Data.Entities.CardUserProfile", b =>
                 {
-                    b.HasOne("WebMoney.Persistence.Entities.Card", "Card")
+                    b.HasOne("WebMoney.Data.Entities.Card", "Card")
                         .WithMany("CardUserProfiles")
                         .HasForeignKey("CardId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired()
                         .HasConstraintName("fk_card_user_profiles_cards_card_id");
 
-                    b.HasOne("WebMoney.Persistence.Entities.CardLimit", "CardLimit")
-                        .WithMany("CardUserProfiles")
-                        .HasForeignKey("CardLimitId")
+                    b.HasOne("WebMoney.Data.Entities.CardLimit", "CardLimit")
+                        .WithOne("CardUserProfile")
+                        .HasForeignKey("WebMoney.Data.Entities.CardUserProfile", "CardLimitId")
                         .OnDelete(DeleteBehavior.SetNull)
                         .HasConstraintName("fk_card_user_profiles_card_limits_card_limit_id");
 
-                    b.HasOne("WebMoney.Persistence.Entities.User", "User")
+                    b.HasOne("WebMoney.Data.Entities.User", "User")
                         .WithMany("CardUserProfiles")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -467,16 +473,16 @@ namespace WebMoney.Data.Migrations
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("WebMoney.Persistence.Entities.Transaction", b =>
+            modelBuilder.Entity("WebMoney.Data.Entities.Transaction", b =>
                 {
-                    b.HasOne("WebMoney.Persistence.Entities.Card", "Card")
+                    b.HasOne("WebMoney.Data.Entities.Card", "Card")
                         .WithMany("Transactions")
                         .HasForeignKey("CardId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired()
                         .HasConstraintName("fk_transactions_cards_card_id");
 
-                    b.HasOne("WebMoney.Persistence.Entities.Counterparty", "Counterparty")
+                    b.HasOne("WebMoney.Data.Entities.Counterparty", "Counterparty")
                         .WithMany()
                         .HasForeignKey("CounterpartyId")
                         .OnDelete(DeleteBehavior.Restrict)
@@ -488,17 +494,17 @@ namespace WebMoney.Data.Migrations
                     b.Navigation("Counterparty");
                 });
 
-            modelBuilder.Entity("WebMoney.Persistence.Entities.UserProfile", b =>
+            modelBuilder.Entity("WebMoney.Data.Entities.UserProfile", b =>
                 {
-                    b.HasOne("WebMoney.Persistence.Entities.IdentityDocument", "IdentityDocument")
+                    b.HasOne("WebMoney.Data.Entities.IdentityDocument", "IdentityDocument")
                         .WithOne("UserProfile")
-                        .HasForeignKey("WebMoney.Persistence.Entities.UserProfile", "IdentityDocumentId")
+                        .HasForeignKey("WebMoney.Data.Entities.UserProfile", "IdentityDocumentId")
                         .OnDelete(DeleteBehavior.SetNull)
                         .HasConstraintName("fk_users_profiles_identity_documents_identity_document_id");
 
-                    b.HasOne("WebMoney.Persistence.Entities.User", "User")
+                    b.HasOne("WebMoney.Data.Entities.User", "User")
                         .WithOne("UserProfile")
-                        .HasForeignKey("WebMoney.Persistence.Entities.UserProfile", "UserId")
+                        .HasForeignKey("WebMoney.Data.Entities.UserProfile", "UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired()
                         .HasConstraintName("fk_users_profiles_users_user_id");
@@ -508,25 +514,25 @@ namespace WebMoney.Data.Migrations
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("WebMoney.Persistence.Entities.Card", b =>
+            modelBuilder.Entity("WebMoney.Data.Entities.Card", b =>
                 {
                     b.Navigation("CardUserProfiles");
 
                     b.Navigation("Transactions");
                 });
 
-            modelBuilder.Entity("WebMoney.Persistence.Entities.CardLimit", b =>
+            modelBuilder.Entity("WebMoney.Data.Entities.CardLimit", b =>
                 {
-                    b.Navigation("CardUserProfiles");
+                    b.Navigation("CardUserProfile");
                 });
 
-            modelBuilder.Entity("WebMoney.Persistence.Entities.IdentityDocument", b =>
+            modelBuilder.Entity("WebMoney.Data.Entities.IdentityDocument", b =>
                 {
                     b.Navigation("UserProfile")
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("WebMoney.Persistence.Entities.User", b =>
+            modelBuilder.Entity("WebMoney.Data.Entities.User", b =>
                 {
                     b.Navigation("CardUserProfiles");
 

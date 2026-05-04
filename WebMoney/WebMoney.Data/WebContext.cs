@@ -1,5 +1,5 @@
 using Microsoft.EntityFrameworkCore;
-using WebMoney.Persistence.Entities;
+using WebMoney.Data.Entities;
 
 namespace WebMoney.Data;
 
@@ -98,9 +98,12 @@ public class WebContext : DbContext
                 .HasForeignKey(e => e.UserId)
                 .OnDelete(DeleteBehavior.Cascade);
             cup.HasOne(e => e.CardLimit)
-                .WithMany(cl => cl.CardUserProfiles)
-                .HasForeignKey(e => e.CardLimitId)
+                .WithOne(l => l.CardUserProfile)
+                .HasForeignKey<CardUserProfile>(e => e.CardLimitId)
                 .OnDelete(DeleteBehavior.SetNull);
+            cup.HasIndex(e => e.CardLimitId)
+                .IsUnique()
+                .HasFilter("card_limit_id IS NOT NULL");
         });
     }
 }

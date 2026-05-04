@@ -1,6 +1,7 @@
 @model NewCardViewModel
+@inject IStringLocalizer<SharedResource> SharedLocalizer
 @{
-  ViewData["Title"] = "Новая карта";
+  ViewData["Title"] = SharedLocalizer["Card_NewCardTitle"].Value;
 }
 
 @section Styles {
@@ -9,55 +10,60 @@
 
 <main class="site-main">
   <section class="new-card-section">
-    <h2>Новая карта</h2>
+    <h2>@SharedLocalizer["Card_NewCardHeading"]</h2>
     <form class="new-card-form" asp-controller="Card" asp-action="NewCard" method="post" novalidate>
       <div class="new-card-field">
-        <span class="new-card-caption">Номер карты</span>
+        <span class="new-card-caption">@SharedLocalizer["Card_LabelCardNumber"]</span>
         <input type="hidden" asp-for="CardNumber" />
         <input type="text" readonly class="new-card-input-readonly" value="@Model.CardNumber" />
       </div>
 
       <div class="new-card-field">
-        <span class="new-card-caption">Действует до</span>
+        <span class="new-card-caption">@SharedLocalizer["Card_LabelValidThru"]</span>
         <input type="hidden" asp-for="PeriodOfValidity" />
         <input type="text" readonly class="new-card-input-readonly" value="@Model.PeriodOfValidity.ToString("MM/yy")" />
       </div>
 
       <div class="new-card-field">
-        <span class="new-card-caption">Код валюты</span>
-        <select asp-for="CurrencyCode" asp-items="Html.GetEnumSelectList<CurrencyCode>()"></select>
+        <span class="new-card-caption">@SharedLocalizer["Card_CurrencyCode"]</span>
+        <select asp-for="CurrencyCode">
+          @foreach (CurrencyCode code in Enum.GetValues<CurrencyCode>())
+          {
+            <option value="@((int)code)">@SharedLocalizer["Enum_CurrencyCode_" + code.ToString()]</option>
+          }
+        </select>
         <span asp-validation-for="CurrencyCode" class="new-card-hint"></span>
       </div>
 
       <fieldset>
-        <legend>Лимиты карты (необязательно)</legend>
-        <p class="new-card-field-hint">Оставьте поля пустыми, если лимиты не нужны.</p>
+        <legend>@SharedLocalizer["Card_LimitsOptionalLegend"]</legend>
+        <p class="new-card-field-hint">@SharedLocalizer["Card_LimitsOptionalHint"]</p>
         <div class="new-card-field">
-          <span class="new-card-caption">Дневной лимит</span>
+          <span class="new-card-caption">@SharedLocalizer["Card_LimitDaily"]</span>
           <input asp-for="DailyLimit" type="number" class="new-card-limit" min="0" step="0.01" inputmode="decimal" />
           <span asp-validation-for="DailyLimit" class="new-card-hint"></span>
         </div>
         <div class="new-card-field">
-          <span class="new-card-caption">Месячный лимит</span>
+          <span class="new-card-caption">@SharedLocalizer["Card_LimitMonthly"]</span>
           <input asp-for="MonthlyLimit" type="number" class="new-card-limit" min="0" step="0.01" inputmode="decimal" />
           <span asp-validation-for="MonthlyLimit" class="new-card-hint"></span>
         </div>
         <div class="new-card-field">
-          <span class="new-card-caption">Лимит на одну операцию</span>
+          <span class="new-card-caption">@SharedLocalizer["Card_LimitPerOperation"]</span>
           <input asp-for="PerOperationLimit" type="number" class="new-card-limit" min="0" step="0.01" inputmode="decimal" />
           <span asp-validation-for="PerOperationLimit" class="new-card-hint"></span>
         </div>
       </fieldset>
 
       <div class="new-card-field">
-        <span class="new-card-caption">PIN-код (4 цифры)</span>
+        <span class="new-card-caption">@SharedLocalizer["Card_PinCaption"]</span>
         <input asp-for="PinCode" type="text" inputmode="numeric" maxlength="4" pattern="\d{4}" autocomplete="off" />
         <span asp-validation-for="PinCode" class="new-card-hint"></span>
       </div>
 
       <div class="new-card-actions">
-        <button type="submit" class="new-card-submit">Создать карту</button>
-        <a asp-controller="Card" asp-action="Card" class="new-card-back">К списку карт</a>
+        <button type="submit" class="new-card-submit">@SharedLocalizer["Card_CreateCard"]</button>
+        <a asp-controller="Card" asp-action="Card" class="new-card-back">@SharedLocalizer["Card_BackToCardList"]</a>
       </div>
     </form>
   </section>
