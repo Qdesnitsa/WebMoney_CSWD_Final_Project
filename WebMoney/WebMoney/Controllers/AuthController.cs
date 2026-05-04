@@ -1,4 +1,3 @@
-using FluentValidation;
 using MediatR;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
@@ -29,20 +28,7 @@ public class AuthController(IMediator mediator) : Controller
             return View(model);
         }
 
-        AuthResult result;
-        try
-        {
-            result = mediator.SendSync(new SignInCommand(model.Email, model.Password));
-        }
-        catch (ValidationException ex)
-        {
-            foreach (var err in ex.Errors)
-            {
-                ModelState.AddModelError(err.PropertyName, err.ErrorMessage);
-            }
-
-            return View(model);
-        }
+        var result = mediator.SendSync(new SignInCommand(model.Email, model.Password));
 
         if (!result.Succeeded)
         {
@@ -79,21 +65,8 @@ public class AuthController(IMediator mediator) : Controller
             return View(model);
         }
 
-        AuthResult result;
-        try
-        {
-            result = mediator.SendSync(
-                new SignUpCommand(model.UserName, model.Email, model.Password, model.ConfirmPassword));
-        }
-        catch (ValidationException ex)
-        {
-            foreach (var err in ex.Errors)
-            {
-                ModelState.AddModelError(err.PropertyName, err.ErrorMessage);
-            }
-
-            return View(model);
-        }
+        var result = mediator.SendSync(
+            new SignUpCommand(model.UserName, model.Email, model.Password, model.ConfirmPassword));
 
         if (!result.Succeeded)
         {

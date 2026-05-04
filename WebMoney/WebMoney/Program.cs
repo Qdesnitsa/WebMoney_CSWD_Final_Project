@@ -1,5 +1,6 @@
 using System.Globalization;
 using FluentValidation;
+using FluentValidation.AspNetCore;
 using Microsoft.AspNetCore.Localization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
@@ -58,6 +59,7 @@ namespace WebMoney
             {
                 options.SuppressImplicitRequiredAttributeForNonNullableReferenceTypes = true;
             });
+            builder.Services.AddFluentValidationAutoValidation();
             builder.Services.AddValidatorsFromAssembly(typeof(PrepareNewCardCommand).Assembly);
             builder.Services.AddMediatR(config =>
             {

@@ -1,4 +1,3 @@
-using FluentValidation;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -14,49 +13,33 @@ namespace WebMoney.Controllers;
 public class TransactionController(ICardService cardService, IMediator mediator) : Controller
 {
     [HttpGet]
-    public IActionResult Transaction([FromQuery] int? cardId, [FromQuery] DateOnly? periodFrom,
-        [FromQuery] DateOnly? periodTo)
+    public IActionResult Transaction([FromQuery] TransactionViewModel model)
     {
-        if (!cardId.HasValue)
+        if (model.CardId <= 0)
         {
             return RedirectToAction(nameof(CardController.Card), nameof(CardController).Replace("Controller", ""));
         }
 
         var userId = User.WebMoneyUserId()!.Value;
-        if (!cardService.UserIsCardParticipant(userId, cardId.Value))
+        if (!cardService.UserIsCardParticipant(userId, model.CardId))
         {
             return RedirectToAction(nameof(CardController.Card), nameof(CardController).Replace("Controller", ""));
         }
 
-        var periodKeysPresent = Request.Query.ContainsKey("periodFrom") || Request.Query.ContainsKey("periodTo");
-        var query = new GetTransactionStatementQuery(cardId.Value, userId, periodFrom, periodTo, periodKeysPresent);
-
-        TransactionStatementResult result;
-        try
+        if (!ModelState.IsValid)
         {
-            result = mediator.SendSync(query);
-        }
-        catch (ValidationException ex)
-        {
-            var validationModel = new TransactionViewModel
-            {
-                CardId = cardId.Value,
-                PeriodFrom = periodFrom,
-                PeriodTo = periodTo
-            };
-
-            foreach (var err in ex.Errors)
-            {
-                ModelState.AddModelError(err.PropertyName, err.ErrorMessage);
-            }
-
-            var card = cardService.GetById(cardId.Value);
-            validationModel.CardNumberMasked = CardNumberMask.Mask(card.Card?.Number);
-
-            return View(validationModel);
+            var card = cardService.GetById(model.CardId);
+            model.CardNumberMasked = CardNumberMask.Mask(card.Card?.Number);
+            return View(model);
         }
 
-        var model = new TransactionViewModel
+        var periodKeysPresent = PeriodKeysInQuery(Request);
+        var query = new GetTransactionStatementQuery(model.CardId, userId, model.PeriodFrom, model.PeriodTo,
+            periodKeysPresent);
+
+        var result = mediator.SendSync(query);
+
+        var viewModel = new TransactionViewModel
         {
             CardId = result.CardId,
             CardNumberMasked = CardNumberMask.Mask(result.CardNumber),
@@ -76,9 +59,14 @@ public class TransactionController(ICardService cardService, IMediator mediator)
 
         if (!result.Success)
         {
-            model.Alerts.AddRange(result.Errors.Select(e => e.Message));
+            viewModel.Alerts.AddRange(result.Errors.Select(e => e.Message));
         }
 
-        return View(model);
+        return View(viewModel);
     }
+
+    private static bool PeriodKeysInQuery(HttpRequest request) =>
+        request.Query.Keys.Any(static k =>
+            string.Equals(k, "PeriodFrom", StringComparison.OrdinalIgnoreCase)
+            || string.Equals(k, "PeriodTo", StringComparison.OrdinalIgnoreCase));
 }

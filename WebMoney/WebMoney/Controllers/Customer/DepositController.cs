@@ -1,4 +1,3 @@
-using FluentValidation;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -55,20 +54,7 @@ public class DepositController(ICardService cardService, IMediator mediator) : C
 
         var command = new PrepareNewDepositCommand(model.CardId, userId.Value, model.Amount);
 
-        PrepareNewDepositResult result;
-        try
-        {
-            result = mediator.SendSync(command);
-        }
-        catch (ValidationException ex)
-        {
-            foreach (var err in ex.Errors)
-            {
-                ModelState.AddModelError(err.PropertyName, err.ErrorMessage);
-            }
-
-            return View(model);
-        }
+        var result = mediator.SendSync(command);
 
         if (!result.Success)
         {

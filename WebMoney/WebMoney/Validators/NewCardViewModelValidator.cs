@@ -2,17 +2,16 @@ using FluentValidation;
 using Microsoft.Extensions.Localization;
 using WebMoney;
 using WebMoney.Localization;
+using WebMoney.Models;
 
-namespace WebMoney.Application.Cards;
+namespace WebMoney.Validators;
 
-public sealed class PrepareNewCardCommandValidator : AbstractValidator<PrepareNewCardCommand>
+public sealed class NewCardViewModelValidator : AbstractValidator<NewCardViewModel>
 {
     private const int CardNumberLength = 16;
 
-    public PrepareNewCardCommandValidator(IStringLocalizer<SharedResource> localizer)
+    public NewCardViewModelValidator(IStringLocalizer<SharedResource> localizer)
     {
-        RuleFor(x => x.UserId).GreaterThan(0).WithMessage(_ => ValidationString.From(localizer, "Validation_PrepareCardUserRequired"));
-
         RuleFor(x => x.CardNumber)
             .NotEmpty().WithMessage(_ => ValidationString.From(localizer, "Validation_CardNumberEmpty"))
             .Length(CardNumberLength).WithMessage(_ => ValidationString.From(localizer, "Validation_CardNumberLength"))

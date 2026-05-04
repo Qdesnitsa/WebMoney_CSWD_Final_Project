@@ -2,15 +2,16 @@ using FluentValidation;
 using Microsoft.Extensions.Localization;
 using WebMoney;
 using WebMoney.Localization;
+using WebMoney.Models;
 
-namespace WebMoney.Application.Auth;
+namespace WebMoney.Validators;
 
-public sealed class SignUpCommandValidator : AbstractValidator<SignUpCommand>
+public sealed class SignUpViewModelValidator : AbstractValidator<SignUpViewModel>
 {
     private const string PasswordPattern = @"^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).{8,}$";
     private const string UserNamePattern = @"^[a-zA-Z0-9_-]+$";
 
-    public SignUpCommandValidator(IStringLocalizer<SharedResource> localizer)
+    public SignUpViewModelValidator(IStringLocalizer<SharedResource> localizer)
     {
         RuleFor(x => x.UserName)
             .NotEmpty().WithMessage(_ => ValidationString.From(localizer, "Validation_UserNameRequired"))
