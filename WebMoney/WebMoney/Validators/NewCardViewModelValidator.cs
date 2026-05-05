@@ -1,7 +1,6 @@
 using FluentValidation;
 using Microsoft.Extensions.Localization;
-using WebMoney;
-using WebMoney.Localization;
+using WebMoney.LocalizationHelper;
 using WebMoney.Models;
 
 namespace WebMoney.Validators;

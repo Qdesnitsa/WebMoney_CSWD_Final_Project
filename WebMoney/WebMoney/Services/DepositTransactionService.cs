@@ -10,7 +10,8 @@ public class DepositTransactionService(
     ICardRepository cardRepository,
     IUserRepository userRepository,
     ILogger<DepositTransactionService> logger,
-    IStringLocalizer<SharedResource> localizer)
+    IStringLocalizer<SharedResource> localizer,
+    ICardPermissions permissions)
     : IDepositTransactionService
 {
     public PrepareNewDepositResult SubmitNewDeposit(int cardId, int userId, decimal amount)
@@ -36,7 +37,7 @@ public class DepositTransactionService(
         result.CardNumber = card.Number;
 
         var user = userRepository.GetById(userId);
-        if (user is null || !CardPermissions.IsCardParticipant(user, card))
+        if (user is null || !permissions.IsCardParticipant(user, card))
         {
             result.Errors.Add((string.Empty, localizer["Service_Err_CardMembersOnly"].Value!));
         }

@@ -1,7 +1,6 @@
 using Microsoft.Extensions.Localization;
-using WebMoney;
 
-namespace WebMoney.Localization;
+namespace WebMoney.LocalizationHelper;
 
 public static class ValidationString
 {

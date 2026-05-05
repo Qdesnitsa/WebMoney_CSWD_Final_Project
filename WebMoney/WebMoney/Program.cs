@@ -70,6 +70,7 @@ namespace WebMoney
                 options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));
             builder.Services.AddSingleton<IPasswordHasher<User>, PasswordHasher<User>>();
             builder.Services.AddSingleton<IPasswordHasher<Card>, PasswordHasher<Card>>();
+            builder.Services.AddSingleton<ICardPermissions, CardPermissions>();
             builder.Services.AddScoped<IAuthService, AuthService>();
             builder.Services.AddScoped<ITransactionService, TransactionService>();
             builder.Services.AddScoped<ICardService, CardService>();

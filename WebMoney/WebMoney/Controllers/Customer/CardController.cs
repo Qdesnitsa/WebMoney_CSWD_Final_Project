@@ -12,7 +12,7 @@ using WebMoney.Services;
 namespace WebMoney.Controllers;
 
 [Authorize(Policy = AuthPolicies.UserOnly)]
-public class CardController(ICardService cardService, IMediator mediator) : Controller
+public class CardController(ICardService cardService, IMediator mediator, ICardPermissions permissions) : Controller
 {
     private const bool AlwaysShowPaymentOperations = true;
 
@@ -270,13 +270,13 @@ public class CardController(ICardService cardService, IMediator mediator) : Cont
         return RedirectToAction(nameof(EditUsers), new { id = model.CardId });
     }
 
-    private static EditUsersViewModel BuildEditUsersModel(Card card, int currentUserId)
+    private EditUsersViewModel BuildEditUsersModel(Card card, int currentUserId)
     {
         var currentUserProfile = card.CardUserProfiles.FirstOrDefault(c => c.UserId == currentUserId);
         var userFromProfile = currentUserProfile?.User;
         var currentUserCanManageUsers =
             userFromProfile is not null &&
-            CardPermissions.MayManageCardUsers(userFromProfile, card);
+            permissions.MayManageCardUsers(userFromProfile, card);
 
         return new EditUsersViewModel
         {

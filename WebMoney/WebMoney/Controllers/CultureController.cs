@@ -2,24 +2,22 @@ using System.Globalization;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Localization;
 using Microsoft.AspNetCore.Mvc;
+using WebMoney.LocalizationHelpers;
 
 namespace WebMoney.Controllers;
 
 [AllowAnonymous]
 public class CultureController : Controller
 {
-    private static readonly HashSet<string> SupportedCultures =
-        new(StringComparer.OrdinalIgnoreCase) { "ru-RU", "en-US" };
-
     [HttpGet]
     public IActionResult Set(string culture, string? returnUrl = null)
     {
-        if (string.IsNullOrWhiteSpace(culture) || !SupportedCultures.Contains(culture))
+        if (!ParseToCulture.TryParseCulture(culture, out var appCulture))
         {
             return BadRequest();
         }
 
-        var cultureInfo = CultureInfo.GetCultureInfo(culture);
+        var cultureInfo = CultureInfo.GetCultureInfo(ParseToCulture.ToCultureName(appCulture));
         var safeReturn = string.IsNullOrEmpty(returnUrl) || !Url.IsLocalUrl(returnUrl)
             ? "~/"
             : returnUrl;

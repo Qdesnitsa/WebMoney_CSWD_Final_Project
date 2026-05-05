@@ -13,10 +13,12 @@ public class CardService(
     IPasswordHasher<Card> passwordHasher,
     ICardRepository cardRepository,
     IUserRepository userRepository,
-    IStringLocalizer<SharedResource> localizer) : ICardService
+    IStringLocalizer<SharedResource> localizer,
+    ICardPermissions permissions) : ICardService
 {
     private const int NumberOfYearsNewCardIsValid = 5;
     private const int NumberOfDigitsCardNumber = 16;
+
     public IReadOnlyList<UserCardListReadModel>? GetCardsForUser(int userId)
     {
         var user = userRepository.GetById(userId);
@@ -37,8 +39,8 @@ public class CardService(
                 CreatedBy = card.CreatedBy,
                 Balance = card.Balance,
                 CurrencyCode = card.CurrencyCode.ToString(),
-                ShowUserManagement = CardPermissions.MayManageCardUsers(user, card),
-                IsOwner = CardPermissions.IsOwner(user, card),
+                ShowUserManagement = permissions.MayManageCardUsers(user, card),
+                IsOwner = permissions.IsOwner(user, card),
             });
         }
 
@@ -87,32 +89,51 @@ public class CardService(
         return result;
     }
 
-    public bool UserMayManageCardUsers(int userId, int cardId) =>
-        TryGetUserAndCardForPermissions(userId, cardId, out var user, out var card) &&
-        CardPermissions.MayManageCardUsers(user, card);
-
-    public bool UserIsCardParticipant(int userId, int cardId) =>
-        TryGetUserAndCardForPermissions(userId, cardId, out var user, out var card) &&
-        CardPermissions.IsCardParticipant(user, card);
-
-    public bool UserIsCardOwner(int userId, int cardId) =>
-        TryGetUserAndCardForPermissions(userId, cardId, out var user, out var card) &&
-        CardPermissions.IsOwner(user, card);
-
-    private bool TryGetUserAndCardForPermissions(int userId, int cardId, out User? user, out Card? card)
+    public bool UserMayManageCardUsers(int userId, int cardId)
     {
-        var fetchedUser = userRepository.GetById(userId);
-        var fetchedCard = cardRepository.GetCardWithUsersAndCardLimitsById(cardId);
-        if (fetchedUser is null || fetchedCard is null)
+        var user = userRepository.GetById(userId);
+        if (user is null)
         {
-            user = null;
-            card = null;
             return false;
         }
 
-        user = fetchedUser;
-        card = fetchedCard;
-        return true;
+        var card = cardRepository.GetCardWithUsersAndCardLimitsById(cardId);
+        if (card is null)
+        {
+            return false;
+        }
+
+        return permissions.MayManageCardUsers(user, card);
+    }
+
+    public bool UserIsCardParticipant(int userId, int cardId)
+    {
+        var user = userRepository.GetById(userId);
+        if (user is null)
+        {
+            return false;
+        }
+        var card = cardRepository.GetCardWithUsersAndCardLimitsById(cardId);
+        if (card is null)
+        {
+            return false;
+        }
+        return permissions.IsCardParticipant(user, card);
+    }
+
+    public bool UserIsCardOwner(int userId, int cardId)
+    {
+        var user = userRepository.GetById(userId);
+        if (user is null)
+        {
+            return false;
+        }
+        var card = cardRepository.GetCardWithUsersAndCardLimitsById(cardId);
+        if (card is null)
+        {
+            return false;
+        }
+        return permissions.IsOwner(user, card);
     }
 
     public PrepareNewCardResult AddUserToCard(
@@ -139,7 +160,7 @@ public class CardService(
             return result;
         }
 
-        if (!CardPermissions.MayManageCardUsers(currentUser, card))
+        if (!permissions.MayManageCardUsers(currentUser, card))
         {
             result.Errors.Add((string.Empty, localizer["Service_Err_NoPermissionManageCardUsers"].Value!));
             return result;
@@ -212,7 +233,7 @@ public class CardService(
             return result;
         }
 
-        if (!CardPermissions.MayManageCardUsers(currentUser, card))
+        if (!permissions.MayManageCardUsers(currentUser, card))
         {
             result.Errors.Add((string.Empty, localizer["Service_Err_NoPermissionManageCardUsers"].Value!));
             return result;
@@ -224,11 +245,11 @@ public class CardService(
             result.Errors.Add((string.Empty, localizer["Service_Err_CardUserNotFound"].Value!));
             return result;
         }
-        
+
         RejectNegative(result, nameof(dailyLimit), dailyLimit);
         RejectNegative(result, nameof(monthlyLimit), monthlyLimit);
         RejectNegative(result, nameof(perOperationLimit), perOperationLimit);
-        
+
         if (!result.Success)
         {
             return result;
@@ -241,7 +262,7 @@ public class CardService(
         {
             cardUserProfile.CanManageUsers = true;
         }
-        else if (CardPermissions.MayManageCardUsers(currentUser, card) && canManageUsers.HasValue)
+        else if (permissions.MayManageCardUsers(currentUser, card) && canManageUsers.HasValue)
         {
             cardUserProfile.CanManageUsers = canManageUsers.Value;
         }
@@ -285,7 +306,7 @@ public class CardService(
             return result;
         }
 
-        if (!CardPermissions.MayManageCardUsers(currentUser, card))
+        if (!permissions.MayManageCardUsers(currentUser, card))
         {
             result.Errors.Add((string.Empty, localizer["Service_Err_NoPermissionManageCardUsers"].Value!));
             return result;
@@ -320,7 +341,7 @@ public class CardService(
         }
 
         var existingCards = cardRepository.GetCardsByUserId(userId);
-        if (existingCards.Count > 0 && !existingCards.Any(c => CardPermissions.IsOwner(user, c)))
+        if (existingCards.Count > 0 && !existingCards.Any(c => permissions.IsOwner(user, c)))
         {
             result.Errors.Add((string.Empty, localizer["Service_Err_NewCardOwnerOnly"].Value!));
             return result;

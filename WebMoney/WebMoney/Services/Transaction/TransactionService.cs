@@ -10,7 +10,8 @@ public class TransactionService(
     ITransactionRepository transactionRepository,
     ICardRepository cardRepository,
     IUserRepository userRepository,
-    IStringLocalizer<SharedResource> localizer)
+    IStringLocalizer<SharedResource> localizer,
+    ICardPermissions permissions)
     : ITransactionService
 {
     public TransactionStatementResult GetTransactionsByCardIdForPeriod(int cardId, int currentUserId, DateOnly? periodFrom,
@@ -28,7 +29,7 @@ public class TransactionService(
             return result;
         }
 
-        if (user is null || !CardPermissions.IsCardParticipant(user, card))
+        if (user is null || !permissions.IsCardParticipant(user, card))
         {
             result.CardId = cardId;
             result.Errors.Add((string.Empty, localizer["Service_Err_CardMembersOnly"].Value!));
