@@ -225,6 +225,24 @@
   <data name="Card_UploadIdDocument" xml:space="preserve">
     <value>Загрузить ID документ</value>
   </data>
+  <data name="Card_SelectIdDocument" xml:space="preserve">
+    <value>Выбрать файл</value>
+  </data>
+  <data name="Card_MyIdentityDocument" xml:space="preserve">
+    <value>Мой идентификационный документ</value>
+  </data>
+  <data name="Card_UploadIdFileRequired" xml:space="preserve">
+    <value>Выберите фото документа для загрузки.</value>
+  </data>
+  <data name="Card_UploadIdTooLarge" xml:space="preserve">
+    <value>Файл слишком большой. Максимальный размер — 5 МБ.</value>
+  </data>
+  <data name="Card_UploadIdInvalidType" xml:space="preserve">
+    <value>Допустимы только файлы JPG, JPEG, PNG или WEBP.</value>
+  </data>
+  <data name="Card_UploadIdSaved" xml:space="preserve">
+    <value>Фото ID документа успешно загружено.</value>
+  </data>
   <data name="Card_LabelCardNumber" xml:space="preserve">
     <value>Номер карты</value>
   </data>

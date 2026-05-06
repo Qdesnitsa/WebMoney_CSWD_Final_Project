@@ -4,6 +4,7 @@ namespace WebMoney.Models;
 
 public class CardViewModel : BasePageViewModel
 {
+    public string IdentityDocumentPhotoLink { get; set; } = string.Empty;
     public int Id { get; set; }
     public string Number { get; set; } = string.Empty;
     public string ValidThru { get; set; } = string.Empty;

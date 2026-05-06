@@ -136,6 +136,48 @@ public class CardService(
         return permissions.IsOwner(user, card);
     }
 
+    public string? GetIdentityDocumentPhotoLink(int userId)
+    {
+        var userProfile = userRepository.GetProfileWithIdentityDocumentByUserId(userId);
+        return userProfile?.IdentityDocument?.DocumentPhotoLink;
+    }
+
+    public UploadIdentityDocumentResult UploadIdentityDocumentPhoto(int userId, string documentPhotoLink)
+    {
+        var result = new UploadIdentityDocumentResult();
+        var userProfile = userRepository.GetProfileWithIdentityDocumentByUserId(userId);
+        if (userProfile?.User is null)
+        {
+            result.Errors.Add(localizer["Service_Err_UserNotFound"].Value!);
+            return result;
+        }
+
+        if (userProfile.IdentityDocument is null)
+        {
+            var identityDocument = new IdentityDocument
+            {
+                FirstName = string.Empty,
+                LastName = string.Empty,
+                DocumentIDNumber = string.Empty,
+                DocumentPhotoLink = documentPhotoLink,
+                CreatedAt = DateTime.UtcNow,
+                CreatedBy = userProfile.User.Email
+            };
+            userProfile.IdentityDocument = identityDocument;
+        }
+        else
+        {
+            userProfile.IdentityDocument.DocumentPhotoLink = documentPhotoLink;
+            userProfile.IdentityDocument.UpdatedAt = DateTime.UtcNow;
+            userProfile.IdentityDocument.UpdatedBy = userProfile.User.Email;
+        }
+
+        userProfile.UpdatedAt = DateTime.UtcNow;
+        userProfile.UpdatedBy = userProfile.User.Email;
+        userRepository.SaveChanges();
+        return result;
+    }
+
     public PrepareNewCardResult AddUserToCard(
         int currentUserId,
         int cardId,

@@ -1,3 +1,4 @@
+using Microsoft.EntityFrameworkCore;
 using WebMoney.Data.Repositories.Interfaces;
 using WebMoney.Data.Entities;
 
@@ -16,4 +17,10 @@ public class UserRepository(WebContext webContext) : BaseRepository<User>(webCon
         webContext.UsersProfiles.Add(profile);
         webContext.SaveChanges();
     }
+
+    public UserProfile? GetProfileWithIdentityDocumentByUserId(int userId) =>
+        webContext.UsersProfiles
+            .Include(up => up.User)
+            .Include(up => up.IdentityDocument)
+            .FirstOrDefault(up => up.UserId == userId);
 }

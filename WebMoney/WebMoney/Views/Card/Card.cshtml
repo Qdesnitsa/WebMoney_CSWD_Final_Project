@@ -11,12 +11,32 @@
 <main class="site-main">
   <section class="user-cards-section">
     <div class="user-cards-heading-row">
-      <h2 id="user-cards-heading">@SharedLocalizer["Card_MyCards"]</h2>
+      <div class="user-cards-heading-left">
+        @if (Model.Cards.Any(c => c.IsOwner))
+        {
+          <div class="user-cards-top-action">
+            <a asp-controller="Card" asp-action="NewCard" class="user-cards-add-card">@SharedLocalizer["Card_AddCard"]</a>
+          </div>
+        }
+        <h2 id="user-cards-heading">@SharedLocalizer["Card_MyCards"]</h2>
+      </div>
       @if (Model.Cards.Any(c => c.IsOwner))
       {
         <div class="user-cards-action-buttons">
-          <a href="#" class="user-cards-add-card">@SharedLocalizer["Card_UploadIdDocument"]</a>
-          <a asp-controller="Card" asp-action="NewCard" class="user-cards-add-card">@SharedLocalizer["Card_AddCard"]</a>
+          <div class="identity-document-block">
+            <h3 class="identity-document-block-title">@SharedLocalizer["Card_MyIdentityDocument"]</h3>
+            <form asp-controller="Card" asp-action="UploadIdentityDocument" method="post" enctype="multipart/form-data" class="user-cards-upload-form" id="identity-document-upload-form">
+              <input type="file" name="documentPhoto" accept=".jpg,.jpeg,.png,.webp" class="user-cards-upload-input" id="identity-document-file-input" />
+              <label for="identity-document-file-input" class="user-cards-add-card">@SharedLocalizer["Card_SelectIdDocument"]</label>
+              <button type="submit" class="user-cards-add-card">@SharedLocalizer["Card_UploadIdDocument"]</button>
+            </form>
+            @if (!string.IsNullOrWhiteSpace(Model.IdentityDocumentPhotoLink))
+            {
+              <a href="@Model.IdentityDocumentPhotoLink" target="_blank" rel="noopener noreferrer" class="identity-document-preview-link">
+                <img src="@Model.IdentityDocumentPhotoLink" alt="Identity document preview" class="identity-document-preview-image" />
+              </a>
+            }
+          </div>
         </div>
       }
     </div>
