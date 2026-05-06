@@ -222,6 +222,9 @@
   <data name="Card_AddCard" xml:space="preserve">
     <value>Добавить карту</value>
   </data>
+  <data name="Card_UploadIdDocument" xml:space="preserve">
+    <value>Загрузить ID документ</value>
+  </data>
   <data name="Card_LabelCardNumber" xml:space="preserve">
     <value>Номер карты</value>
   </data>
@@ -395,6 +398,9 @@
   </data>
   <data name="Txn_Show" xml:space="preserve">
     <value>Показать транзакции</value>
+  </data>
+  <data name="Txn_DownloadToFile" xml:space="preserve">
+    <value>Скачать в файл</value>
   </data>
   <data name="Txn_ColDate" xml:space="preserve">
     <value>Дата</value>

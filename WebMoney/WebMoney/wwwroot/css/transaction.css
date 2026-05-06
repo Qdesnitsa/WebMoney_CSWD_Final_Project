@@ -8,6 +8,19 @@
   background: var(--color-cream);
 }
 
+.transaction-heading-row {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 12px;
+}
+
+.transaction-heading-row h2 {
+  margin: 0;
+}
+
 .transaction-form {
   max-width: 640px;
 }
@@ -41,7 +54,8 @@
 }
 
 .transaction-field input,
-.transaction-submit {
+.transaction-submit,
+a.transaction-download {
   font-family: inherit;
   font-size: 15px;
   border: 1px solid var(--color-gold-soft);
@@ -62,6 +76,16 @@
   background: var(--color-ink);
   color: var(--color-light);
   cursor: pointer;
+}
+
+a.transaction-download {
+  display: inline-block;
+  padding: 10px 24px;
+  font-weight: 700;
+  background: var(--color-ink);
+  color: var(--color-light);
+  cursor: pointer;
+  text-decoration: none;
 }
 
 .transaction-grid {
@@ -105,3 +129,4 @@ a.cards-back {
   background: var(--color-ink);
   text-decoration: none;
 }
+

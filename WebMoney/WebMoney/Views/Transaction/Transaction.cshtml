@@ -10,7 +10,10 @@
 
 <main class="site-main">
   <section class="transaction-section">
-    <h2 id="transaction-period-heading">@SharedLocalizer["Txn_Heading", Model.CardNumberMasked]</h2>
+    <div class="transaction-heading-row">
+      <h2 id="transaction-period-heading">@SharedLocalizer["Txn_Heading", Model.CardNumberMasked]</h2>
+      <a href="#" class="transaction-download">@SharedLocalizer["Txn_DownloadToFile"]</a>
+    </div>
     <form asp-controller="Transaction" asp-action="Transaction" method="get" class="transaction-form">
       <input type="hidden" asp-for="CardId" />
       <div class="transaction-period-row">

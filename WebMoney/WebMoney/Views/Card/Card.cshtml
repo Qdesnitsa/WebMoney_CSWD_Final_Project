@@ -14,7 +14,10 @@
       <h2 id="user-cards-heading">@SharedLocalizer["Card_MyCards"]</h2>
       @if (Model.Cards.Any(c => c.IsOwner))
       {
-        <a asp-controller="Card" asp-action="NewCard" class="user-cards-add-card">@SharedLocalizer["Card_AddCard"]</a>
+        <div class="user-cards-action-buttons">
+          <a href="#" class="user-cards-add-card">@SharedLocalizer["Card_UploadIdDocument"]</a>
+          <a asp-controller="Card" asp-action="NewCard" class="user-cards-add-card">@SharedLocalizer["Card_AddCard"]</a>
+        </div>
       }
     </div>
     <div class="user-cards-layout">

@@ -222,6 +222,9 @@
   <data name="Card_AddCard" xml:space="preserve">
     <value>Add card</value>
   </data>
+  <data name="Card_UploadIdDocument" xml:space="preserve">
+    <value>Upload ID document</value>
+  </data>
   <data name="Card_LabelCardNumber" xml:space="preserve">
     <value>Card number</value>
   </data>
@@ -395,6 +398,9 @@
   </data>
   <data name="Txn_Show" xml:space="preserve">
     <value>Show transactions</value>
+  </data>
+  <data name="Txn_DownloadToFile" xml:space="preserve">
+    <value>Download to file</value>
   </data>
   <data name="Txn_ColDate" xml:space="preserve">
     <value>Date</value>
