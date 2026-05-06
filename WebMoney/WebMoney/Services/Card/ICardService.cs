@@ -16,4 +16,6 @@ public interface ICardService
     PrepareNewCardResult PrepareNewCard(int userId, NewCardInput input);
     PrepareNewCardResult GetById(int id);
     PrepareNewCardResult GetCardWithUsersAndCardLimitsById(int cardId);
+    string? GetIdentityDocumentPhotoLink(int userId);
+    UploadIdentityDocumentResult UploadIdentityDocumentPhoto(int userId, string documentPhotoLink);
 }

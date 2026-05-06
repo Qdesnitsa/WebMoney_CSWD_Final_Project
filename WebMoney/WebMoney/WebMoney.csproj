@@ -23,4 +23,8 @@
     <ProjectReference Include="..\WebMoney.Data\WebMoney.Data.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="wwwroot\uploads\identity-documents\" />
+  </ItemGroup>
+
 </Project>

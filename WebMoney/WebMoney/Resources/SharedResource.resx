@@ -225,6 +225,24 @@
   <data name="Card_UploadIdDocument" xml:space="preserve">
     <value>Upload ID document</value>
   </data>
+  <data name="Card_SelectIdDocument" xml:space="preserve">
+    <value>Choose file</value>
+  </data>
+  <data name="Card_MyIdentityDocument" xml:space="preserve">
+    <value>My identity document</value>
+  </data>
+  <data name="Card_UploadIdFileRequired" xml:space="preserve">
+    <value>Select a document photo to upload.</value>
+  </data>
+  <data name="Card_UploadIdTooLarge" xml:space="preserve">
+    <value>The file is too large. Maximum size is 5 MB.</value>
+  </data>
+  <data name="Card_UploadIdInvalidType" xml:space="preserve">
+    <value>Only JPG, JPEG, PNG or WEBP files are allowed.</value>
+  </data>
+  <data name="Card_UploadIdSaved" xml:space="preserve">
+    <value>ID document photo uploaded successfully.</value>
+  </data>
   <data name="Card_LabelCardNumber" xml:space="preserve">
     <value>Card number</value>
   </data>

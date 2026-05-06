@@ -7,4 +7,5 @@ public interface IUserRepository : IBaseRepository<User>
     bool EmailExists(string normalizedEmail);
     User? FindByEmail(string normalizedEmail);
     void CreateWithProfile(UserProfile profile);
+    UserProfile? GetProfileWithIdentityDocumentByUserId(int userId);
 }

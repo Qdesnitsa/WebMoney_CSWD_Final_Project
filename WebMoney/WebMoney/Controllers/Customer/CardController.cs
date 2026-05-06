@@ -1,5 +1,6 @@
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.Extensions.Localization;
 using Microsoft.AspNetCore.Mvc;
 using WebMoney.Application;
 using WebMoney.Application.Cards;
@@ -12,39 +13,82 @@ using WebMoney.Services;
 namespace WebMoney.Controllers;
 
 [Authorize(Policy = AuthPolicies.UserOnly)]
-public class CardController(ICardService cardService, IMediator mediator, ICardPermissions permissions) : Controller
+public class CardController(
+    ICardService cardService,
+    IMediator mediator,
+    ICardPermissions permissions,
+    IWebHostEnvironment environment,
+    IStringLocalizer<SharedResource> sharedLocalizer) : Controller
 {
     private const bool AlwaysShowPaymentOperations = true;
+    private const long MaxIdentityDocumentBytes = 5 * 1024 * 1024;
+    private static readonly HashSet<string> AllowedIdentityDocumentExtensions =
+        new(StringComparer.OrdinalIgnoreCase) { ".jpg", ".jpeg", ".png", ".webp" };
 
     public IActionResult Card()
     {
         var username = User.WebMoneyUserName()!;
         var userId = User.WebMoneyUserId()!;
-        var cardsForUser = cardService.GetCardsForUser(userId.Value);
-        if (cardsForUser is null)
+        var model = BuildCardViewModel(userId.Value, username);
+        if (model is null)
         {
             return RedirectToAction(nameof(AuthController.SignIn), nameof(AuthController).Replace("Controller", ""));
         }
 
-        var cardViewModel = new CardViewModel
-        {
-            Cards = cardsForUser.Select(cardForUser => new CardViewModel
-                {
-                    Id = cardForUser.CardId,
-                    Number = cardForUser.MaskedNumber,
-                    UserName = username,
-                    ValidThru = cardForUser.ValidThru,
-                    UserEmail = cardForUser.CreatedBy,
-                    Balance = cardForUser.Balance,
-                    CurrencyCode = cardForUser.CurrencyCode,
-                    ShowPaymentOperations = AlwaysShowPaymentOperations,
-                    ShowUserManagement = cardForUser.ShowUserManagement,
-                    IsOwner = cardForUser.IsOwner,
-                })
-                .ToList()
-        };
+        return View(model);
+    }
 
-        return View(cardViewModel);
+    [HttpPost]
+    [ValidateAntiForgeryToken]
+    public IActionResult UploadIdentityDocument(IFormFile? documentPhoto)
+    {
+        var userId = User.WebMoneyUserId()!;
+        var username = User.WebMoneyUserName()!;
+        var result = new UploadIdentityDocumentResult();
+
+        if (documentPhoto is null || documentPhoto.Length == 0)
+        {
+            result.Errors.Add(sharedLocalizer["Card_UploadIdFileRequired"].Value!);
+            return CardViewWithAlerts(userId.Value, username, result.Errors);
+        }
+
+        if (documentPhoto.Length > MaxIdentityDocumentBytes)
+        {
+            result.Errors.Add(sharedLocalizer["Card_UploadIdTooLarge"].Value!);
+            return CardViewWithAlerts(userId.Value, username, result.Errors);
+        }
+
+        var extension = Path.GetExtension(documentPhoto.FileName);
+        if (string.IsNullOrWhiteSpace(extension) || !AllowedIdentityDocumentExtensions.Contains(extension))
+        {
+            result.Errors.Add(sharedLocalizer["Card_UploadIdInvalidType"].Value!);
+            return CardViewWithAlerts(userId.Value, username, result.Errors);
+        }
+
+        var webRoot = string.IsNullOrWhiteSpace(environment.WebRootPath)
+            ? Path.Combine(Directory.GetCurrentDirectory(), "wwwroot")
+            : environment.WebRootPath;
+        var uploadsFolder = Path.Combine(webRoot, "uploads", "identity-documents");
+        Directory.CreateDirectory(uploadsFolder);
+
+        var safeExtension = extension.ToLowerInvariant();
+        var fileName = $"identity-{userId.Value}-{Guid.NewGuid():N}{safeExtension}";
+        var absolutePath = Path.Combine(uploadsFolder, fileName);
+        var relativePath = $"/uploads/identity-documents/{fileName}";
+
+        using (var fileStream = new FileStream(absolutePath, FileMode.Create))
+        {
+            documentPhoto.CopyTo(fileStream);
+        }
+
+        result = cardService.UploadIdentityDocumentPhoto(userId.Value, relativePath);
+        if (!result.Success)
+        {
+            System.IO.File.Delete(absolutePath);
+            return CardViewWithAlerts(userId.Value, username, result.Errors);
+        }
+
+        return CardViewWithAlerts(userId.Value, username, [sharedLocalizer["Card_UploadIdSaved"].Value!]);
     }
 
     [HttpGet]
@@ -298,5 +342,44 @@ public class CardController(ICardService cardService, IMediator mediator, ICardP
                 })
                 .ToList()
         };
+    }
+
+    private CardViewModel? BuildCardViewModel(int userId, string username)
+    {
+        var cardsForUser = cardService.GetCardsForUser(userId);
+        if (cardsForUser is null)
+        {
+            return null;
+        }
+
+        return new CardViewModel
+        {
+            IdentityDocumentPhotoLink = cardService.GetIdentityDocumentPhotoLink(userId) ?? string.Empty,
+            Cards = cardsForUser.Select(cardForUser => new CardViewModel
+                {
+                    Id = cardForUser.CardId,
+                    Number = cardForUser.MaskedNumber,
+                    UserName = username,
+                    ValidThru = cardForUser.ValidThru,
+                    UserEmail = cardForUser.CreatedBy,
+                    Balance = cardForUser.Balance,
+                    CurrencyCode = cardForUser.CurrencyCode,
+                    ShowPaymentOperations = AlwaysShowPaymentOperations,
+                    ShowUserManagement = cardForUser.ShowUserManagement,
+                    IsOwner = cardForUser.IsOwner,
+                })
+                .ToList()
+        };
+    }
+
+    private IActionResult CardViewWithAlerts(int userId, string username, IEnumerable<string> alerts)
+    {
+        var model = BuildCardViewModel(userId, username);
+        if (model is null)
+        {
+            return RedirectToAction(nameof(AuthController.SignIn), nameof(AuthController).Replace("Controller", ""));
+        }
+        model.Alerts.AddRange(alerts);
+        return View(nameof(Card), model);
     }
 }

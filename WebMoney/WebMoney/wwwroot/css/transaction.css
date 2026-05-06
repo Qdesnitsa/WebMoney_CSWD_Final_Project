@@ -55,7 +55,7 @@
 
 .transaction-field input,
 .transaction-submit,
-a.transaction-download {
+.transaction-download {
   font-family: inherit;
   font-size: 15px;
   border: 1px solid var(--color-gold-soft);
@@ -78,7 +78,7 @@ a.transaction-download {
   cursor: pointer;
 }
 
-a.transaction-download {
+.transaction-download {
   display: inline-block;
   padding: 10px 24px;
   font-weight: 700;
@@ -86,6 +86,11 @@ a.transaction-download {
   color: var(--color-light);
   cursor: pointer;
   text-decoration: none;
+}
+
+.transaction-download--disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
 }
 
 .transaction-grid {

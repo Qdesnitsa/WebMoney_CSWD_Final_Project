@@ -12,7 +12,19 @@
   <section class="transaction-section">
     <div class="transaction-heading-row">
       <h2 id="transaction-period-heading">@SharedLocalizer["Txn_Heading", Model.CardNumberMasked]</h2>
-      <a href="#" class="transaction-download">@SharedLocalizer["Txn_DownloadToFile"]</a>
+      @if (Model.PeriodFrom.HasValue && Model.PeriodTo.HasValue)
+      {
+        <a asp-controller="Transaction"
+           asp-action="Download"
+           asp-route-CardId="@Model.CardId"
+           asp-route-PeriodFrom="@(Model.PeriodFrom.Value.ToString("yyyy-MM-dd", CultureInfo.InvariantCulture))"
+           asp-route-PeriodTo="@(Model.PeriodTo.Value.ToString("yyyy-MM-dd", CultureInfo.InvariantCulture))"
+           class="transaction-download">@SharedLocalizer["Txn_DownloadToFile"]</a>
+      }
+      else
+      {
+        <span class="transaction-download transaction-download--disabled">@SharedLocalizer["Txn_DownloadToFile"]</span>
+      }
     </div>
     <form asp-controller="Transaction" asp-action="Transaction" method="get" class="transaction-form">
       <input type="hidden" asp-for="CardId" />
